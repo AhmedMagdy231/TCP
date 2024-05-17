@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "478161264450",
+    "project_id": "tricare-patient",
+    "storage_bucket": "tricare-patient.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478161264450:android:ea54b14bab55a31891f2db",
+        "android_client_info": {
+          "package_name": "com.shoman.tricare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfOTL9wX3Pb_YcAFY10ag8D1HNps900vk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

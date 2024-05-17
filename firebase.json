@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"tricare-patient","appId":"1:478161264450:android:ea54b14bab55a31891f2db","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"tricare-patient","configurations":{"android":"1:478161264450:android:ea54b14bab55a31891f2db","ios":"1:478161264450:ios:44e7df86aa1b2b2891f2db"}}}}}}
