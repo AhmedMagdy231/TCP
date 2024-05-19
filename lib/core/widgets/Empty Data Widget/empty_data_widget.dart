@@ -25,7 +25,7 @@ class BuildEmptyDataWidget extends StatelessWidget {
             const BuildIconSvg(name: 'empty.svg',size: 120,color: Colors.black,),
             SizedBox(height: height*0.03,),
             Text(
-             text?? 'Empty Data in This Screen',
+             text?? 'Empty Data in This screen',
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),

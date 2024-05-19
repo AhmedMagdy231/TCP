@@ -19,6 +19,7 @@ import 'package:tricare_patient_application/feature/HomeLayout/screens/home_layo
 import 'package:tricare_patient_application/feature/Introduction/On%20Boarding%20Screen/onboarding_screen.dart';
 import 'package:tricare_patient_application/feature/Category/cubit/category_cubit.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
+import 'package:tricare_patient_application/feature/Search/cubit/search_cubit.dart';
 import 'package:tricare_patient_application/feature/test.dart';
 
 import 'bloc_observer.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => DoctorCubit()),
         BlocProvider(create: (context) => ArticleCubit()),
         BlocProvider(create: (context) => DrawerCubit()),
+        BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => AppCubit()..getHomeData()),
         BlocProvider(
             create: (context) => AuthCubit()),

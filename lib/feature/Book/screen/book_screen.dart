@@ -7,7 +7,7 @@ class BookScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Book Screen'),
+        child: Text('Book screen'),
       ),
     );
   }

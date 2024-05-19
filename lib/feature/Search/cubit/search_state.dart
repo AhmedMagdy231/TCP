@@ -1,16 +1,28 @@
 part of 'search_cubit.dart';
 
-@immutable
-sealed class SearchState {}
 
-final class SearchInitial extends SearchState {}
+class SearchState {
+  final Status doctorSearchStatus;
+  final String callback;
 
-class GetSearchDoctorLoading extends SearchState{}
-class GetSearchDoctorSuccess extends SearchState{}
-class GetSearchDoctorError extends SearchState{}
+  SearchState({
+    this.doctorSearchStatus = Status.initial,
+    this.callback = '',
+});
 
 
-class NoInternetConnection extends SearchState{}
+  SearchState copyWith({
+    Status? doctorSearchStatus,
+    String? callback
+}) =>  SearchState(
+    doctorSearchStatus: doctorSearchStatus?? this.doctorSearchStatus,
+    callback: callback?? this.callback,
+  );
+
+
+}
+
+
 
 
 

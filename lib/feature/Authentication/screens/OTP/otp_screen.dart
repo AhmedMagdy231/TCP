@@ -66,7 +66,7 @@ class OTPScreen extends StatelessWidget {
                   message: state.messages.join(' '));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-              // TODO HomeLayout Screen
+              // TODO HomeLayout screen
               //  navigateToToFinish(context, HomeLayout());
             }
           }

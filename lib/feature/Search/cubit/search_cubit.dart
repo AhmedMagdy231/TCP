@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:tricare_patient_application/core/connection/internet_connection.dart';
+import 'package:tricare_patient_application/core/constant/constant.dart';
 import 'package:tricare_patient_application/core/network/Remote/DioHelper.dart';
 import 'package:tricare_patient_application/core/network/endPoind.dart';
 import 'package:tricare_patient_application/feature/Search/model/doctor_search_model.dart';
@@ -9,7 +11,7 @@ import 'package:tricare_patient_application/feature/Search/model/doctor_search_m
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(SearchInitial());
+  SearchCubit() : super(SearchState());
 
   final _connect = ConnectionService();
 
@@ -19,9 +21,12 @@ class SearchCubit extends Cubit<SearchState> {
 
   Future<void> getDoctorSearch({required String query})async{
 
-    if(await _connect.isInternetConnected()){
+    emit(state.copyWith(doctorSearchStatus: Status.loading));
+    await Future.delayed(const Duration(milliseconds: 500));
 
-      emit(GetSearchDoctorLoading());
+    if(! await  _connect.isInternetConnected()) return emit(state.copyWith(doctorSearchStatus: Status.noInternet));
+
+      emit(state.copyWith(doctorSearchStatus: Status.loading));
 
       DioHelper.postData(
           data: {
@@ -29,21 +34,16 @@ class SearchCubit extends Cubit<SearchState> {
           },
           url: EndPoints.category_request,
       ).then((value){
+        print(value.data);
         searchDoctorModel = SearchDoctorModel.formJson(value.data);
-        emit(GetSearchDoctorSuccess());
+        emit(state.copyWith(doctorSearchStatus: Status.success));
 
       }).catchError((error){
         debugPrint(error.toString());
-        emit(GetSearchDoctorError());
+        emit(state.copyWith(doctorSearchStatus: Status.failure));
       });
 
-    }
 
-    else
-      {
-
-        emit(NoInternetConnection());
-      }
 
   }
 
