@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:tricare_patient_application/core/Global%20Cubit/global_cubit.dart';
 import 'package:tricare_patient_application/core/globle/theme/dark_theme.dart';
 import 'package:tricare_patient_application/core/globle/theme/light_theme.dart';
@@ -12,6 +13,8 @@ import 'package:tricare_patient_application/feature/Articles/cubit/article_cubit
 import 'package:tricare_patient_application/feature/Authentication/cubit/auth_cubit.dart';
 import 'package:tricare_patient_application/feature/Authentication/screens/Login/login_screen.dart';
 import 'package:tricare_patient_application/feature/Authentication/screens/OTP/otp_screen.dart';
+import 'package:tricare_patient_application/feature/Book/cubit/book_cubit.dart';
+import 'package:tricare_patient_application/feature/Confirm%20Book%20Appointment/cubit/confirm_book_cubit.dart';
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 import 'package:tricare_patient_application/feature/Drawer/cubit/drawer_cubit.dart';
 import 'package:tricare_patient_application/feature/HomeLayout/cubit/app_cubit.dart';
@@ -20,15 +23,24 @@ import 'package:tricare_patient_application/feature/Introduction/On%20Boarding%2
 import 'package:tricare_patient_application/feature/Category/cubit/category_cubit.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 import 'package:tricare_patient_application/feature/Search/cubit/search_cubit.dart';
+import 'package:tricare_patient_application/feature/Sessions/cubit/session_cubit.dart';
 import 'package:tricare_patient_application/feature/test.dart';
 
 import 'bloc_observer.dart';
 import 'firebase_options.dart';
 
+
+
+
+
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting();
   await CashHelper.initialize();
+  await initializeDateFormatting('en');
+  await initializeDateFormatting('ar');
+
   DioHelper.initialize(EndPoints.baseUrl);
   Bloc.observer = MyBlocObserver();
   // CashHelper.prefs.remove('token');
@@ -53,9 +65,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ProfileCubit()..postUserData()),
         BlocProvider(create: (context) => CategoryCubit()),
         BlocProvider(create: (context) => DoctorCubit()),
+        BlocProvider(create: (context) => ConfirmBookCubit()),
         BlocProvider(create: (context) => ArticleCubit()),
+        BlocProvider(create: (context) => BookCubit()),
         BlocProvider(create: (context) => DrawerCubit()),
         BlocProvider(create: (context) => SearchCubit()),
+        BlocProvider(create: (context) => SessionCubit()),
         BlocProvider(create: (context) => AppCubit()..getHomeData()),
         BlocProvider(
             create: (context) => AuthCubit()),
@@ -70,7 +85,7 @@ class MyApp extends StatelessWidget {
             themeMode: context.read<GlobalCubit>().isLight
                 ? ThemeMode.light
                 : ThemeMode.dark,
-            home: OnBoardingScreen(),
+            home: HomeLayoutScreen(),
           );
         },
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
-import 'package:tricare_patient_application/feature/Category/model/doctor_details_model.dart';
+import 'package:tricare_patient_application/feature/Doctor/model/doctor_details_model.dart';
 
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/doctor_details_widget.dart';
@@ -35,7 +35,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
       canPop: true,
       onPopInvoked: (didPop) async {
         context.read<DoctorCubit>().backDoctorDetailsScreen();
-        print('hereeeeeee');
+
 
       },
       child: Scaffold(

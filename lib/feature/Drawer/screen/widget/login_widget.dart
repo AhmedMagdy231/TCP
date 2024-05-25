@@ -9,6 +9,7 @@ import 'package:tricare_patient_application/feature/Category/screen/Category/cat
 import 'package:tricare_patient_application/feature/Drawer%20Screen/About%20Us%20Screen/about_us_screen.dart';
 import 'package:tricare_patient_application/feature/Drawer%20Screen/Tos%20Screen/tos_screen.dart';
 import 'package:tricare_patient_application/feature/Drawer/cubit/drawer_cubit.dart';
+import 'package:tricare_patient_application/feature/HomeLayout/cubit/app_cubit.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 
 import '../../../../core/utils/utils.dart';
@@ -48,7 +49,7 @@ class DrawerLoginWidget extends StatelessWidget {
           function: () {
 
             context.read<CategoryCubit>().getCategoryData();
-            navigateTo(context, CategoryScreen());
+            navigateTo(context, CategoryScreen(specialties:  context.read<AppCubit>().homeModel!.data!.specialties!,));
           },
         ),
         BuildListTitle(

@@ -44,7 +44,7 @@ class DownButtonStack extends StatelessWidget {
                   offset: Offset(0, 3),
                 ),
               ],
-              color: Colors.white,
+              color: LightAppColor.foreGroundColors,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
                 topLeft: Radius.circular(20),

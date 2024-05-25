@@ -1,26 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rate/rate.dart';
-import 'package:tricare_patient_application/core/component/Loading%20Widget/loading_widget.dart';
-import 'package:tricare_patient_application/core/component/Network%20Image/network_image.dart';
-import 'package:tricare_patient_application/core/constant/constant.dart';
+
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/core/widgets/Empty%20Data%20Widget/empty_data_widget.dart';
-import 'package:tricare_patient_application/core/widgets/Error%20Widget/error_widget.dart';
-import 'package:tricare_patient_application/core/widgets/Show%20Rate/show_rate.dart';
-import 'package:tricare_patient_application/feature/Category/cubit/category_cubit.dart';
-import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
-import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/doctor_details_screen.dart';
 
-import '../../../../core/widgets/No Internet Widget/no_internet_widget.dart';
+import 'package:tricare_patient_application/feature/Category/model/category_details_model.dart';
+
+import '../../../../core/network/Remote/DioHelper.dart';
+import '../../../../core/network/endPoind.dart';
+import '../../../../core/widgets/Doctor Widget/doctor_widget.dart';
+import '../../../Doctor/cubit/doctor_cubit.dart';
+import '../../../Doctor/screens/Doctor Details/doctor_details_screen.dart';
 import 'widget/loading_shimmer.dart';
 
-class CategoryDetails extends StatelessWidget {
+
+class CategoryDetails extends StatefulWidget {
   final String title;
   final String id;
 
-  const CategoryDetails({super.key,required this.title,required this.id});
+  const CategoryDetails({super.key, required this.title, required this.id});
+
+  @override
+  State<CategoryDetails> createState() => _CategoryDetailsState();
+}
+
+class _CategoryDetailsState extends State<CategoryDetails> {
+
+  final PagingController<int, Partners> _pagingController = PagingController(firstPageKey: 0);
+  int pageNumber = 1;
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+
+  Future<void> _fetchPage(int pageKey) async {
+
+
+
+
+    await Future.delayed(Duration(seconds: 1));
+    print(pageKey);
+    try {
+      final newItems = await DioHelper.postData(
+        data: {
+          'type' : 'specialty',
+          'id' : widget.id,
+           'page' : pageNumber,
+        },
+
+        url: EndPoints.category_request,
+      );
+
+      final CategoryDetailsModel categoryDetailsModel = CategoryDetailsModel.fromJson(newItems.data);
+
+      if (!categoryDetailsModel.hasError) {
+        final isLastPage =
+            categoryDetailsModel.data!.pageCurrent ==  categoryDetailsModel.data!.pageMax;
+        if (isLastPage) {
+          _pagingController.appendLastPage(categoryDetailsModel.data!.partners);
+        } else {
+          final nextPageKey = pageKey +categoryDetailsModel.data!.partners.length;
+          pageNumber++;
+          _pagingController.appendPage(
+              categoryDetailsModel.data!.partners, nextPageKey);
+        }
+      } else {}
+    } catch (error) {
+      print(error.toString());
+      _pagingController.error = error;
+    }
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,121 +98,75 @@ class CategoryDetails extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
       ),
-      body: BlocBuilder<CategoryCubit, CategoryState>(
-        builder: (context, state) {
-          var cubit = context.read<CategoryCubit>();
-          switch(state.categoryDetailsStatus){
-            case Status.initial:
-            case Status.loading:
-              return const LoadingSimmerWidget();
-            case Status.success:
-              return   cubit.categoryDetailsModel!.hasError? BuildErrorWidget(error: cubit.categoryDetailsModel!.errors.join(' ')):
-              cubit.categoryDetailsModel!.data!.partners!.isEmpty? BuildEmptyDataWidget():
-              ListView.builder(
-                itemCount: cubit.categoryDetailsModel!.data!.partners!.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.015,vertical: height*0.005),
-                    child: SizedBox(
-                      width: width,
-                      height: height * 0.15,
-                      child: GestureDetector(
-                          onTap: (){
-                            context.read<DoctorCubit>().getDoctorDetails(
-                                id: cubit.categoryDetailsModel!.data!.partners![index].pARTNERID,
-                            );
+      body: Container(
+        height: height,
+        child: PagedListView<int, Partners>(
+          pagingController: _pagingController,
+          physics: const BouncingScrollPhysics(),
+          builderDelegate:
+          PagedChildBuilderDelegate<Partners>(
+            itemBuilder: (context, item, index) => Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.015,
+                  vertical: height * 0.005),
+              child: SizedBox(
+                width: width,
+                height: height * 0.18,
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<DoctorCubit>().getDoctorDetails(
+                      id: item.partnerid,
+                    );
 
-                            navigateTo(context,  DoctorDetailsScreen(
-                              id: cubit.categoryDetailsModel!.data!.partners![index].pARTNERID!,
-                            ));
-                          },
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  child: BuildImage(
-                                    image: cubit.categoryDetailsModel!.data!
-                                        .partners![index].partnerPic!,
-                                    radius: 8,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding:  EdgeInsets.symmetric(horizontal: width*0.03),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                        
-                                        Text(
-                                          'Dr. ${cubit.categoryDetailsModel!.data!
-                                              .partners![index].partnerFullname}',
-                                          style: Theme.of(context).textTheme.titleMedium,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                        
-                                        Text(
-                                          cubit.categoryDetailsModel!.data!
-                                              .partners![index].partnerPosition!,
-                                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                        
-                                        SizedBox(height: height*0.015,),
-                        
-                                        Row(
-                                          children: [
-                                            ShowRateStar(
-                                                rate:  cubit.categoryDetailsModel!.data!
-                                                    .partners![index].partnerReviewsAvg!
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              '${cubit.categoryDetailsModel!.data!
-                                                  .partners![index].partnerReviewsAvg!} (${cubit.categoryDetailsModel!.data!
-                                                  .partners![index].partnerReviewsTotal!} review)',
-                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                        
-                                          ],
-                                        ),
-                        
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ).animate().fadeIn(duration: 100.ms).then(delay: 0.ms).fade(),
-                  );
-                },
+                    navigateTo(
+                        context,
+                        DoctorDetailsScreen(
+                          id: item.partnerid!,
+                        ));
+                  },
+                  child: DoctorWidget(
+                    image:  item.partnerPic!,
+                    name: item.partnerFullname!,
+                    position:  item.partnerPosition!,
+                    avgRate: item.partnerReviewsAvg!,
+                    totalReview: item.partnerReviewsTotal!,
+                    width: width,
+                    height: height,
+                  ),
+                ),
+              ),
+            ),
+            transitionDuration: const Duration(milliseconds: 900),
+            animateTransitions: true,
+            firstPageProgressIndicatorBuilder: (context) {
+              return Column(
+                children: [
+                  LoadingSimmerWidget(),
+                  LoadingSimmerWidget(),
+                  LoadingSimmerWidget(),
+                  LoadingSimmerWidget(),
+                  LoadingSimmerWidget(),
+                  LoadingSimmerWidget(),
+                  LoadingSimmerWidget(),
+                  LoadingSimmerWidget(),
+                ],
               );
-            case Status.noInternet:
-              return  NoInternetWidget(onPressed: (){
-                cubit.getCategoryDetails(id: id);
-              });
-            default:
-              return const Icon(Icons.error);
+            },
+            newPageProgressIndicatorBuilder: (context) {
+              return  Container(height: height*0.1,child: Center(child: CircularProgressIndicator(),),);
+            },
 
-          }
+            noItemsFoundIndicatorBuilder: (context){
+              return  BuildEmptyDataWidget(text: 'No doctor found in this Speciality',);
+            }
 
-        },
+          ),
+        ),
       ),
     );
   }
 }
+
+

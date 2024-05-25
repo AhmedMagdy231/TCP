@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
-import 'package:tricare_patient_application/feature/Category/model/doctor_details_model.dart';
+import 'package:tricare_patient_application/feature/Doctor/model/doctor_details_model.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/about_doctor_widget.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/book_appointment_button.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/doctor_review.dart';

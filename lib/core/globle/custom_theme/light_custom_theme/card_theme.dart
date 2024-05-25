@@ -7,7 +7,7 @@ class LightCardTheme {
   LightCardTheme._();
 
   static CardTheme lightCardTheme =   CardTheme(
-    elevation: 0,
+  //  elevation: 0,
     color: LightAppColor.foreGroundColors,
     surfaceTintColor: LightAppColor.foreGroundColors,
     shape: RoundedRectangleBorder(

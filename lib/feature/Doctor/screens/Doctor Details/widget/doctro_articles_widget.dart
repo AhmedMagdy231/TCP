@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/widgets/product Item Widget/build_product_item.dart';
-import '../../../../Category/model/doctor_details_model.dart';
+import '../../../model/doctor_details_model.dart';
 
 class DoctorArticlesWidget extends StatelessWidget {
   final List<PartnersPosts> articles;

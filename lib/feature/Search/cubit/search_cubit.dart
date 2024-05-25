@@ -19,10 +19,10 @@ class SearchCubit extends Cubit<SearchState> {
 
 
 
-  Future<void> getDoctorSearch({required String query})async{
+  Future<void> getDoctorSearch({required String query,required String id})async{
 
     emit(state.copyWith(doctorSearchStatus: Status.loading));
-    await Future.delayed(const Duration(milliseconds: 500));
+
 
     if(! await  _connect.isInternetConnected()) return emit(state.copyWith(doctorSearchStatus: Status.noInternet));
 
@@ -31,16 +31,16 @@ class SearchCubit extends Cubit<SearchState> {
       DioHelper.postData(
           data: {
             'search_query' : query,
+            'specialtyid' : id,
           },
           url: EndPoints.category_request,
       ).then((value){
-        print(value.data);
         searchDoctorModel = SearchDoctorModel.formJson(value.data);
         emit(state.copyWith(doctorSearchStatus: Status.success));
 
       }).catchError((error){
         debugPrint(error.toString());
-        emit(state.copyWith(doctorSearchStatus: Status.failure));
+        emit(state.copyWith(doctorSearchStatus: Status.failure,callback: error.toString()));
       });
 
 

@@ -20,28 +20,28 @@ class TopPartnerWidget extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: height * 0.3,
+      height: height*0.25,
+
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: partnerTops.length,
-        itemBuilder: (context, index) {
+        itemBuilder: (context,index){
           return GestureDetector(
-            onTap: () {
-              context.read<DoctorCubit>().getDoctorDetails(
-                    id:  partnerTops[index].pARTNERID,
-                  );
+            onTap: (){
+              context.read<DoctorCubit>().getDoctorDetails(id: partnerTops[index].pARTNERID);
               navigateTo(context, DoctorDetailsScreen(id: partnerTops[index].pARTNERID!));
             },
             child: SizedBox(
-              width: width * 0.4,
+
+              width: width*0.4,
               child: Card(
                 child: Column(
                   children: [
                     SizedBox(
-                      height: width * 0.4,
+                      height: height*0.15,
                       width: width,
                       child: AspectRatio(
-                        aspectRatio: 1 / 1,
+                        aspectRatio: 1/1,
                         child: BuildImage(
                           image: partnerTops[index].partnerPic!,
                           fit: BoxFit.cover,
@@ -61,22 +61,22 @@ class TopPartnerWidget extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
+
                           Text(
                             partnerTops[index].partnerPosition!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style:
-                                Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                      color: Colors.grey,
-                                    ),
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: Colors.grey,
+                            ),
                           ),
+
                           Rate(
                             iconSize: 15,
                             color: Colors.amber,
                             allowHalf: true,
                             allowClear: true,
-                            initialValue: double.parse(
-                                partnerTops[index].partnerRateAvg!),
+                            initialValue: double.parse( partnerTops[index].partnerRateAvg!),
                             readOnly: true,
                           ),
                         ],
@@ -85,6 +85,7 @@ class TopPartnerWidget extends StatelessWidget {
                   ],
                 ),
               ),
+
             ),
           );
         },
@@ -92,3 +93,12 @@ class TopPartnerWidget extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+

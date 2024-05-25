@@ -26,7 +26,7 @@ class LightInputDecorationTheme {
     filled: true,
 
 
-  //  contentPadding:  EdgeInsets.symmetric(vertical: 15,horizontal: 25),
+
 
   );
 

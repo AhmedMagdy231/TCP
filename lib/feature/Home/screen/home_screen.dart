@@ -78,8 +78,8 @@ class HomeScreen extends StatelessWidget {
                   TitleWidget(
                     title: 'Specialties',
                     onTap: () {
-                      context.read<CategoryCubit>().getCategoryData();
-                      navigateTo(context, const CategoryScreen());
+                     // context.read<CategoryCubit>().getCategoryData();
+                      navigateTo(context,  CategoryScreen(specialties: cubit.homeModel!.data!.specialties!));
                     },
                   ),
 

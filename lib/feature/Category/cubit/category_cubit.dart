@@ -6,8 +6,9 @@ import 'package:tricare_patient_application/core/network/Remote/DioHelper.dart';
 import 'package:tricare_patient_application/core/network/endPoind.dart';
 import 'package:tricare_patient_application/feature/Category/model/category_details_model.dart';
 import 'package:tricare_patient_application/feature/Category/model/category_model.dart';
-import 'package:tricare_patient_application/feature/Category/model/doctor_details_model.dart';
-import 'package:tricare_patient_application/feature/HomeLayout/cubit/app_cubit.dart';
+
+import '../../Doctor/model/doctor_details_model.dart';
+
 
 part 'category_state.dart';
 
@@ -86,7 +87,7 @@ class CategoryCubit extends Cubit<CategoryState> {
         url: EndPoints.category_request,
       ).then((value) {
 
-        categoryDetailsModel = CategoryDetailsModel.formJson(value.data);
+        categoryDetailsModel = CategoryDetailsModel.fromJson(value.data);
 
 
         emit(state.copyWith(categoryDetailsStatus: Status.success));

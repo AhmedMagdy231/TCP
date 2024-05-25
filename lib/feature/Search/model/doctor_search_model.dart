@@ -142,13 +142,13 @@ class Partners {
     partnerName = json['partner_name'];
     partnerPosition = json['partner_position'];
     partnerDescription = json['partner_description'];
-    partnerPhone = json['partner_phone'];
+    partnerPhone = json['partner_contact_phone'];
     partnerStatus = json['partner_status'];
     partnerDoctor = json['partner_doctor'];
     partnerInvestor = json['partner_investor'];
     partnerFeatured = json['partner_featured'];
     partnerPriority = json['partner_priority'];
-    partnerEmail = json['partner_email'];
+    partnerEmail = json['partner_contact_email'];
     partnerWebsite = json['partner_website'];
     partnerCountry = json['partner_country'];
     partnerPic = json['partner_pic'];
@@ -162,7 +162,7 @@ class Partners {
     partnerRememberMeTime = json['partner_remember_me_time'];
     partnerReviewsTotal = json['partner_reviews_total'];
     partnerReviewsAvg = json['partner_reviews_avg'];
-    partnerWhatsappNumber = json['partner_whatsapp_number'];
+    partnerWhatsappNumber = json['partner_contact_whatsapp'];
     partnerWhatsappEnabled = json['partner_whatsapp_enabled'];
     partnerTimezone = json['partner_timezone'];
     partnerDebitInitial = json['partner_debit_initial'];

@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 
-import '../../../../Category/model/doctor_details_model.dart';
+import '../../../../Book/model/branch_model.dart';
+
 
 class ChooseBranchesWidget extends StatefulWidget {
   final List<Branches> branches;
@@ -51,9 +52,11 @@ class _ChooseBranchesWidgetState extends State<ChooseBranchesWidget> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                     if(selectBranchId != widget.branches[index].bRANCHID!){
+                     if(selectBranchId != widget.branches[index].branchid!){
                        setState(() {
-                         selectBranchId = widget.branches[index].bRANCHID!;
+                         selectBranchId = widget.branches[index].branchid!;
+                         context.read<DoctorCubit>().selectBranchName = widget.branches[index].branchName!;
+
                          context.read<DoctorCubit>().selectBranchId = selectBranchId;
                          context.read<DoctorCubit>().changeStepper(1);
 
@@ -74,7 +77,7 @@ class _ChooseBranchesWidgetState extends State<ChooseBranchesWidget> {
                     child: SizedBox(
                       width: widget.width * 0.4,
                       child: Card(
-                        color: selectBranchId == widget.branches[index].bRANCHID!
+                        color: selectBranchId == widget.branches[index].branchid!
                             ? AppColor.primaryColor
                             : Colors.grey,
                         child: Padding(
@@ -86,7 +89,7 @@ class _ChooseBranchesWidgetState extends State<ChooseBranchesWidget> {
                               style:
                                   Theme.of(context).textTheme.titleMedium!.copyWith(
                                         color: selectBranchId ==
-                                                widget.branches[index].bRANCHID!
+                                                widget.branches[index].branchid!
                                             ? Colors.white
                                             : Colors.black,
                                       ),

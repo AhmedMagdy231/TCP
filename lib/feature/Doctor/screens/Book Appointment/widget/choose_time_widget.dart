@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/constant/constant.dart';
+import '../../../../../core/functions/fucntions.dart';
 import '../../../../../core/globle/color/shared_color.dart';
 import '../../../../../core/widgets/No Internet Widget/no_internet_widget.dart';
 import '../../../cubit/doctor_cubit.dart';
@@ -88,25 +89,22 @@ class _ChooseTimeState extends State<ChooseTime> {
 
 
                     },
-                    child: SizedBox(
-                      width: width * 0.2,
-                      child: Card(
-                        color: selectTimeId == widget.times[index].id!
-                            ? AppColor.primaryColor
-                            : Colors.grey,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child:  Text(
-                              maxLines: 1,
-                              widget.times[index].text!,
-                              style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                color: selectTimeId ==
-                                    widget.times[index].id!
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
+                    child: Card(
+                      color: selectTimeId == widget.times[index].id!
+                          ? AppColor.primaryColor
+                          : Colors.grey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Center(
+                          child:  Text(
+                            maxLines: 1,
+                            convertTo12HourFormat( widget.times[index].text!),
+                            style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                              color: selectTimeId ==
+                                  widget.times[index].id!
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                         ),

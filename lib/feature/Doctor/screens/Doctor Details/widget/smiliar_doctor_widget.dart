@@ -8,7 +8,7 @@ import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.da
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/doctor_details_screen.dart';
 
 
-import '../../../../Category/model/doctor_details_model.dart';
+import '../../../model/doctor_details_model.dart';
 
 
 class SimilarDoctorWidget extends StatelessWidget {

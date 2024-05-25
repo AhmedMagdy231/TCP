@@ -28,6 +28,7 @@ class GlobalCubit extends Cubit<GlobalState> {
       duration: const Duration(milliseconds: 250),
       curve: Curves.linear,
     );
+    emit(ChangeCurrentIndexScreen());
   }
 
 

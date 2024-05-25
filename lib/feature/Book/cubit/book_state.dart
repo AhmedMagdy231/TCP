@@ -1,23 +1,28 @@
 part of 'book_cubit.dart';
 
 @immutable
-sealed class BookState {}
+class BookState {
+  final Status branchState;
 
-final class BookInitial extends BookState {}
+  final  String callback;
+
+  const BookState({
+    this.branchState = Status.initial,
+
+    this.callback = '',
+  });
+
+  BookState copyWith({
+    Status? branchState,
+    String? callback,
+  }) =>
+      BookState(
+        branchState: branchState ?? this.branchState,
+
+        callback: callback ?? this.callback,
+      );
+}
 
 
-class GetDateLoading extends BookState{}
-class GetDateSuccess extends BookState{}
-class GetDateError extends BookState{}
-
-class GetTimeLoading extends BookState{}
-class GetTimeSuccess extends BookState{}
-class GetTimeError extends BookState{}
 
 
-class GetAddReviewLoading extends BookState{}
-class GetAddReviewSuccess extends BookState{}
-class GetAddReviewError extends BookState{}
-
-
-class NoInternetConnection extends BookState{}

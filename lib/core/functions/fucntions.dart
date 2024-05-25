@@ -41,6 +41,30 @@ String formatDate(date){
   );
 }
 
+String getDayName(String dateString, {String locale = 'en'}) {
+  DateTime date = DateFormat('yyyy-MM-dd').parse(dateString);
+  DateFormat dayFormat = DateFormat('EEEE', locale);
+  return dayFormat.format(date);
+}
+
+String convertTo12HourFormat(String timeStr) {
+  // Splitting the time string into hours and minutes
+  List<String> parts = timeStr.split(':');
+  int hours = int.parse(parts[0]);
+  int minutes = int.parse(parts[1]);
+
+  // Determining whether it's AM or PM
+  String period = (hours < 12) ? "am" : "pm";
+
+  // Converting to 12-hour format
+  hours = hours % 12 == 0 ? 12 : hours % 12;
+
+  // Formatting the result
+  String formattedTime =
+      "${hours}:${minutes.toString().padLeft(2, '0')} $period";
+  return formattedTime;
+}
+
 void scrollToSelectedContent({required GlobalKey expansionTileKey}) {
   final keyContext = expansionTileKey.currentContext;
   if (keyContext != null) {

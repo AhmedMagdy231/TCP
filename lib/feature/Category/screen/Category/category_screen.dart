@@ -8,11 +8,15 @@ import 'package:tricare_patient_application/core/widgets/Not%20Found%20In%20Sear
 import 'package:tricare_patient_application/feature/Category/cubit/category_cubit.dart';
 import 'package:tricare_patient_application/feature/Category/screen/Category/widget/loading_shimmer.dart';
 
+import '../../../../core/functions/fucntions.dart';
+import '../../../Home/model/home_model.dart';
+import '../Category Details/category_details.dart';
 import 'widget/category_widget.dart';
 
 
 class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({super.key});
+  final  List<Specialties> specialties;
+  const CategoryScreen({super.key,required this.specialties});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,45 @@ class CategoryScreen extends StatelessWidget {
                     ),
             SizedBox(height: height*0.02,),
 
-            CategoryWidget(),
+            Expanded(
+              child:  ListView.builder(
+                itemCount: specialties.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: (){
+                      context.read<CategoryCubit>().getCategoryDetails(id:  specialties[index].sPECIALTYID);
+                      navigateTo(context, CategoryDetails(
+                        title:  specialties[index].specialtyTitle!,
+                        id: specialties[index].sPECIALTYID!,
+                      ));
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: height*0.005),
+                      child: SizedBox(
+                        height: height * 0.1,
+                        child: Card(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: BuildImage(
+                                  image:
+                                  specialties[index].specialtyPic!,
+                                ),
+                              ),
+                              Text(
+                                specialties[index].specialtyTitle!,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
 
 
           ],

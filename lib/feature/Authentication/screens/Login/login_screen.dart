@@ -8,6 +8,7 @@ import 'package:tricare_patient_application/core/InputField/custom%20input/passw
 import 'package:tricare_patient_application/core/component/TextField/text_form_field.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
+import 'package:tricare_patient_application/feature/Sessions/cubit/session_cubit.dart';
 
 import '../../../../core/functions/fucntions.dart';
 import '../../../../core/network/Local/CashHelper.dart';
@@ -203,6 +204,7 @@ class LoginButton extends StatelessWidget {
             CashHelper.prefs.setBool('login', true);
 
             context.read<ProfileCubit>().postUserData();
+            context.read<SessionCubit>().getSession(page: 1);
 
              Navigator.pop(context);
 

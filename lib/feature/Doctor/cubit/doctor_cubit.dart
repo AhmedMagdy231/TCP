@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tricare_patient_application/core/connection/internet_connection.dart';
 import 'package:tricare_patient_application/core/constant/constant.dart';
-import 'package:tricare_patient_application/feature/Category/model/doctor_details_model.dart';
+import 'package:tricare_patient_application/feature/Doctor/model/doctor_details_model.dart';
 import 'package:tricare_patient_application/feature/Doctor/model/date_model.dart';
 
 import '../../../core/data structure/stack.dart';
@@ -22,6 +22,8 @@ class DoctorCubit extends Cubit<DoctorState> {
   String selectBranchId = '';
   String selectDateId = '';
   String selectTimeId = '';
+
+  String selectBranchName = '';
 
   int activeStep =0;
 
@@ -131,11 +133,11 @@ Future<void> getDate({required String doctorId, required String sessionBranch}) 
 
 
 
-  Future<void> getTime({required String doctorId,}) async {
+  Future<void> getTime({required String doctorId, required String branchId, required dateId}) async {
 
     print(doctorId);
-    print(selectBranchId);
-    print(selectDateId);
+    print(branchId);
+    print(dateId);
     emit(state.copyWith(timeStatus: Status.loading));
     await Future.delayed(const Duration(seconds: 1));
 
@@ -145,12 +147,14 @@ Future<void> getDate({required String doctorId, required String sessionBranch}) 
       await DioHelper.postData(
         data: {
           'id' : doctorId,
-          'session_branch' : selectBranchId,
-          'session_date' :  selectDateId,
+          'session_branch' : branchId,
+          'session_date' :  dateId,
 
         },
         url: EndPoints.doctor_times,
       ).then((value){
+       print(value.data);
+
 
         timeModel = TimeModel.formJson(value.data);
         emit(state.copyWith(timeStatus: Status.success));

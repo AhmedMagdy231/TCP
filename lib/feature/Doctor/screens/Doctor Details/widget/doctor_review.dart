@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 import 'package:tricare_patient_application/core/widgets/Show%20Rate/show_rate.dart';
 
-import '../../../../Category/model/doctor_details_model.dart';
+import '../../../model/doctor_details_model.dart';
 
 
 class DoctorReviewWidget extends StatelessWidget {

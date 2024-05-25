@@ -93,17 +93,20 @@ class _ChooseDateState extends State<ChooseDate> {
 
                         context
                             .read<DoctorCubit>()
-                            .getTime(doctorId: widget.doctorId);
+                            .getTime(
+                          doctorId: widget.doctorId,
+                          branchId:  context.read<DoctorCubit>().selectBranchId,
+                          dateId:  context.read<DoctorCubit>().selectDateId,
+                        );
                       }
                     },
                     child: SizedBox(
-                      width: width * 0.2,
                       child: Card(
                         color: selectDateId == widget.dates[index].id!
                             ? AppColor.primaryColor
                             : Colors.grey,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding:  EdgeInsets.symmetric(horizontal: width*0.06,vertical: height*0.015),
                           child: Center(
                             child: Column(
                               children: [

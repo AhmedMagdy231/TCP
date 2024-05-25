@@ -111,6 +111,8 @@ dependencies:
 
   flutter_launcher_icons: ^0.13.1
 
+  infinite_scroll_pagination: ^4.0.0
+
 
   #localization
   flutter_localizations:

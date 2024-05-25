@@ -51,6 +51,12 @@ class EndPoints {
 
   static var deleteAccount_request='patient_delete.php';
 
+  static var cart_request='cart.php';
+
+  static var check_request='checkout.php';
+
+  static var branch_request = 'branches.php';
+
 
 
 

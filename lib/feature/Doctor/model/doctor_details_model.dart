@@ -1,3 +1,5 @@
+import '../../Book/model/branch_model.dart';
+
 class DoctorDetailsModel {
   late bool hasError;
   late List<dynamic> errors;
@@ -36,25 +38,26 @@ class Data {
     if (json['partners_posts'] != null) {
       partnersPosts = <PartnersPosts>[];
       json['partners_posts'].forEach((v) {
-        partnersPosts!.add(new PartnersPosts.fromJson(v));
+        partnersPosts!.add( PartnersPosts.fromJson(v));
       });
     }
     if (json['similar_partners'] != null) {
       similarPartners = <SimilarPartners>[];
       json['similar_partners'].forEach((v) {
-        similarPartners!.add(new SimilarPartners.fromJson(v));
+        similarPartners!.add( SimilarPartners.fromJson(v));
       });
     }
     if (json['partners_reviews'] != null) {
       partnersReviews = <PartnersReviews>[];
       json['partners_reviews'].forEach((v) {
-        partnersReviews!.add(new PartnersReviews.fromJson(v));
+        partnersReviews!.add( PartnersReviews.fromJson(v));
       });
     }
     if (json['branches'] != null) {
       branches = <Branches>[];
       json['branches'].forEach((v) {
-        branches!.add(new Branches.fromJson(v));
+        branches!.add( Branches.fromJson(v));
+
       });
     }
   }
@@ -114,13 +117,13 @@ class Partner {
     partnerName = json['partner_name'];
     partnerPosition = json['partner_position'];
     partnerDescription = json['partner_description'];
-    partnerPhone = json['partner_phone'];
+    partnerPhone = json['partner_contact_phone'];
     partnerStatus = json['partner_status'];
     partnerDoctor = json['partner_doctor'];
     partnerInvestor = json['partner_investor'];
     partnerFeatured = json['partner_featured'];
     partnerPriority = json['partner_priority'];
-    partnerEmail = json['partner_email'];
+    partnerEmail = json['partner_contact_email'];
     partnerWebsite = json['partner_website'];
     partnerCountry = json['partner_country'];
     partnerPic = json['partner_pic'];
@@ -134,7 +137,7 @@ class Partner {
     partnerRememberMeTime = json['partner_remember_me_time'];
     partnerReviewsTotal = json['partner_reviews_total'];
     partnerReviewsAvg = json['partner_reviews_avg'];
-    partnerWhatsappNumber = json['partner_whatsapp_number'];
+    partnerWhatsappNumber = json['partner_contact_whatsapp'];
     partnerWhatsappEnabled = json['partner_whatsapp_enabled'];
     partnerTimezone = json['partner_timezone'];
     partnerDebitInitial = json['partner_debit_initial'];
@@ -353,8 +356,8 @@ class PartnersReviews {
   String? patientProfilepicture;
   String? patientCoverpicture;
   String? patientWebsite;
-  Null? patientRememberMeKey;
-  Null? patientRememberMeTime;
+  dynamic patientRememberMeKey;
+  dynamic patientRememberMeTime;
   String? patientIp;
   String? patientLip;
   String? patientMylang;
@@ -608,55 +611,4 @@ class PartnersReviews {
   }
 }
 
-class Branches {
-  String? bRANCHID;
-  String? branchName;
-  String? branchPhone;
-  String? branchLocation;
-  String? branchActive;
-  String? branchManagerName;
-  String? branchManagerPhone;
-  String? branchManagerEmail;
-  String? branchTradingId;
-  String? branchTaxId;
 
-  Branches(
-      {this.bRANCHID,
-        this.branchName,
-        this.branchPhone,
-        this.branchLocation,
-        this.branchActive,
-        this.branchManagerName,
-        this.branchManagerPhone,
-        this.branchManagerEmail,
-        this.branchTradingId,
-        this.branchTaxId});
-
-  Branches.fromJson(Map<String, dynamic> json) {
-    bRANCHID = json['BRANCHID'];
-    branchName = json['branch_name'];
-    branchPhone = json['branch_phone'];
-    branchLocation = json['branch_location'];
-    branchActive = json['branch_active'];
-    branchManagerName = json['branch_manager_name'];
-    branchManagerPhone = json['branch_manager_phone'];
-    branchManagerEmail = json['branch_manager_email'];
-    branchTradingId = json['branch_trading_id'];
-    branchTaxId = json['branch_tax_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['BRANCHID'] = this.bRANCHID;
-    data['branch_name'] = this.branchName;
-    data['branch_phone'] = this.branchPhone;
-    data['branch_location'] = this.branchLocation;
-    data['branch_active'] = this.branchActive;
-    data['branch_manager_name'] = this.branchManagerName;
-    data['branch_manager_phone'] = this.branchManagerPhone;
-    data['branch_manager_email'] = this.branchManagerEmail;
-    data['branch_trading_id'] = this.branchTradingId;
-    data['branch_tax_id'] = this.branchTaxId;
-    return data;
-  }
-}

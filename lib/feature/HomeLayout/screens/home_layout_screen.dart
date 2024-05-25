@@ -42,7 +42,7 @@ class HomeLayoutScreen extends StatelessWidget {
       canPop: false,
       onPopInvoked: (didPop)async{
 
-        if(context.read<GlobalCubit>().currentIndexScreen==0) {
+        if(context.read<GlobalCubit>().currentIndexScreen==0){
           showDialog(
               context: context,
               builder: (context) {
@@ -133,6 +133,7 @@ class HomeLayoutScreen extends StatelessWidget {
             BookScreen(),
             MainProfileScreen(),
           ],
+
           onPageChanged: (index){
             context.read<GlobalCubit>().changeSelectedIndexNav(index);
 
@@ -171,7 +172,6 @@ class HomeLayoutScreen extends StatelessWidget {
               rightCornerRadius: 32,
               height: 70,
               onTap: (index) {
-                context.read<GlobalCubit>().changeSelectedIndexNav(index);
                 context.read<GlobalCubit>().homeLayoutController.animateToPage(
                   index,
                   duration: const Duration(milliseconds: 250),
