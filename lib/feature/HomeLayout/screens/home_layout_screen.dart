@@ -101,6 +101,7 @@ class HomeLayoutScreen extends StatelessWidget {
 
       },
       child: Scaffold(
+
         drawer: const DrawerScreen(),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(height*0.08),
@@ -141,6 +142,7 @@ class HomeLayoutScreen extends StatelessWidget {
         ),
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
               itemCount: 3,
+
               tabBuilder: (index, isActive) {
                 final color = isActive ? AppColor.primaryColor : Colors.grey;
                 return Column(
@@ -170,7 +172,7 @@ class HomeLayoutScreen extends StatelessWidget {
 
               leftCornerRadius: 32,
               rightCornerRadius: 32,
-              height: 70,
+              height: height*0.08,
               onTap: (index) {
                 context.read<GlobalCubit>().homeLayoutController.animateToPage(
                   index,

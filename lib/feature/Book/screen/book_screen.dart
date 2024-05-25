@@ -31,6 +31,7 @@ class BookScreen extends StatefulWidget {
 // with AutomaticKeepAliveClientMixin<BookScreen>
 
 class _BookScreenState extends State<BookScreen> {
+
   final PagingController<int, Sessions> _pagingController = PagingController(firstPageKey: 0);
   int pageNumber = 1;
 
@@ -53,10 +54,8 @@ class _BookScreenState extends State<BookScreen> {
 
   Future<void> _fetchPage(int pageKey) async {
 
-
-
-
     await Future.delayed(Duration(seconds: 1));
+
     print(pageKey);
     try {
       final newItems = await DioHelper.postData(
@@ -77,7 +76,8 @@ class _BookScreenState extends State<BookScreen> {
           _pagingController.appendPage(
               sessionModel.data!.sessions!, nextPageKey);
         }
-      } else {
+      } else
+      {
         _pagingController.appendLastPage([]);
       }
     } catch (error) {

@@ -14,6 +14,7 @@ class BuildTextFormField extends StatelessWidget {
   TextInputType? keyboardType;
   bool? isPassword;
   int? maxLines;
+  EdgeInsetsGeometry? contendPadding;
   void Function(String)? onchange;
 
 
@@ -29,6 +30,7 @@ class BuildTextFormField extends StatelessWidget {
     bool? this.isPassword,
     this.maxLines,
     this.onchange,
+    this.contendPadding,
 
 
   });
@@ -54,7 +56,7 @@ class BuildTextFormField extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
 
-        contentPadding:  EdgeInsets.symmetric(vertical: height*0.025,horizontal: width*0.06 ),
+        contentPadding: contendPadding?? EdgeInsets.symmetric(vertical: height*0.025,horizontal: width*0.06 ),
       ),
     );
   }

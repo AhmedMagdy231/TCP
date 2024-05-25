@@ -20,7 +20,7 @@ class SimilarDoctorWidget extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return  SizedBox(
-      height: height*0.25,
+      height: height*0.27,
 
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -52,34 +52,40 @@ class SimilarDoctorWidget extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            similarDoctor[index].partnerName!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-
-                          Text(
-                            similarDoctor[index].partnerPosition!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: Colors.grey,
+                      child: Padding(
+                        padding:  EdgeInsets.only(bottom: height*0.01,top: height*0.015),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              similarDoctor[index].partnerName!,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                fontSize: 12,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-
-                          Rate(
-                            iconSize: 15,
-                            color: Colors.amber,
-                            allowHalf: true,
-                            allowClear: true,
-                            initialValue: double.parse( similarDoctor[index].partnerReviewsAvg!),
-                            readOnly: true,
-                          ),
-                        ],
+                           Spacer(),
+                            Text(
+                              similarDoctor[index].partnerPosition!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Spacer(),
+                            Rate(
+                              iconSize: 15,
+                              color: Colors.amber,
+                              allowHalf: true,
+                              allowClear: true,
+                              initialValue: double.parse( similarDoctor[index].partnerReviewsAvg!),
+                              readOnly: true,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

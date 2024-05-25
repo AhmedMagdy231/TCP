@@ -55,6 +55,10 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
               controller: TextEditingController(),
               hintText: 'Search at doctor...',
               prefixIcon: Icon(Icons.search),
+              contendPadding: EdgeInsets.symmetric(
+                  vertical: height*0.0,
+                  horizontal: width*0.06 ,
+              ),
               onchange: (value) {
                 context
                     .read<SearchCubit>()
@@ -108,7 +112,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                                         image: cubit.searchDoctorModel!.data!
                                             .partners![index].partnerPic!,
                                         name: cubit.searchDoctorModel!.data!
-                                            .partners![index].partnerFullname!,
+                                            .partners![index].partnerName!,
                                         position: cubit.searchDoctorModel!.data!
                                             .partners![index].partnerPosition!,
                                         avgRate: cubit

@@ -68,61 +68,74 @@ class DoctorDetailsWidget extends StatelessWidget {
                   SizedBox(
                     height: width * 0.06,
                   ),
-                  Text(
-                    'Description',
-                    style: Theme.of(context).textTheme.titleLarge,
 
-                  ),
-                  SizedBox(
-                    height: width * 0.02,
-                  ),
-                  Text(
-                    cleanHtmlToPlainText(doctorDetailsModel!.data!.partner!.partnerDescription!,maxLength: 200),
-                    style:   Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Colors.grey.shade800,
-                      ),
-                    maxLines: 5,
-
-                  ),
-
-                  SizedBox(
-                    height: width * 0.05,
-                  ),
-
-                  Row(
-                    textBaseline: TextBaseline.alphabetic,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  if(doctorDetailsModel!.data!.partner!.partnerDescription!.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Review',
+                        'Description',
                         style: Theme.of(context).textTheme.titleLarge,
 
                       ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: (){},
-                        child: Text(
-                          'Add Review',
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: AppColor.primaryColor,
+                      SizedBox(
+                        height: width * 0.02,
+                      ),
+                      Text(
+                        cleanHtmlToPlainText(doctorDetailsModel!.data!.partner!.partnerDescription!,maxLength: 200),
+                        style:   Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Colors.grey.shade800,
                           ),
+                        maxLines: 5,
 
-
-                        ),
-
-                      )
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: width * 0.01,
-                  ),
-                  DoctorReviewWidget(
-                      height: height,
-                      width: width,
-                      reviews: doctorDetailsModel!.data!.partnersReviews!,
-                  ),
+
                   SizedBox(
                     height: width * 0.05,
+                  ),
+
+                  if(doctorDetailsModel!.data!.partnersReviews!.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        textBaseline: TextBaseline.alphabetic,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Review',
+                            style: Theme.of(context).textTheme.titleLarge,
+
+                          ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: (){},
+                            child: Text(
+                              'Add Review',
+                              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                color: AppColor.primaryColor,
+                              ),
+
+
+                            ),
+
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: width * 0.01,
+                      ),
+                      DoctorReviewWidget(
+                          height: height,
+                          width: width,
+                          reviews: doctorDetailsModel!.data!.partnersReviews!,
+                      ),
+                      SizedBox(
+                        height: width * 0.05,
+                      ),
+                    ],
                   ),
 
                   Text(

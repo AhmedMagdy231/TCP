@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,8 @@ class CategoryDetails extends StatefulWidget {
 }
 
 class _CategoryDetailsState extends State<CategoryDetails> {
+
+
 
   final PagingController<int, Partners> _pagingController = PagingController(firstPageKey: 0);
   int pageNumber = 1;
@@ -90,15 +93,37 @@ class _CategoryDetailsState extends State<CategoryDetails> {
 
 
 
-
+ var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          GestureDetector(
+            onTap: (){
+              scaffoldKey.currentState!.showBottomSheet((context){
+                return SizedBox(
+                  height: height*0.5,
+                  width: width
+                  ,
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Icon(Icons.filter_alt_outlined),
+                SizedBox(width: 5,),
+                Text('Filter',style: Theme.of(context).textTheme.titleMedium,),
+                SizedBox(width: width*0.02,),
+              ],
+            ),
+          ),
+        ],
       ),
       body: Container(
         height: height,
