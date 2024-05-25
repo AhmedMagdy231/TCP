@@ -35,6 +35,7 @@ class AppLightTheme {
     appBarTheme: LightAppBarTheme.lightAppBarTheme,
     inputDecorationTheme: LightInputDecorationTheme.lightInputDecorationTheme,
 
+
   );
 
 

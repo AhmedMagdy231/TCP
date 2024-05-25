@@ -17,6 +17,10 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   final _connect = ConnectionService();
 
+  int sortBy = 0 ;
+  int pageNumber =1;
+  String sortByApi = '';
+
   CategoryModel? categoryModel;
   CategoryDetailsModel? categoryDetailsModel;
   DoctorDetailsModel? doctorDetailsModel;
