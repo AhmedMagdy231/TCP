@@ -213,7 +213,8 @@ class _CartScreenState extends State<CartScreen> {
                     FeesWidget(
                       width: width,
                       height: height,
-                      value: '120',
+                      price: widget.cartModel.data!.sessions[0].sessionPrice!.toString(),
+                      priceAfterDiscount: widget.cartModel.data!.sessions[0].sessionDiscount!.toString(),
                     ),
                   ],
                 ),

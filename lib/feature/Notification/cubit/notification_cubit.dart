@@ -1,14 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
-import 'package:tricare_patient_application/core/Notification/model/notification_model.dart';
-import 'package:tricare_patient_application/core/Notification/model/notification_read_model.dart';
+
 import 'package:tricare_patient_application/core/connection/internet_connection.dart';
 import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/core/network/Remote/DioHelper.dart';
 
-import '../../constant/constant.dart';
-import '../../network/endPoind.dart';
+import '../../../core/constant/constant.dart';
+import '../../../core/network/endPoind.dart';
+
+import '../model/notification_model.dart';
+import '../model/notification_read_model.dart';
 
 part 'notification_state.dart';
 
@@ -33,7 +35,8 @@ class NotificationCubit extends Cubit<NotificationState> {
       url: EndPoints.notification_request,
       token: CashHelper.getData(key: 'token'),
     ).then((value){
-      notificationModel = NotificationModel.formJson(value.data);
+      print(value);
+      notificationModel = NotificationModel.fromJson(value.data);
       emit(state.copyWith(getNotification: Status.success));
     }).catchError((error){
 
@@ -71,6 +74,12 @@ class NotificationCubit extends Cubit<NotificationState> {
       emit(state.copyWith(readNotification: Status.failure,callback: error.toString()));
 
     });
+  }
+
+  Future<void> readNotification({required int index,required String id})async{
+    notificationModel!.data!.notification[index].patinotificationRead = "1";
+    emit(state.copyWith(getNotification: Status.success));
+    await getNotificationRead(id: id);
   }
 
 

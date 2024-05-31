@@ -35,7 +35,7 @@ class ConfirmBookCubit extends Cubit<ConfirmBookState> {
       url: EndPoints.cart_request,
       token: CashHelper.getData(key: 'token'),
     ).then((value) {
-
+      print(value.data);
       cartModel = CartModel.fromJson(value.data);
       emit(state.copyWith(cartStatus: Status.success));
 

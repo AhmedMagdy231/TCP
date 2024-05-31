@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+ <string name="app_name">TriCare</string>
+ <string name="facebook_app_id">978696200629785</string>
+ <string name="fb_login_protocol_scheme">bbe73d063ff32dea5a3a9ad200f98b15</string>
+ <string name="facebook_client_token">1384baeaecf7e68e89b2ff347b5b0478</string>
+
+
+</resources>

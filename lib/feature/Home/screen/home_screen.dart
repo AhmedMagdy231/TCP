@@ -17,6 +17,7 @@ import 'package:tricare_patient_application/feature/Category/cubit/category_cubi
 import 'package:tricare_patient_application/feature/Category/screen/Category/category_screen.dart';
 import '../../Articles/screen/Articles Category/articles_category_screen.dart';
 import '../../HomeLayout/cubit/app_cubit.dart';
+import 'widget/loading_shimmer.dart';
 import 'widget/search_widget.dart';
 import 'widget/title_widget.dart';
 
@@ -52,7 +53,7 @@ class HomeScreen extends StatelessWidget {
             cubit.getHomeData();
           }) :
           cubit.homeModel == null?
-          const BuildLoadingWidget():
+          const BuildLoadingShimmerWidget():
           cubit.homeModel!.hasError?
           BuildErrorWidget(error: cubit.homeModel!.errors.join(' ')):
           Padding(
@@ -78,8 +79,8 @@ class HomeScreen extends StatelessWidget {
                   TitleWidget(
                     title: 'Specialties',
                     onTap: () {
-                     // context.read<CategoryCubit>().getCategoryData();
-                      navigateTo(context,  CategoryScreen(specialties: cubit.homeModel!.data!.specialties!));
+                      context.read<CategoryCubit>().getCategoryData();
+                      navigateTo(context,  CategoryScreen());
                     },
                   ),
 

@@ -32,7 +32,7 @@ class BuildShimmerLoadingWidget extends StatelessWidget {
         .size
         .width;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: height * 0.009),
+      padding: EdgeInsets.symmetric(vertical: height * 0.003),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16),

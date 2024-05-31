@@ -139,32 +139,29 @@ class _CategoryDetailsState extends State<CategoryDetails> {
           builderDelegate: PagedChildBuilderDelegate<Partners>(
               itemBuilder: (context, item, index) => Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: width * 0.015, vertical: height * 0.005),
-                    child: SizedBox(
-                      width: width,
-                      height: height * 0.18,
-                      child: GestureDetector(
-                        onTap: () {
-                          context.read<DoctorCubit>().getDoctorDetails(
-                                id: item.partnerid,
-                              );
+                        horizontal: width * 0.015, vertical: height * 0.003),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.read<DoctorCubit>().getDoctorDetails(
+                              id: item.partnerid,
+                            );
 
-                          navigateTo(
-                              context,
-                              DoctorDetailsScreen(
-                                id: item.partnerid!,
-                              ));
-                        },
-                        child: DoctorWidget(
-                          image: item.partnerPic!,
-                          name: item.partnerFullname!,
-                          position: item.partnerPosition!,
-                          avgRate: item.partnerReviewsAvg!,
-
-                          totalReview: item.partnerReviewsTotal!,
-                          width: width,
-                          height: height,
-                        ),
+                        navigateTo(
+                            context,
+                            DoctorDetailsScreen(
+                              id: item.partnerid!,
+                            ));
+                      },
+                      child: DoctorWidget(
+                        image: item.partnerPic!,
+                        name: item.partnerName!,
+                        position: item.partnerPosition!,
+                        avgRate: item.partnerReviewsAvg!,
+                        totalReview: item.partnerReviewsTotal!,
+                        price: item.partnerSessionPrice!,
+                        discountValue: item.partnerSessionDiscount!,
+                        width: width,
+                        height: height,
                       ),
                     ),
                   ),
@@ -219,12 +216,12 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
     var width = MediaQuery.of(context).size.width;
     var cubit = context.read<CategoryCubit>();
     return SizedBox(
-      height: height * 0.45,
-      width: width,
+
       child: Padding(
         padding: EdgeInsets.symmetric(
             vertical: height * 0.02, horizontal: width * 0.05),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -353,6 +350,28 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                 setState(() {
                   cubit.sortBy = value!;
                   cubit.sortByApi ='alphabetic';
+                  context.read<CategoryCubit>().pageNumber =1;
+                  widget.pagingController.itemList=[];
+                  widget.pagingController.refresh();
+                  widget.scrollController.animateTo(
+                    0.0,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                  Navigator.pop(context);
+                });
+              },
+
+            ),
+
+            RadioListTileWidget(
+              currentValue: cubit.sortBy,
+              value: 6,
+              text: 'Rating',
+              onChanged: (value) {
+                setState(() {
+                  cubit.sortBy = value!;
+                  cubit.sortByApi ='reviews';
                   context.read<CategoryCubit>().pageNumber =1;
                   widget.pagingController.itemList=[];
                   widget.pagingController.refresh();

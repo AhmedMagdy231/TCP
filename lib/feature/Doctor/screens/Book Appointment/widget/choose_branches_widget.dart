@@ -5,6 +5,7 @@ import 'package:tricare_patient_application/core/globle/color/shared_color.dart'
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 
 import '../../../../Book/model/branch_model.dart';
+import '../../../model/doctor_details_model.dart';
 
 
 class ChooseBranchesWidget extends StatefulWidget {

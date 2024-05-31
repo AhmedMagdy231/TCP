@@ -10,12 +10,14 @@ import 'package:http_parser/src/media_type.dart';
 import 'package:tricare_patient_application/core/connection/internet_connection.dart';
 import 'package:tricare_patient_application/core/network/Remote/DioHelper.dart';
 import 'package:tricare_patient_application/core/network/endPoind.dart';
+import 'package:tricare_patient_application/feature/Authentication/Facebook/facebook.dart';
 import 'package:tricare_patient_application/feature/Profile/model/change_password_model.dart';
 import 'package:tricare_patient_application/feature/Profile/model/delete_profile_model.dart';
 import 'package:tricare_patient_application/feature/Profile/model/profile_model.dart';
 import 'package:tricare_patient_application/feature/Profile/model/update_profile_model.dart';
 
 import '../../../core/network/Local/CashHelper.dart';
+import '../../Authentication/Goolge/google.dart';
 
 part 'profile_state.dart';
 
@@ -28,11 +30,15 @@ class ProfileCubit extends Cubit<ProfileState> {
   ChangePasswordModel? changePasswordModel;
   DeleteModel? deleteModel;
 
+
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
+  var whatsAppController = TextEditingController();
+  String userImage='';
 
   int typeGender = 0;
+  String whatsAppEnable= '0';
 
   final _connect = ConnectionService();
 
@@ -48,12 +54,24 @@ class ProfileCubit extends Cubit<ProfileState> {
       url: EndPoints.verify_accessToken_request,
       token: CashHelper.getData(key: 'token') ?? '',
     ).then((value) async {
+
       userModel = UserModel.formJson(value.data);
       if (!userModel!.hasError) {
         nameController.text = userModel!.data!.patient!.patientFullname!;
         emailController.text = userModel!.data!.patient!.patientEmail!;
         phoneController.text = userModel!.data!.patient!.patientPhone!;
+        whatsAppController.text = userModel!.data!.patient!.patientWhatsappNumber!;
+        whatsAppEnable =  userModel!.data!.patient!.patientWhatsappEnabled!;
+
+
+      try{
         typeGender = int.parse(userModel!.data!.patient!.patientGender!);
+      }
+      catch(e)
+      {
+        typeGender = 0;
+      }
+        userImage = userModel!.data!.patient!.patientProfilepicture!;
       } else {
         logOut();
       }
@@ -74,6 +92,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   void logOut() {
     CashHelper.prefs.remove('token');
     CashHelper.prefs.remove('login');
+    Google.signOutGoogle();
+    Facebook.signOutFacebook();
     nameController.clear();
     userModel = null;
     emit(LogOutState());

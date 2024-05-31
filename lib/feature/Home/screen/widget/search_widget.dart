@@ -13,7 +13,7 @@ class SearchHomeWidget extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (){
-        context.read<SearchCubit>().getDoctorSearch(query: '',id: '0');
+        context.read<SearchCubit>().startSearch();
         navigateTo(context, DoctorSearchScreen());
       },
       child: Container(

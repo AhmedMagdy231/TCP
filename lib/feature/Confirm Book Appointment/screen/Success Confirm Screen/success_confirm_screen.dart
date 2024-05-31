@@ -9,7 +9,9 @@ import 'package:tricare_patient_application/feature/HomeLayout/screens/home_layo
 import '../../../../core/widgets/Down Button Stack/down_button_stack.dart';
 
 class SuccessConfirmScreen extends StatelessWidget {
-  const SuccessConfirmScreen({super.key});
+  final bool edit;
+
+  const SuccessConfirmScreen({super.key, this.edit = false});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +41,11 @@ class SuccessConfirmScreen extends StatelessWidget {
                   SizedBox(height: height*0.05,),
 
                   Text(
-                    'Thanks for Booking',
+                   edit? "Session information was successfully edited": 'Thanks for Booking',
                     style: Theme.of(context).textTheme.headlineMedium,
+                    textAlign: TextAlign.center,
                   ),
-
+                 SizedBox(height: height*0.01,),
                   Text(
                     'Hope you get better soon',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(

@@ -8,8 +8,9 @@ class BuildLoginFirst extends StatelessWidget {
   final double widthImage;
   final double height;
   final double width;
+  final bool onDialog;
 
-  const BuildLoginFirst({super.key, required this.heightImage, required this.widthImage, required this.height, required this.width});
+  const BuildLoginFirst({super.key,this.onDialog = false, required this.heightImage, required this.widthImage, required this.height, required this.width});
 
 
 
@@ -40,6 +41,7 @@ class BuildLoginFirst extends StatelessWidget {
               width: width,
               child: ElevatedButton(
                 onPressed: (){
+                  if(onDialog) Navigator.pop(context);
                   navigateTo(context, LoginScreen());
                 },
                 child: Text('Login'),

@@ -4,6 +4,7 @@ import 'package:tricare_patient_application/core/component/Loading%20Widget/load
 import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/feature/Drawer/screen/widget/login_widget.dart';
 import 'package:tricare_patient_application/feature/Drawer/screen/widget/top_widget.dart';
+import 'package:tricare_patient_application/feature/Drawer/screen/widget/unlogin_widget.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 
 class DrawerScreen extends StatelessWidget {
@@ -21,7 +22,7 @@ class DrawerScreen extends StatelessWidget {
           cubit.userModel == null ?
           const BuildLoadingWidget() :
           DrawerLoginWidget() :
-          SizedBox()
+          DrawerUnLoginWidget()
         );
       },
     );

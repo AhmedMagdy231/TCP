@@ -4,7 +4,7 @@ import '../../../../../core/widgets/product Item Widget/build_product_item.dart'
 import '../../../model/doctor_details_model.dart';
 
 class DoctorArticlesWidget extends StatelessWidget {
-  final List<PartnersPosts> articles;
+  final List<PartnersPost> articles;
 
   const DoctorArticlesWidget({super.key, required this.articles});
 

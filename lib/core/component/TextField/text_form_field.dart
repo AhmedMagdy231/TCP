@@ -28,7 +28,7 @@ class BuildTextFormField extends StatelessWidget {
     String? Function(String?)? this.valid,
     TextInputType? this.keyboardType,
     bool? this.isPassword,
-    this.maxLines,
+    this.maxLines =1,
     this.onchange,
     this.contendPadding,
 
@@ -46,8 +46,8 @@ class BuildTextFormField extends StatelessWidget {
       onChanged: onchange,
       autocorrect: true,
       controller: controller,
-      maxLines: isPassword != null? 1:maxLines,
-      minLines: 1,
+      maxLines: maxLines,
+
       validator: valid,
       keyboardType: keyboardType,
       obscureText: isPassword ?? false,

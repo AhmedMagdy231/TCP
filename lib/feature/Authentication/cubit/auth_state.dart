@@ -74,5 +74,51 @@ class ResendRegisterSuccess extends AuthState{}
 class ResendRegisterError extends AuthState{}
 
 
+class GoogleRegisterLoading extends AuthState{}
+class GoogleRegisterSuccess extends AuthState{
+  final bool hasError;
+  final List messages;
+  final List errors;
+  final bool password;
+  final token;
+
+  GoogleRegisterSuccess({required this.password,required this.hasError,required this.messages,required this.errors, required this.token});
+}
+class GoogleRegisterError extends AuthState{}
+
+class GoogleRegisterCancel extends AuthState{}
+
+
+
+
+
+
+class SetPasswordLoading extends AuthState{}
+class SetPasswordSuccess extends AuthState{
+  final bool hasError;
+  final List messages;
+  final List errors;
+
+
+  SetPasswordSuccess({required this.hasError,required this.messages,required this.errors});
+}
+class SetPasswordError extends AuthState{}
+
+
+
+
+class FacebookRegisterLoading extends AuthState{}
+class FacebookRegisterSuccess extends AuthState{
+  final bool hasError;
+  final List messages;
+  final List errors;
+  final bool password;
+  final token;
+
+  FacebookRegisterSuccess({required this.password,required this.hasError,required this.messages,required this.errors, required this.token});
+}
+class FacebookRegisterError extends AuthState{}
+
+class FacebookRegisterCancel extends AuthState{}
 
 

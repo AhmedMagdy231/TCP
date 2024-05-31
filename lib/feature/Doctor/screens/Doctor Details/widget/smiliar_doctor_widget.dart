@@ -12,7 +12,7 @@ import '../../../model/doctor_details_model.dart';
 
 
 class SimilarDoctorWidget extends StatelessWidget {
-  final List<SimilarPartners> similarDoctor;
+  final List<Partner> similarDoctor;
   const SimilarDoctorWidget({super.key,required this.similarDoctor});
 
   @override
@@ -28,8 +28,8 @@ class SimilarDoctorWidget extends StatelessWidget {
         itemBuilder: (context,index){
           return GestureDetector(
             onTap: (){
-              context.read<DoctorCubit>().getDoctorDetails(id: similarDoctor[index].pARTNERID);
-              navigateTo(context, DoctorDetailsScreen(id: similarDoctor[index].pARTNERID!));
+              context.read<DoctorCubit>().getDoctorDetails(id: similarDoctor[index].partnerid);
+              navigateTo(context, DoctorDetailsScreen(id: similarDoctor[index].partnerid!));
             },
             child: SizedBox(
 

@@ -49,7 +49,7 @@ class DrawerLoginWidget extends StatelessWidget {
           function: () {
 
             context.read<CategoryCubit>().getCategoryData();
-            navigateTo(context, CategoryScreen(specialties:  context.read<AppCubit>().homeModel!.data!.specialties!,));
+            navigateTo(context, CategoryScreen());
           },
         ),
         BuildListTitle(

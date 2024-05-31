@@ -9,6 +9,7 @@ import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.
 import 'package:tricare_patient_application/feature/Profile/screen/Profile/profile_screen.dart';
 
 import '../../../../core/utils/utils.dart';
+import '../../../Authentication/Goolge/google.dart';
 
 class MainProfileScreen extends StatelessWidget {
   const MainProfileScreen({Key? key}) : super(key: key);
@@ -58,6 +59,7 @@ class MainProfileScreen extends StatelessWidget {
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       context.read<ProfileCubit>().logOut();
+
                     }
                   },
                 );

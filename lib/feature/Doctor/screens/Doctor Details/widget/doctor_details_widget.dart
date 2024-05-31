@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/feature/Doctor/model/doctor_details_model.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/about_doctor_widget.dart';
+import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/add_review_widget.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/book_appointment_button.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/doctor_review.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/name_position_top_Widget.dart';
@@ -48,7 +49,7 @@ class DoctorDetailsWidget extends StatelessWidget {
 
 
                   NamePositionTopWidget(
-                    name: doctorDetailsModel!.data!.partner!.partnerFullname!,
+                    name: doctorDetailsModel!.data!.partner!.partnerName!,
                     position: doctorDetailsModel!.data!.partner!.partnerPosition!,
                     rate: doctorDetailsModel!.data!.partner!.partnerReviewsAvg!,
                   ),
@@ -57,6 +58,9 @@ class DoctorDetailsWidget extends StatelessWidget {
                   SizedBox(
                     height: width * 0.06,
                   ),
+
+
+
                   AboutDoctorWidget(
                     rate: doctorDetailsModel!.data!.partner!.partnerReviewsAvg!,
                     review: doctorDetailsModel!.data!.partner!.partnerReviewsTotal!,
@@ -64,6 +68,34 @@ class DoctorDetailsWidget extends StatelessWidget {
                     experience: '2',
                   ),
 
+
+                  SizedBox(
+                    height: width * 0.06,
+                  ),
+
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+
+                          Icon(Icons.wallet,color: AppColor.primaryColor,size: 25),
+                          SizedBox(width: 2,),
+                          Text(
+                            'consultation fees',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          SizedBox(width: 5,),
+                          Text(
+                            '${doctorDetailsModel!.data!.partner!.partnerSessionDiscount!} EGP',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+
+
+                        ],
+                      ),
+                    ),
+                  ),
 
                   SizedBox(
                     height: width * 0.06,
@@ -96,7 +128,7 @@ class DoctorDetailsWidget extends StatelessWidget {
                     height: width * 0.05,
                   ),
 
-                  if(doctorDetailsModel!.data!.partnersReviews!.isNotEmpty)
+                  if(doctorDetailsModel!.data!.partnersReviews.isNotEmpty)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -110,18 +142,14 @@ class DoctorDetailsWidget extends StatelessWidget {
 
                           ),
                           const Spacer(),
-                          InkWell(
-                            onTap: (){},
-                            child: Text(
-                              'Add Review',
-                              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                color: AppColor.primaryColor,
-                              ),
+                      AddReviewWidget(
+                        name: doctorDetailsModel!.data!.partner!.partnerName!,
+                        image: doctorDetailsModel!.data!.partner!.partnerPic!,
+                        position: doctorDetailsModel!.data!.partner!.partnerPosition!,
+                        speciality: doctorDetailsModel!.data!.partner!.specialtyTitle!,
+                        id:  doctorDetailsModel!.data!.partner!.partnerid!,
 
-
-                            ),
-
-                          )
+                      ),
                         ],
                       ),
                       SizedBox(
@@ -154,6 +182,8 @@ class DoctorDetailsWidget extends StatelessWidget {
                   SizedBox(
                     height: width * 0.05,
                   ),
+
+
 
 
 

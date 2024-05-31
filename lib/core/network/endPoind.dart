@@ -23,6 +23,8 @@ class EndPoints {
 
   static const String category_request = 'doctors.php';
 
+  static const String search_doctor_request = 'search.php';
+
   static const String setting_request = 'settings.php';
 
   static const String tos_request = 'tos.php';
@@ -56,6 +58,8 @@ class EndPoints {
   static var check_request='checkout.php';
 
   static var branch_request = 'branches.php';
+
+  static var session_edit_request = 'patient_sessions_edit.php';
 
 
 

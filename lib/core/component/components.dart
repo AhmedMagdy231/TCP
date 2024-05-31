@@ -58,13 +58,13 @@ class BuildShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       child: child,
-      baseColor: !context.read<GlobalCubit>().isLight? DarkAppColor.foreGroundColors: Color(0xfff5f5f5),
+      baseColor: !context.read<GlobalCubit>().isLight? DarkAppColor.foreGroundColors: Colors.grey.shade50,
       highlightColor: !context.read<GlobalCubit>().isLight?Colors.white12 : Color(0xffadd8e6),
     );
   }
 }
 
-
+//Color(0xfff5f5f5)
 
 // baseColor: !context.read<GlobalCubit>().isLight? DarkAppColor.foreGroundColors: Colors.grey.shade200,
 // highlightColor: !context.read<GlobalCubit>().isLight?Colors.white12 : Colors.grey.shade400,

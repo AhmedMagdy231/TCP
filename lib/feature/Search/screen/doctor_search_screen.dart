@@ -52,7 +52,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
         child: Column(
           children: [
             BuildTextFormField(
-              controller: TextEditingController(),
+              controller: searchController,
               hintText: 'Search at doctor...',
               prefixIcon: Icon(Icons.search),
               contendPadding: EdgeInsets.symmetric(
@@ -71,7 +71,13 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
             BlocBuilder<SearchCubit, SearchState>(
               builder: (context, state) {
                 switch (state.doctorSearchStatus) {
-                  case Status.initial || Status.loading:
+                  case Status.initial :
+                   return Expanded(
+                      child:  SearchAtDoctorWidget(
+                        text: 'Search At Doctor...',
+                      ),
+                    );
+                  case  Status.loading:
                     return Expanded(child: ListView.builder(itemBuilder: (context,index)=> LoadingSimmerWidget(), itemCount: 5,));
                   case Status.success:
                     var cubit = context.read<SearchCubit>();
@@ -89,45 +95,54 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: width * 0.0,
                                       vertical: height * 0.005),
-                                  child: SizedBox(
-                                    width: width,
-                                    height: height * 0.15,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        context
-                                            .read<DoctorCubit>()
-                                            .getDoctorDetails(
-                                          id: cubit.searchDoctorModel!.data!
-                                              .partners![index].pARTNERID,
-                                        );
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .read<DoctorCubit>()
+                                          .getDoctorDetails(
+                                        id: cubit.searchDoctorModel!.data!
+                                            .partners![index].partnerid,
+                                      );
 
-                                        navigateTo(
-                                            context,
-                                            DoctorDetailsScreen(
-                                              id: cubit.searchDoctorModel!.data!
-                                                  .partners![index].pARTNERID!,
-                                            ));
-                                      },
-                                      child: DoctorWidget(
-                                        image: cubit.searchDoctorModel!.data!
-                                            .partners![index].partnerPic!,
-                                        name: cubit.searchDoctorModel!.data!
-                                            .partners![index].partnerName!,
-                                        position: cubit.searchDoctorModel!.data!
-                                            .partners![index].partnerPosition!,
-                                        avgRate: cubit
-                                            .searchDoctorModel!
-                                            .data!
-                                            .partners![index]
-                                            .partnerReviewsAvg!,
-                                        totalReview: cubit
-                                            .searchDoctorModel!
-                                            .data!
-                                            .partners![index]
-                                            .partnerReviewsTotal!,
-                                        width: width,
-                                        height: height,
-                                      ),
+                                      navigateTo(
+                                          context,
+                                          DoctorDetailsScreen(
+                                            id: cubit.searchDoctorModel!.data!
+                                                .partners![index].partnerid!,
+                                          ));
+                                    },
+                                    child: DoctorWidget(
+                                      image: cubit.searchDoctorModel!.data!
+                                          .partners![index].partnerPic!,
+                                      name: cubit.searchDoctorModel!.data!
+                                          .partners![index].partnerName!,
+                                      position: cubit.searchDoctorModel!.data!
+                                          .partners![index].partnerPosition!,
+                                      avgRate: cubit
+                                          .searchDoctorModel!
+                                          .data!
+                                          .partners![index]
+                                          .partnerReviewsAvg!,
+                                      totalReview: cubit
+                                          .searchDoctorModel!
+                                          .data!
+                                          .partners![index]
+                                          .partnerReviewsTotal!,
+
+                                      price: cubit
+                                          .searchDoctorModel!
+                                          .data!
+                                          .partners![index]
+                                          .partnerSessionPrice!,
+
+                                      discountValue: cubit
+                                          .searchDoctorModel!
+                                          .data!
+                                          .partners![index]
+                                          .partnerSessionDiscount!,
+
+                                      width: width,
+                                      height: height,
                                     ),
                                   )
                                       .animate()

@@ -7,16 +7,16 @@ class CartModel {
   });
 
   final bool? hasError;
-  final List<String> errors;
-  final List<String> messages;
+  final List<dynamic> errors;
+  final List<dynamic> messages;
   final Data? data;
 
   factory CartModel.fromJson(Map<String, dynamic> json){
     return CartModel(
       hasError: json["hasError"],
-      errors: json["errors"] == null ? [] : List<String>.from(json["errors"]!.map((x) => x)),
-      messages: json["messages"] == null ? [] : List<String>.from(json["messages"]!.map((x) => x)),
-      data: json["data"] is List ? null : Data.fromJson(json["data"]),
+      errors: json["errors"] == null ? [] : List<dynamic>.from(json["errors"]!.map((x) => x)),
+      messages: json["messages"] == null ? [] : List<dynamic>.from(json["messages"]!.map((x) => x)),
+      data: json["data"] is List  ? null : Data.fromJson(json["data"]),
     );
   }
 
@@ -28,7 +28,7 @@ class Data {
     required this.invCoupon,
     required this.invPrice,
     required this.invDiscount,
-    required this.invNetPrice,
+    required this.invNetprice,
     required this.invCouponDiscount,
     required this.invTotal,
     required this.hasError,
@@ -39,7 +39,7 @@ class Data {
   final String? invCoupon;
   final int? invPrice;
   final int? invDiscount;
-  final int? invNetPrice;
+  final int? invNetprice;
   final int? invCouponDiscount;
   final int? invTotal;
   final bool? hasError;
@@ -51,7 +51,7 @@ class Data {
       invCoupon: json["inv_coupon"],
       invPrice: json["inv_price"],
       invDiscount: json["inv_discount"],
-      invNetPrice: json["inv_netprice"],
+      invNetprice: json["inv_netprice"],
       invCouponDiscount: json["inv_coupon_discount"],
       invTotal: json["inv_total"],
       hasError: json["hasError"],

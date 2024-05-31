@@ -18,23 +18,25 @@ class DioHelper {
       baseUrl: baseUrl,
       receiveDataWhenStatusError: true,
     ),
-  )..interceptors.add(
-    InterceptorsWrapper(
-      onRequest: (options, handler) {
-        // wrap each request before it happends
-        final token = CashHelper.prefs.get('token');
-        if (token == null) return handler.next(options);
-        final headers = Map<String, dynamic>.from(options.headers);
-        if (headers["Authorization"] == null) {
-          headers.addAll({"Authorization": "Bearer $token"});
-        } else {
-          headers.update('Authorization', (value) => "Bearer $token");
-        }
-        final newOptions = options.copyWith(headers: headers);
-        handler.next(newOptions);
-      },
-    ),
   );
+
+  // ..interceptors.add(
+  // InterceptorsWrapper(
+  // onRequest: (options, handler) {
+  // // wrap each request before it happends
+  // final token = CashHelper.prefs.get('token');
+  // if (token == null) return handler.next(options);
+  // final headers = Map<String, dynamic>.from(options.headers);
+  // if (headers["Authorization"] == null) {
+  // headers.addAll({"Authorization": "Bearer $token"});
+  // } else {
+  // headers.update('Authorization', (value) => "Bearer $token");
+  // }
+  // final newOptions = options.copyWith(headers: headers);
+  // handler.next(newOptions);
+  // },
+  // ),
+  // );
 
 
   static Future<Response> postData(
@@ -49,6 +51,22 @@ class DioHelper {
       data: FormData.fromMap(data),
       options: Options(headers: {
         "Authorization": "Bearer $token",
+      }),
+    );
+  }
+
+
+  static Future<Response> postDataRegister(
+      {required Map<String, dynamic> data,
+        String? token,
+        required String url}) async {
+    return await dio.post(
+      url,
+      queryParameters: {
+        'url_mylang': CashHelper.prefs.get('local')?? 'en',
+      },
+      data: FormData.fromMap(data),
+      options: Options(headers: {
       }),
     );
   }

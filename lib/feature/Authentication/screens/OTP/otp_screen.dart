@@ -50,7 +50,8 @@ class OTPScreen extends StatelessWidget {
                 message: state.errors.join(' '),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            } else {
+            }
+            else {
               CashHelper.prefs.setBool('login', true);
               await CashHelper.prefs.setString('token', state.token!);
               context.read<ProfileCubit>().postUserData();

@@ -1,13 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:tricare_patient_application/feature/Authentication/models/Register_model.dart';
 import 'package:tricare_patient_application/feature/Authentication/models/login_model.dart';
 
 import '../../../core/connection/internet_connection.dart';
+import '../../../core/network/Local/CashHelper.dart';
 import '../../../core/network/Remote/DioHelper.dart';
 import '../../../core/network/endPoind.dart';
+import '../Facebook/facebook.dart';
+import '../Goolge/google.dart';
+import '../models/Set Password/set_password_model.dart';
 import '../models/forget_password_model.dart';
 
 part 'auth_state.dart';
@@ -19,6 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
   LoginModel? loginModel;
   RegisterModel? registerModel;
   ForgetPasswordModel? forgetPasswordModel;
+  SetPasswordModel? setPasswordModel;
 
   Future<void> postLogin({required String email, required String password}) async {
     if (await _connectivity.isInternetConnected()) {
@@ -253,6 +259,130 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
 
+  }
+
+
+  Future<void> postSetPassword(
+      {required String confirmPassword, required password,required String token}) async {
+    emit(SetPasswordLoading());
+
+    await DioHelper.postData(
+      data:
+      {
+        'new_password': password,
+        'new_password2': confirmPassword,
+      },
+      url: 'patient_register_complete.php',
+      token: token,
+    ).then((value) {
+      setPasswordModel = SetPasswordModel.formJson(value.data);
+
+      emit(SetPasswordSuccess(
+        hasError: setPasswordModel!.hasError,
+        errors: setPasswordModel!.errors,
+        messages: setPasswordModel!.messages,
+
+      ));
+    }).catchError((error) {
+      print(error.toString());
+      emit(SetPasswordError());
+    });
+  }
+
+
+  Future<void> registerWithGoogle() async {
+    emit(GoogleRegisterLoading());
+    GoogleSignInAccount? user = await Google.signInWithGoogle();
+
+
+
+
+    if (user != null) {
+      print(user.id);
+      print(user.email);
+      print(user.displayName);
+      print(user.photoUrl);
+
+      DioHelper.postDataRegister(
+        data:
+        {
+          'google_id': user.id,
+          'google_email': user.email,
+          'google_name': user.displayName,
+          'google_avatar_url': user.photoUrl,
+        },
+        url: 'google_callback.php',
+      ).then((value) {
+
+        loginModel = LoginModel.formJson(value.data);
+        emit(
+          GoogleRegisterSuccess(
+            hasError: loginModel!.hasError,
+            messages: loginModel!.messages,
+            errors: loginModel!.errors,
+
+            token: loginModel!.hasError ? '' : loginModel!.data!.patient!
+                .patientAccesstoken!,
+
+            password: loginModel!.hasError? false : loginModel!.data!.patient!.patientForcePassword == '0'? false : true,
+          ),
+        );
+      }).catchError((error) {
+        emit(GoogleRegisterError());
+        print(error.toString());
+      });
+    }
+    else {
+      emit(GoogleRegisterCancel());
+    }
+  }
+
+
+
+
+
+  Future<void> registerWithFacebook() async {
+
+    FacebookUser? user = await Facebook.signInWithFacebook();
+
+    emit(FacebookRegisterLoading());
+
+
+    if (user != null) {
+
+
+      DioHelper.postDataRegister(
+        data:
+        {
+          'facebook_id': user.id,
+          'facebook_email': user.email,
+          'facebook_name': user.name,
+          'facebook_avatar_url': user.profilePic,
+        },
+        url: 'facebook_callback.php',
+      ).then((value) {
+
+        loginModel = LoginModel.formJson(value.data);
+        emit(
+          FacebookRegisterSuccess(
+            hasError: loginModel!.hasError,
+            messages: loginModel!.messages,
+            errors: loginModel!.errors,
+            token: loginModel!.hasError ? '' : loginModel!.data!.patient!
+                .patientAccesstoken!,
+
+            password: loginModel!.hasError? false :
+            loginModel!.data!.patient!.patientForcePassword == '0'? false : true,
+          ),
+        );
+      }).catchError((error) {
+        emit(FacebookRegisterError());
+        print(error.toString());
+      });
+    }
+    else {
+      emit(FacebookRegisterCancel());
+    }
   }
 
 

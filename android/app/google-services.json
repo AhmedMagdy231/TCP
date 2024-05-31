@@ -12,7 +12,20 @@
           "package_name": "com.shoman.tricare"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "478161264450-s0dinuqejuab1lhnletlfd6vej6jv47f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoman.tricare",
+            "certificate_hash": "0d200387f465b32ca1e43a93decf233ec9819787"
+          }
+        },
+        {
+          "client_id": "478161264450-fru3d9ok6sj5bb0uom5ha4g8jplscqa5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBfOTL9wX3Pb_YcAFY10ag8D1HNps900vk"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "478161264450-fru3d9ok6sj5bb0uom5ha4g8jplscqa5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "478161264450-jg8mnuse025claklnmr81busdhbt9kg6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tricarePatientApplication"
+              }
+            }
+          ]
         }
       }
     }

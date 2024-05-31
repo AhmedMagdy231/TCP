@@ -1,5 +1,7 @@
 import 'package:animated_rating_stars/animated_rating_stars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 
 class StarWidget extends StatelessWidget {
 
@@ -16,7 +18,7 @@ class StarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  AnimatedRatingStars(
-      initialRating: 3.5,
+      initialRating: initialRating,
       minRating: 0.0,
       maxRating: 5.0,
       filledColor: Colors.amber,
@@ -25,7 +27,7 @@ class StarWidget extends StatelessWidget {
       halfFilledIcon: Icons.star_half,
       emptyIcon: Icons.star_border,
       onChanged: (double rating) {
-        print('Rating: $rating');
+        context.read<DoctorCubit>().ratingReview = rating;
       },
       displayRatingValue: false,
       interactiveTooltips: true,

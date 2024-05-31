@@ -13,6 +13,8 @@ import 'package:tricare_patient_application/core/widgets/Error%20Widget/error_wi
 import 'package:tricare_patient_application/core/widgets/No%20Internet%20Widget/no_internet_widget.dart';
 import 'package:tricare_patient_application/feature/Book/screen/widget/book_card_widget.dart';
 import 'package:tricare_patient_application/feature/Book/screen/widget/loading_widget.dart';
+import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
+import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/doctor_details_screen.dart';
 import 'package:tricare_patient_application/feature/Sessions/cubit/session_cubit.dart';
 import 'package:tricare_patient_application/feature/Sessions/model/session_model.dart';
 
@@ -64,17 +66,18 @@ class _BookScreenState extends State<BookScreen> {
           },
           url: EndPoints.session_request,
           token: CashHelper.prefs.getString('token') ?? "");
+
       final SessionModel sessionModel = SessionModel.fromJson(newItems.data);
       if (!sessionModel.hasError!) {
         final isLastPage =
             sessionModel.data!.pageCurrent == sessionModel.data!.pageMax;
         if (isLastPage) {
-          _pagingController.appendLastPage(sessionModel.data!.sessions!);
+          _pagingController.appendLastPage(sessionModel.data!.sessions);
         } else {
-          final nextPageKey = pageKey + sessionModel.data!.sessions!.length;
+          final nextPageKey = pageKey + sessionModel.data!.sessions.length;
           pageNumber++;
           _pagingController.appendPage(
-              sessionModel.data!.sessions!, nextPageKey);
+              sessionModel.data!.sessions, nextPageKey);
         }
       } else
       {
@@ -92,6 +95,7 @@ class _BookScreenState extends State<BookScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
+
       appBar: !widget.comeFromHomeLayout
           ? AppBar(
         title: Text('Booking'),
@@ -101,47 +105,60 @@ class _BookScreenState extends State<BookScreen> {
           ? BuildEmptyDataWidget(
         text: 'You do not have any book appointment',
       )
-          : PagedListView<int, Sessions>(
-        pagingController: _pagingController,
-        physics: const BouncingScrollPhysics(),
-        builderDelegate:
-        PagedChildBuilderDelegate<Sessions>(
-          itemBuilder: (context, item, index) => Padding(
-            padding: EdgeInsets.symmetric(vertical: height * 0.009),
-            child:  BookCardWidget(
-              index: index,
-              doctorId: item.pARTNERID!,
-              status: item.status!,
-              day: getDayName(item.sessionDate!, locale: CashHelper.getData(key: 'local') ?? 'en'),
-              date: item.sessionDate!,
-              time: convertTo12HourFormat(item.sessionStart!),
-              name: item.partnerName!,
-              image: item.partnerPic!,
-              position: item.partnerPosition!,
-              doctorRate: item.partnerReviewsAvg!,
+          : RefreshIndicator(
+        onRefresh: ()async{
+          _pagingController.refresh();
+          pageNumber =1;
+        },
+            child: PagedListView<int, Sessions>(
+                    pagingController: _pagingController,
+                    physics: const BouncingScrollPhysics(),
+                    builderDelegate:
+                    PagedChildBuilderDelegate<Sessions>(
+            itemBuilder: (context, item, index) => Padding(
+              padding: EdgeInsets.symmetric(vertical: height * 0.003),
+              child:  GestureDetector(
+                onTap: (){
+                  context.read<DoctorCubit>().getDoctorDetails(id: item.partnerid!);
+                  navigateTo(context, DoctorDetailsScreen(id: item.partnerid!));
+                },
+                child: BookCardWidget(
+                  index: index,
+                  doctorId: item.partnerid!,
+                  status: item.status!,
+                  day: getDayName(item.sessionDate!, locale: CashHelper.getData(key: 'local') ?? 'en'),
+                  date: item.sessionDate!,
+                  time: convertTo12HourFormat(item.sessionStart!),
+                  name: item.partnerName!,
+                  image: item.partnerPic!,
+                  position: item.partnerPosition!,
+                  doctorRate: item.partnerReviewsAvg!,
+                  sessionId: item.sessionid!,
+                ),
+              ),
             ),
+            transitionDuration: const Duration(milliseconds: 500),
+            animateTransitions: true,
+            firstPageProgressIndicatorBuilder: (context) {
+              return Column(
+                children: [
+                  BuildShimmerLoadingWidget(),
+                  BuildShimmerLoadingWidget(),
+                  BuildShimmerLoadingWidget(),
+                  BuildShimmerLoadingWidget(),
+                  BuildShimmerLoadingWidget(),
+                ],
+              );
+            },
+            newPageProgressIndicatorBuilder: (context) {
+              return  Container(height: height*0.1,child: Center(child: CircularProgressIndicator(),),);
+            },
+              noItemsFoundIndicatorBuilder: (context){
+                return  BuildEmptyDataWidget(text: 'You do not have any book appointment yet',);
+              }
+                    ),
+                  ),
           ),
-          transitionDuration: const Duration(milliseconds: 900),
-          animateTransitions: true,
-          firstPageProgressIndicatorBuilder: (context) {
-            return Column(
-              children: [
-                BuildShimmerLoadingWidget(),
-                BuildShimmerLoadingWidget(),
-                BuildShimmerLoadingWidget(),
-                BuildShimmerLoadingWidget(),
-                BuildShimmerLoadingWidget(),
-              ],
-            );
-          },
-          newPageProgressIndicatorBuilder: (context) {
-            return  Container(height: height*0.1,child: Center(child: CircularProgressIndicator(),),);
-          },
-            noItemsFoundIndicatorBuilder: (context){
-              return  BuildEmptyDataWidget(text: 'You do not have any book appointment yet',);
-            }
-        ),
-      ),
     );
   }
 }

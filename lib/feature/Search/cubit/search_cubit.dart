@@ -17,7 +17,9 @@ class SearchCubit extends Cubit<SearchState> {
 
   SearchDoctorModel? searchDoctorModel;
 
-
+void startSearch(){
+  emit(state.copyWith(doctorSearchStatus: Status.initial));
+}
 
   Future<void> getDoctorSearch({required String query,required String id})async{
 
@@ -32,8 +34,9 @@ class SearchCubit extends Cubit<SearchState> {
           data: {
             'search_query' : query,
             'specialtyid' : id,
+            'search_sec' : 1,
           },
-          url: EndPoints.category_request,
+          url: EndPoints.search_doctor_request,
       ).then((value){
         searchDoctorModel = SearchDoctorModel.formJson(value.data);
         emit(state.copyWith(doctorSearchStatus: Status.success));

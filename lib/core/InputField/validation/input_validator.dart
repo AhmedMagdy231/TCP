@@ -29,6 +29,16 @@ class InputValidator{
   }
 
 
+  String?  whatsAppValidator(String? value){
+
+    if(value!.isEmpty) return null;
+   if(value!.length < 11 || value.length > 11)
+      return 'Phone Must Be 11 Number';
+
+    return null;
+
+  }
+
   String?  nameValidator(String? value){
 
     if(value == null || value.isEmpty)
@@ -60,6 +70,9 @@ class InputValidator{
     return null;
 
   }
+
+
+
 
 
 }

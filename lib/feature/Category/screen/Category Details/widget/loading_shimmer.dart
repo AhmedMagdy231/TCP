@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tricare_patient_application/core/component/components.dart';
+import 'package:tricare_patient_application/core/widgets/Build%20Container%20Widget/build_container_widget.dart';
 
+import '../../../../../core/component/Network Image/network_image.dart';
 import '../../../../../core/widgets/Show Rate/show_rate.dart';
 
 
@@ -12,7 +14,7 @@ class LoadingSimmerWidget extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return  SizedBox(
-      height: height * 0.18,
+      height: height * 0.2,
       width: width,
       child: Card(
 
@@ -21,13 +23,10 @@ class LoadingSimmerWidget extends StatelessWidget {
           child: BuildShimmer(
             child: Row(
               children: [
-                Container(
-                  height: height*0.15,
-                  width:  height*0.15,
-
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(8),
+                SizedBox(
+                  child: AspectRatio(
+                    aspectRatio: 1/1,
+                    child: Image.asset('assets/images/logo.png'),
                   ),
                 ),
                 Expanded(
@@ -38,21 +37,13 @@ class LoadingSimmerWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
 
-                        Text(
-                          'Loading...',
-                          style: Theme.of(context).textTheme.titleMedium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                       BuildContainer(height: height*0.01,width: width*0.6,),
+                        SizedBox(height: height*0.0015,),
+                       BuildContainer(height: height*0.01,width: width*0.4,),
+                        SizedBox(height: height*0.0015,),
+                       BuildContainer(height: height*0.01,width: width*0.2,),
 
-                        Text(
-                          'Loading...',
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.grey,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+
 
                         SizedBox(height: height*0.015,),
 
@@ -62,14 +53,7 @@ class LoadingSimmerWidget extends StatelessWidget {
                                 rate:  '5'
                             ),
                             const Spacer(),
-                            Text(
-                              'Loading...',
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            BuildContainer(height: height*0.01,width: width*0.15,),
 
                           ],
                         ),

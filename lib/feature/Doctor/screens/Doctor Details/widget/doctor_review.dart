@@ -27,7 +27,6 @@ class DoctorReviewWidget extends StatelessWidget {
             name: reviews[index].patientFullname!,
             image:  reviews[index].patientProfilepicture!,
             date:  reviews[index].reviewDate!,
-            title:  reviews[index].reviewTitle!,
             review:  reviews[index].reviewTxt!,
             rate:  reviews[index].reviewStars!,
           );
@@ -41,7 +40,6 @@ class DoctorReviewWidget extends StatelessWidget {
     required String name,
     required String image,
     required String date,
-    required String title,
     required String review,
     required String rate,
     required BuildContext context,
@@ -108,17 +106,17 @@ class DoctorReviewWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      maxLines: 1,
-                    ),
+
                     SizedBox(height: height*0.005,),
-                    Text(
-                        review,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                            '${review}',
+                          style: Theme.of(context).textTheme.bodySmall,
+
+
+                        ),
+                      ),
                     ),
                   ],
                 ),

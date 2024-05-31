@@ -33,7 +33,7 @@ class BuildProductItem extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Card(
-      margin: EdgeInsets.zero,
+      margin: EdgeInsets.symmetric(vertical: height*0.001),
 
       // decoration: BoxDecoration(
       //   color: context.read<GlobalCubit>().isLight? LightAppColor.foreGroundColors:
@@ -58,20 +58,16 @@ class BuildProductItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Expanded(
-                   flex: 1,
-                    child: Text(
-                      name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
+                  Text(
+                    name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
 
                   SizedBox(height: height*0.01,),
 
                   Expanded(
-                    flex: 3,
                     child: Text(
                       cleanHtmlToPlainText(description,maxLength: 200),
                       maxLines: 3,

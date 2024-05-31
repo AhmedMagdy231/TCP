@@ -2,12 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tricare_patient_application/core/connection/internet_connection.dart';
 import 'package:tricare_patient_application/core/constant/constant.dart';
+import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/feature/Doctor/model/doctor_details_model.dart';
 import 'package:tricare_patient_application/feature/Doctor/model/date_model.dart';
 
 import '../../../core/data structure/stack.dart';
 import '../../../core/network/Remote/DioHelper.dart';
 import '../../../core/network/endPoind.dart';
+import '../model/add_review_model.dart';
 import '../model/time_model.dart';
 
 part 'doctor_state.dart';
@@ -16,9 +18,12 @@ class DoctorCubit extends Cubit<DoctorState> {
   DoctorCubit() : super(DoctorState());
 
   DoctorDetailsModel? doctorDetailsModel;
+  AddReviewModel? addReviewModel;
   DateModel? dateModel;
   TimeModel? timeModel;
 
+
+  double ratingReview = 0;
   String selectBranchId = '';
   String selectDateId = '';
   String selectTimeId = '';
@@ -75,7 +80,7 @@ Future<void> getDoctorDetails({required  id})async{
         url: EndPoints.category_request,
       ).then((value) async {
 
-        doctorDetailsModel = DoctorDetailsModel.formJson(value.data);
+        doctorDetailsModel = DoctorDetailsModel.fromJson(value.data);
         stack.push(doctorDetailsModel!);
 
 
@@ -171,6 +176,44 @@ Future<void> getDate({required String doctorId, required String sessionBranch}) 
 
 
   }
+
+
+Future<void> addReview({
+  required String id,
+  required String reviewStar,
+  required String reviewText,
+}) async{
+
+  if(await _connect.isInternetConnected()){
+    emit(state.copyWith(addReviewStatus: Status.loading));
+    await Future.delayed(const Duration(seconds: 1));
+
+    await DioHelper.postData(
+      data: {
+        'id' : id,
+        'review_stars' : reviewStar,
+        'review_comment' : reviewText,
+      },
+      url: EndPoints.doctor_review,
+      token: CashHelper.getData(key: 'token'),
+    ).then((value){
+      print(value.data);
+      addReviewModel = AddReviewModel.formJson(value.data);
+      emit(state.copyWith(addReviewStatus: Status.success));
+
+    }).catchError((error){
+      debugPrint(error.toString());
+      emit(state.copyWith(addReviewStatus: Status.failure,));
+    });
+  }
+  else
+    {
+      emit(state.copyWith(addReviewStatus: Status.noInternet,));
+    }
+
+
+
+}
 
 
 

@@ -52,12 +52,12 @@ class BookAppointmentButton extends StatelessWidget {
                   navigateTo(
                     context,
                     BookAppointmentScreen(
-                      branches: context.read<DoctorCubit>().doctorDetailsModel!.data!.branches!,
+                      branches: context.read<DoctorCubit>().doctorDetailsModel!.data!.branches,
                       doctorImage: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerPic!,
                       doctorName: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerName!,
                       doctorPosition: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerPosition!,
                       doctorRate: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerReviewsAvg!,
-                      doctorId: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.pARTNERID!,
+                      doctorId: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerid!,
                     ),
                   );
                 },

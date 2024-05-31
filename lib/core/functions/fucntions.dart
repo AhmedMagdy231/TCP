@@ -41,6 +41,24 @@ String formatDate(date){
   );
 }
 
+
+int calculateDiscountPercentage(String originalPriceStr, String discountedPriceStr) {
+  try {
+    double originalPrice = double.parse(originalPriceStr);
+    double discountedPrice = double.parse(discountedPriceStr);
+    discountedPrice = originalPrice - discountedPrice;
+    double discount = ((originalPrice - discountedPrice) / originalPrice) * 100;
+    return discount.toInt();
+  } catch (e) {
+    print("Error: $e");
+    return 0;
+  }
+}
+
+bool hasDiscount(String discountedPriceStr){
+  return discountedPriceStr != '0';
+}
+
 String getDayName(String dateString, {String locale = 'en'}) {
   DateTime date = DateFormat('yyyy-MM-dd').parse(dateString);
   DateFormat dayFormat = DateFormat('EEEE', locale);

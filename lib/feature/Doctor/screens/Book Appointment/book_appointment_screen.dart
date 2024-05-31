@@ -8,16 +8,20 @@ import 'package:loading_btn/loading_btn.dart';
 import 'package:tricare_patient_application/core/component/Loading%20Button/loading_button.dart';
 import 'package:tricare_patient_application/core/constant/constant.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
+import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/core/utils/utils.dart';
 import 'package:tricare_patient_application/core/widgets/Down%20Button%20Stack/down_button_stack.dart';
+import 'package:tricare_patient_application/core/widgets/Login%20First/login_first_widget.dart';
 import 'package:tricare_patient_application/feature/Confirm%20Book%20Appointment/cubit/confirm_book_cubit.dart';
+import 'package:tricare_patient_application/feature/Confirm%20Book%20Appointment/screen/Success%20Confirm%20Screen/success_confirm_screen.dart';
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/widget/choose_branches_widget.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/widget/choose_date_widget.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/widget/choose_time_widget.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/widget/stepper_widget.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/widget/top_doctor_widget.dart';
-import '../../../Book/model/branch_model.dart';
+import 'package:tricare_patient_application/feature/Sessions/cubit/session_cubit.dart';
+
 import '../../model/doctor_details_model.dart';
 import '../../../Confirm Book Appointment/screen/Check Screen/check_screen.dart';
 
@@ -28,8 +32,13 @@ class BookAppointmentScreen extends StatelessWidget {
   final String doctorImage;
   final String doctorId;
   final List<Branches> branches;
+  final bool edit;
+  final String sessionId;
 
-  const BookAppointmentScreen({super.key, required this.doctorId,required this.doctorName, required this.doctorPosition, required this.doctorRate, required this.doctorImage, required this.branches});
+  const BookAppointmentScreen({super.key,
+    this.edit = false,
+    this.sessionId = '',
+    required this.doctorId,required this.doctorName, required this.doctorPosition, required this.doctorRate, required this.doctorImage, required this.branches});
 
 
 
@@ -84,7 +93,7 @@ class BookAppointmentScreen extends StatelessWidget {
               ),
             ),
 
-            ConfirmButton(width: width, height: height),
+            ConfirmButton(width: width, height: height,edit: edit,sessionId: sessionId,),
             // the mat
           ],
         ),
@@ -96,20 +105,23 @@ class BookAppointmentScreen extends StatelessWidget {
 class ConfirmButton extends StatelessWidget {
   final double width;
   final double height;
+  final bool edit;
+  final String sessionId;
 
-  const ConfirmButton({super.key, required this.width, required this.height});
+  const ConfirmButton({super.key,required this.sessionId,required this.edit,required this.width, required this.height});
 
   @override
   Widget build(BuildContext context) {
     return DownButtonStack(
       width: width,
       height: height,
-      button: BlocListener<ConfirmBookCubit, ConfirmBookState>(
-        listenWhen: (previous,current)=> previous.cartStatus != current.cartStatus,
+      button: edit?
+      BlocListener<SessionCubit, SessionState>(
+        listenWhen: (previous,current)=> previous.sessionEditStatus != current.sessionEditStatus,
         listener: (context, state) {
-          switch(state.cartStatus){
+          switch(state.sessionEditStatus){
             case Status.success:
-              if(context.read<ConfirmBookCubit>().cartModel!.hasError == true){
+              if(context.read<SessionCubit>().sessionEditModel!.hasError == true){
                 var snackBar = Utils.buildSnackBar2(
                     contentType: ContentType.failure,
                     context: context,
@@ -118,8 +130,8 @@ class ConfirmButton extends StatelessWidget {
               }
               else
               {
-
-                navigateTo(context, CartScreen(cartModel: context.read<ConfirmBookCubit>().cartModel!,));
+                Navigator.pop(context);
+                navigateTo(context, SuccessConfirmScreen(edit: true,));
 
               }
             default:
@@ -151,12 +163,118 @@ class ConfirmButton extends StatelessWidget {
                 }
 
 
-                await context.read<ConfirmBookCubit>().postCart(
-                  slotId: context.read<DoctorCubit>().selectTimeId,
-                );
+                if(edit)
+                {
+                  await context.read<SessionCubit>().editSessionEdit(
+                    sessionId: sessionId,
+                    slotId: context.read<DoctorCubit>().selectTimeId,
+                  );
+                }
+                else{
+                  await context.read<ConfirmBookCubit>().postCart(
+                    slotId: context.read<DoctorCubit>().selectTimeId,
+                  );
+                }
 
                 stopLoading();
               }
+            },
+            text: 'Confirm',
+          ),
+        ),
+      )
+      :BlocListener<ConfirmBookCubit, ConfirmBookState>(
+        listenWhen: (previous,current)=> previous.cartStatus != current.cartStatus,
+        listener: (context, state) {
+          switch(state.cartStatus){
+            case Status.success:
+              if(context.read<ConfirmBookCubit>().cartModel!.hasError == true){
+                var snackBar = Utils.buildSnackBar2(
+                    contentType: ContentType.failure,
+                    context: context,
+                    message: context.read<ConfirmBookCubit>().cartModel!.errors.join(' '));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+              else
+              {
+
+                navigateTo(context, CartScreen(cartModel: context.read<ConfirmBookCubit>().cartModel!,));
+
+              }
+            default:
+              return;
+
+
+          }
+
+        },
+        child: Center(
+          child: LoadingButton(
+            onTap: (startLoading, stopLoading, btnState) async {
+
+                if(CashHelper.getData(key: 'login') == true){
+                  if (btnState == ButtonState.idle) {
+                    startLoading();
+
+                    if (context.read<DoctorCubit>().activeStep != 3) {
+
+                      Utils.showDialog2(
+                        context: context,
+                        dialogType: DialogType.error,
+                        widget: Text(
+                          'Can not Confirm Book Appointment',
+                          style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                      return stopLoading();
+                    }
+
+
+                    if(edit)
+                    {
+                      await context.read<SessionCubit>().editSessionEdit(
+                        sessionId: sessionId,
+                        slotId: context.read<DoctorCubit>().selectTimeId,
+                      );
+                    }
+                    else{
+                      await context.read<ConfirmBookCubit>().postCart(
+                        slotId: context.read<DoctorCubit>().selectTimeId,
+                      );
+                    }
+
+                    stopLoading();
+                  }
+                }
+                else
+                {
+                    showDialog(
+                        context: context,
+
+                        builder: (context){
+                          return Dialog(
+
+                            elevation: 0,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding:  EdgeInsets.symmetric(vertical: height*0.05,horizontal: width*0.03),
+                                  child: BuildLoginFirst(
+                                      heightImage: width*0.4,
+                                      widthImage: width*0.4,
+                                      height: height,
+                                      width: width,
+                                     onDialog: true,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                    );
+                }
             },
             text: 'Confirm',
           ),

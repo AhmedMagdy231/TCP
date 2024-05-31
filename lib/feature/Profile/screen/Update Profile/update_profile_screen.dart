@@ -7,6 +7,7 @@ import 'package:loading_btn/loading_btn.dart';
 import 'package:tricare_patient_application/core/InputField/custom%20input/email_input_filed.dart';
 import 'package:tricare_patient_application/core/InputField/custom%20input/name_input_filed.dart';
 import 'package:tricare_patient_application/core/InputField/custom%20input/phone_input_filed.dart';
+import 'package:tricare_patient_application/core/InputField/custom%20input/whattsApp_input_filed.dart';
 import 'package:tricare_patient_application/core/component/Loading%20Button/loading_button.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 import 'package:tricare_patient_application/core/widgets/Build%20Password%20First/build_password_first.dart';
@@ -27,7 +28,7 @@ class UpdateProfile extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return PopScope(
       canPop: true,
-      onPopInvoked: (didPop)async{
+      onPopInvoked: (didPop) async {
         FocusScope.of(context).unfocus();
         await Future.delayed(Duration(seconds: 1));
       },
@@ -43,29 +44,22 @@ class UpdateProfile extends StatelessWidget {
             children: [
               BlocConsumer<ProfileCubit, ProfileState>(
                 listener: (context, state) {
-
-                  if(state is ChangeProfileSuccess){
+                  if (state is ChangeProfileSuccess) {
                     Navigator.pop(context);
 
-                    if(state.hasError){
+                    if (state.hasError) {
                       var snackBar = Utils.buildSnackBar2(
                           contentType: ContentType.failure,
                           context: context,
                           message: state.errors[0]);
-                      ScaffoldMessenger.of(
-                          context)
-                          .showSnackBar(snackBar);
-                    }
-                    else{
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
                       context.read<ProfileCubit>().postUserData();
                       var snackBar = Utils.buildSnackBar2(
                           contentType: ContentType.success,
                           context: context,
                           message: state.messages[0]);
-                      ScaffoldMessenger.of(
-                          context)
-                          .showSnackBar(snackBar);
-
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   }
                 },
@@ -119,6 +113,20 @@ class UpdateProfile extends StatelessWidget {
                               edit: true,
                             ),
                             SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Text(
+                              'WhatsApp',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            SizedBox(
+                              height: height * 0.01,
+                            ),
+                            WhatsAppFiled(
+                              controller: cubit.whatsAppController,
+                              edit: true,
+                            ),
+                            SizedBox(
                               height: height * 0.01,
                             ),
                             Text(
@@ -157,7 +165,44 @@ class UpdateProfile extends StatelessWidget {
                               },
                             ),
                             SizedBox(
-                              height: height * 0.12,
+                              height: height * 0.05,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: height*0.01,horizontal: width*0.04),
+                              decoration: BoxDecoration(
+                                color: AppColor.primaryColor.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Enable WhatsApp Message',
+                                    style: Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  Spacer(),
+                                  StatefulBuilder(builder: (context, setState) {
+                                    return Switch(
+                                      value: context
+                                              .read<ProfileCubit>()
+                                              .whatsAppEnable ==
+                                          "1",
+                                      onChanged: (value) {
+                                        if (value == false) {
+                                          context
+                                              .read<ProfileCubit>()
+                                              .whatsAppEnable = "0";
+                                        } else {
+                                          context
+                                              .read<ProfileCubit>()
+                                              .whatsAppEnable = "1";
+                                        }
+
+                                        setState(() {});
+                                      },
+                                    );
+                                  }),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -172,15 +217,29 @@ class UpdateProfile extends StatelessWidget {
                 button: BuildProfileButton(
                   formKey: formKey,
                   passwordController: passwordController,
-
                   textButton: 'Update Profile',
                   futureFunction: () async {
                     await context.read<ProfileCubit>().updateProfile(
-                          name: context.read<ProfileCubit>().nameController.text.trim(),
-                          email: context.read<ProfileCubit>().emailController.text.trim(),
+                          name: context
+                              .read<ProfileCubit>()
+                              .nameController
+                              .text
+                              .trim(),
+                          email: context
+                              .read<ProfileCubit>()
+                              .emailController
+                              .text
+                              .trim(),
                           timeZone: '+02:00',
-                          type: context.read<ProfileCubit>().typeGender.toString(),
-                          phone: context.read<ProfileCubit>().phoneController.text.trim(),
+                          type: context
+                              .read<ProfileCubit>()
+                              .typeGender
+                              .toString(),
+                          phone: context
+                              .read<ProfileCubit>()
+                              .phoneController
+                              .text
+                              .trim(),
                           password: passwordController.text.trim(),
                         );
                   },

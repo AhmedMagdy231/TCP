@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:tricare_patient_application/core/constant/constant.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/feature/Book/cubit/book_cubit.dart';
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/book_appointment_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/globle/color/shared_color.dart';
 import '../../../../core/widgets/Build Circle Image/build_circle_image.dart';
@@ -20,6 +22,7 @@ class BookCardWidget extends StatelessWidget {
   final int index;
   final String doctorId;
   final String doctorRate;
+  final String sessionId;
 
 
   const BookCardWidget({
@@ -34,11 +37,30 @@ class BookCardWidget extends StatelessWidget {
     required this.doctorId,
     required this.index,
     required this.doctorRate,
-
+    required this.sessionId,
   });
+
+  Color getColorStatus(String status){
+
+
+
+    switch(status){
+      case "Pending":
+        return AppColor.primaryColor;
+      case 'Finished':
+        return Colors.green;
+      default:
+
+        return Colors.red;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     var height = MediaQuery
         .of(context)
         .size
@@ -61,7 +83,7 @@ class BookCardWidget extends StatelessWidget {
                       .textTheme
                       .titleMedium!
                       .copyWith(
-                    color: Colors.green,
+                    color: getColorStatus(status),
                   ),
                 ),
                 SizedBox(
@@ -149,7 +171,15 @@ class BookCardWidget extends StatelessWidget {
                 BuildButtonWidget(
                   icon: Icons.location_on_outlined,
                   text: 'Map',
-                  onTap: () {},
+                  onTap: () async{
+                    final availableMaps = await MapLauncher.installedMaps;
+                    // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
+
+                    await availableMaps.first.showMarker(
+                      coords: Coords(double.parse('30.105751'), double.parse('31.344614')),
+                      title: 'Tricare',
+                    );
+                  },
                 ),
                 BlocConsumer<BookCubit, BookState>(
                   listener: (context, state) {
@@ -158,7 +188,10 @@ class BookCardWidget extends StatelessWidget {
                             .read<BookCubit>()
                             .selectIndex) {
                       navigateTo(context,
-                          BookAppointmentScreen(doctorId: doctorId,
+                          BookAppointmentScreen(
+                            edit: true,
+                            sessionId: sessionId,
+                            doctorId: doctorId,
                             doctorName: name,
                             doctorPosition: position,
                             doctorRate: doctorRate,
@@ -208,7 +241,13 @@ class BookCardWidget extends StatelessWidget {
                 BuildButtonWidget(
                   icon: Icons.call,
                   text: 'support',
-                  onTap: () {},
+                  onTap: () {
+                    String url =
+                        'tel: 01020022351';
+                    final Uri _url = Uri.parse(url);
+                    launchUrl(_url,
+                        mode: LaunchMode.externalApplication);
+                  },
                 ),
               ],
             ),

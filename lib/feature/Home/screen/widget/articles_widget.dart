@@ -17,9 +17,9 @@ class ArticlesWidget extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: height * 0.25,
+      height: height * 0.26,
       width: width,
-      child: ListView.builder(
+      child: ListView.separated(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           itemCount: articles.length,
@@ -38,7 +38,7 @@ class ArticlesWidget extends StatelessWidget {
                 );
               },
               child: SizedBox(
-                height: height * 0.2,
+                height: height * 0.25,
                 width: width * 0.5,
                 child: BuildProductItem(
                   image: articles[index].pagePic!,
@@ -47,7 +47,11 @@ class ArticlesWidget extends StatelessWidget {
                 ),
               ),
             );
-          }),
+          },
+          separatorBuilder: (context,index){
+            return SizedBox(width: width*0.02,);
+          },
+          ),
     );
   }
 }

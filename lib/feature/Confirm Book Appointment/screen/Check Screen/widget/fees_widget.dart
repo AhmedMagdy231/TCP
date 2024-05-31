@@ -12,10 +12,15 @@ class FeesWidget extends StatelessWidget {
 
   final double width;
   final double height;
-  final String value;
+  final String price;
+  final String priceAfterDiscount;
 
 
-  const FeesWidget({super.key, required this.width, required this.height, required this.value});
+  const FeesWidget({
+    super.key, required this.width,
+    required this.height,
+    required this.priceAfterDiscount,
+  required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +46,21 @@ class FeesWidget extends StatelessWidget {
         Spacer(),
         Padding(
           padding:  EdgeInsets.symmetric(horizontal: width*0.03),
-          child: Text(
-            '${value} EGP',
-            style: Theme.of(context).textTheme.titleMedium,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '${int.parse(price) - int.parse(priceAfterDiscount)}',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              SizedBox(width: 5,),
+              Text(
+                'EGP',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+
+
+            ],
           ),
         ),
 

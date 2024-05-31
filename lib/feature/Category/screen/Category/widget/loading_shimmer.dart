@@ -9,13 +9,12 @@ class LoadingSimmerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return  ListView.builder(
-
-        itemCount: 20,
-        itemBuilder: (context,index){
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: height*0.005),
-            child: SizedBox(
+    return  Expanded(
+      child: ListView.builder(
+      
+          itemCount: 20,
+          itemBuilder: (context,index){
+            return SizedBox(
               height: height * 0.1,
               width: width,
               child: Card(
@@ -45,10 +44,10 @@ class LoadingSimmerWidget extends StatelessWidget {
 
 
               ),
-            ),
-          );
-        },
-
+            );
+          },
+      
+      ),
     );
   }
 }

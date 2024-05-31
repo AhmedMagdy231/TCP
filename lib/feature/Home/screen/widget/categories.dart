@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/component/Network%20Image/network_image.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
@@ -28,12 +30,13 @@ class BuildCategoriesWidget extends StatelessWidget {
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4, // number of items in each row
-          mainAxisSpacing: 8.0, // spacing between rows
-          crossAxisSpacing: 8.0, // spacing between columns
+          mainAxisSpacing: 4.0, // spacing between rows
+          crossAxisSpacing: 4.0, // spacing between columns
+          childAspectRatio: 1/1.3
 
 
         ),
-        itemCount: categories.length,
+        itemCount: 8,
         itemBuilder: (context,index){
           return  InkWell(
             onTap: (){
@@ -43,29 +46,39 @@ class BuildCategoriesWidget extends StatelessWidget {
                 id:  categories[index].sPECIALTYID!,
               ));
             },
-            child: Column(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    width: width,
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: BuildImage(
-                          image: categories[index].specialtyPic!,
+            child: Container(
+              //color: Colors.red,
+              child: Column(
+                children: [
 
+                  Expanded(
+                   flex: 5,
+                    child: SizedBox(
+                      width: width,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: BuildImage(
+                            image: categories[index].specialtyPic!,
+
+
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Text(
-                  categories[index].specialtyTitle!,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleSmall,
-                )
-              ],
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      categories[index].specialtyTitle!,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         }
