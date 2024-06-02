@@ -5,9 +5,12 @@ import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/core/widgets/Carousel%20Widget/build_list_title.dart';
 import 'package:tricare_patient_application/feature/Authentication/screens/Login/login_screen.dart';
+import 'package:tricare_patient_application/feature/Drawer/cubit/drawer_cubit.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
+import 'package:tricare_patient_application/feature/Profile/screen/Main%20Profile/widget/social_widget.dart';
 import 'package:tricare_patient_application/feature/Profile/screen/Profile/profile_screen.dart';
 
+import '../../../../core/component/components.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../Authentication/Goolge/google.dart';
 
@@ -17,55 +20,80 @@ class MainProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          children: [
-            BuildListTitle(
-              text: 'Profile',
-              iconName: 'user.svg',
-              function: () {
-                navigateTo(context, ProfileScreen());
-              },
-            ),
-            BuildListTitle(
-              text: 'Setting',
-              iconName: 'setting.svg',
-              function: () {},
-            ),
-            BuildListTitle(
-              text: 'Favorite',
-              iconName: 'favorite.svg',
-              function: () {},
-            ),
+        body: BlocBuilder<DrawerCubit,DrawerState>(
 
-            BlocBuilder<ProfileCubit, ProfileState>(
-              builder: (context, state) {
-                return BuildListTitle(
-                  text: CashHelper.getData(key: 'login') == null
-                      ? 'Login'
-                      : 'Log out',
-                  iconName: CashHelper.getData(key: 'login') == null
-                      ? 'login.svg'
-                      : 'logout.svg',
+          builder: (BuildContext context, DrawerState state) {
+            return context.read<DrawerCubit>().settingUrlModel == null?
+            BuildShimmer(
+              child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 9,
+                  itemBuilder: (context,index){
+                    return   BuildListTitle(
+                      text: 'Loading...',
+                      iconName: 'loading.svg',
+                      function: (){},
+                    );
+                  }
+              ),
+            )  :
+            Column(
+              children: [
+                BuildListTitle(
+                  text: 'Profile',
+                  iconName: 'user.svg',
                   function: () {
-                    if (CashHelper.getData(key: 'login') == null) {
-                      navigateTo(context, LoginScreen());
-                    }
-                    else {
-                      var snackBar = Utils.buildSnackBar2(
-                        context: context,
-                        contentType: ContentType.success,
-
-                        message: 'Logout Successfully',
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      context.read<ProfileCubit>().logOut();
-
-                    }
+                    navigateTo(context, ProfileScreen());
                   },
-                );
-              },
-            ),
-          ],
-        ));
+                ),
+                BuildListTitle(
+                  text: 'Setting',
+                  iconName: 'setting.svg',
+                  function: () {},
+                ),
+                BuildListTitle(
+                  text: 'Favorite',
+                  iconName: 'favorite.svg',
+                  function: () {},
+                ),
+
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, state) {
+                    return BuildListTitle(
+                      text: CashHelper.getData(key: 'login') == null
+                          ? 'Login'
+                          : 'Log out',
+                      iconName: CashHelper.getData(key: 'login') == null
+                          ? 'login.svg'
+                          : 'logout.svg',
+                      function: () {
+                        if (CashHelper.getData(key: 'login') == null) {
+                          navigateTo(context, LoginScreen());
+                        }
+                        else {
+                          var snackBar = Utils.buildSnackBar2(
+                            context: context,
+                            contentType: ContentType.success,
+
+                            message: 'Logout Successfully',
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          context.read<ProfileCubit>().logOut();
+
+                        }
+                      },
+                    );
+                  },
+                ),
+
+                SocialProfileWidget(),
+
+              ],
+            );
+          },
+
+        ),
+    );
   }
 }

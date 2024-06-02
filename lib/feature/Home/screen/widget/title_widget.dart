@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../generated/l10n.dart';
+
 class TitleWidget extends StatelessWidget {
   final String title;
   final void Function()? onTap;
@@ -28,7 +30,7 @@ class TitleWidget extends StatelessWidget {
         InkWell(
             onTap: onTap,
             child: Text(
-              'See All',
+              S.of(context).seeAll,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: Colors.grey,
               ),

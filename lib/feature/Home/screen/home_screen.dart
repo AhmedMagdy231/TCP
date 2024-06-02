@@ -15,6 +15,7 @@ import 'package:tricare_patient_application/feature/Home/screen/widget/great_per
 import 'package:tricare_patient_application/feature/Home/screen/widget/top_partner_widget.dart';
 import 'package:tricare_patient_application/feature/Category/cubit/category_cubit.dart';
 import 'package:tricare_patient_application/feature/Category/screen/Category/category_screen.dart';
+import '../../../generated/l10n.dart';
 import '../../Articles/screen/Articles Category/articles_category_screen.dart';
 import '../../HomeLayout/cubit/app_cubit.dart';
 import 'widget/loading_shimmer.dart';
@@ -23,15 +24,6 @@ import 'widget/title_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-
-  TextEditingController searchController = TextEditingController();
-
-  List<String> images = [
-    'https://www.shutterstock.com/image-photo/medicine-healthcare-people-concept-female-600nw-2188588635.jpg',
-    'https://www.shutterstock.com/image-photo/smiling-young-female-doctor-shake-600nw-1930973966.jpg',
-    'https://www.shutterstock.com/image-photo/female-doctor-holding-application-form-600nw-158366573.jpg',
-  ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                   const GetStarted(),
 
                   TitleWidget(
-                    title: 'Specialties',
+                    title: S.of(context).specialties,
                     onTap: () {
                       context.read<CategoryCubit>().getCategoryData();
                       navigateTo(context,  CategoryScreen());
@@ -89,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   TitleWidget(
-                    title: 'Articles',
+                    title: S.of(context).articles,
                     onTap: () {
                       context.read<ArticleCubit>().getArticleCategoryData();
                       navigateTo(context, ArticlesCategoryScreen());
@@ -99,8 +91,8 @@ class HomeScreen extends StatelessWidget {
                   ArticlesWidget(
                       articles: cubit.homeModel!.data!.latestPages!),
 
-                  const TitleWidget(
-                    title: 'Top Doctor',
+                   TitleWidget(
+                    title: S.of(context).topDoctor,
                     seeAll: false,
                   ),
 

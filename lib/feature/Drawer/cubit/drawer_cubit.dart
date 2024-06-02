@@ -13,7 +13,7 @@ part 'drawer_state.dart';
 class DrawerCubit extends Cubit<DrawerState> {
   DrawerCubit() : super(DrawerInitial());
 
-  SettingModel? settingModel;
+  SettingModel? settingUrlModel;
   TosModel? tosModel;
   AboutUsModel? aboutUsModel;
   final _connect = ConnectionService();
@@ -23,7 +23,7 @@ class DrawerCubit extends Cubit<DrawerState> {
   Future<void> getSettingData() async {
 
     if(await _connect.isInternetConnected()){
-      if(settingModel == null){
+      if(settingUrlModel == null){
         emit(GetSettingDataLoading());
         await Future.delayed(const Duration(seconds: 1));
 
@@ -33,7 +33,7 @@ class DrawerCubit extends Cubit<DrawerState> {
 
         ).then((value) {
 
-          settingModel = SettingModel.formJson(value.data);
+          settingUrlModel = SettingModel.formJson(value.data);
           emit(GetSettingDataSuccess());
         }).catchError((error) {
           print(error.toString());

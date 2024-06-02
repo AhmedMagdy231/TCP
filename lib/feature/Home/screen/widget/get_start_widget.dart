@@ -7,6 +7,7 @@ import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 
 
 import '../../../../core/globle/color/dark_app_color.dart';
+import '../../../../generated/l10n.dart';
 
 class GetStarted extends StatelessWidget {
 
@@ -41,7 +42,7 @@ class GetStarted extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Your Health is Good With TriCare',
+                      S.of(context).yourHealthIsGoodWithTricare,
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Colors.white,
                       ),
@@ -63,7 +64,7 @@ class GetStarted extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           )
                       ),
-                      child:  Text('Book'),
+                      child:  Text(S.of(context).book),
                     ),
 
                   ],

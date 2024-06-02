@@ -10,6 +10,7 @@ import 'package:tricare_patient_application/feature/Category/screen/Category/cat
 import 'package:tricare_patient_application/feature/Drawer%20Screen/About%20Us%20Screen/about_us_screen.dart';
 import 'package:tricare_patient_application/feature/Drawer%20Screen/Tos%20Screen/tos_screen.dart';
 import 'package:tricare_patient_application/feature/Drawer/cubit/drawer_cubit.dart';
+import 'package:tricare_patient_application/feature/Drawer/screen/widget/social_url_widget.dart';
 import 'package:tricare_patient_application/feature/HomeLayout/cubit/app_cubit.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 
@@ -78,6 +79,8 @@ class DrawerUnLoginWidget extends StatelessWidget {
 
           },
         ),
+
+        SocialUrlWidget(),
 
 
       ],

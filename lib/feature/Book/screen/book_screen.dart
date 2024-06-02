@@ -47,7 +47,7 @@ class _BookScreenState extends State<BookScreen> {
 
   @override
   void dispose() {
-    _pagingController.dispose();
+
     super.dispose();
   }
 

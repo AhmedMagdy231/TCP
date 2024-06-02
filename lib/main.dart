@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -30,6 +31,7 @@ import 'package:tricare_patient_application/feature/test.dart';
 import 'bloc_observer.dart';
 import 'feature/Notification/cubit/notification_cubit.dart';
 import 'firebase_options.dart';
+import 'generated/l10n.dart';
 
 
 
@@ -71,7 +73,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ConfirmBookCubit()),
         BlocProvider(create: (context) => ArticleCubit()),
         BlocProvider(create: (context) => BookCubit()),
-        BlocProvider(create: (context) => DrawerCubit()),
+        BlocProvider(create: (context) => DrawerCubit()..getSettingData()),
         BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => SessionCubit()),
         BlocProvider(create: (context) => NotificationCubit()),
@@ -82,6 +84,14 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<GlobalCubit, GlobalState>(
         builder: (context, state) {
           return MaterialApp(
+            locale: Locale('en'),
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
             title: 'TriCare',
             debugShowCheckedModeBanner: false,
             theme: AppLightTheme.lightThemeData,
