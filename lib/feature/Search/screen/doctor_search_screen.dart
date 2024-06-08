@@ -110,47 +110,9 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                                           ));
                                     },
                                     child: DoctorWidget(
+                                      comeFrom: ComeFrom.Search,
                                       index: index,
-                                      item: cubit.searchDoctorModel!.data!
-                                          .partners![index],
-                                      doctorId: cubit.searchDoctorModel!.data!
-                                          .partners![index].partnerid!,
-
-                                      image: cubit.searchDoctorModel!.data!
-                                          .partners![index].partnerPic!,
-                                      name: cubit.searchDoctorModel!.data!
-                                          .partners![index].partnerName!,
-                                      position: cubit.searchDoctorModel!.data!
-                                          .partners![index].partnerPosition!,
-                                      avgRate: cubit
-                                          .searchDoctorModel!
-                                          .data!
-                                          .partners![index]
-                                          .partnerReviewsAvg!,
-                                      totalReview: cubit
-                                          .searchDoctorModel!
-                                          .data!
-                                          .partners![index]
-                                          .partnerReviewsTotal!,
-
-                                      price: cubit
-                                          .searchDoctorModel!
-                                          .data!
-                                          .partners![index]
-                                          .partnerSessionPrice!,
-
-                                      discountValue: cubit
-                                          .searchDoctorModel!
-                                          .data!
-                                          .partners![index]
-                                          .partnerSessionDiscount!,
-
-                                      favourite: cubit
-                                          .searchDoctorModel!
-                                          .data!
-                                          .partners![index]
-                                          .partnerBookmarkId == '0'? false: true,
-
+                                      item: cubit.searchDoctorModel!.data!.partners![index],
                                       width: width,
                                       height: height,
                                     ),

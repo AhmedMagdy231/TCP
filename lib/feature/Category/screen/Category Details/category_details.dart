@@ -154,16 +154,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                             ));
                       },
                       child: DoctorWidget(
+                        comeFrom: ComeFrom.CategoryDetails,
                         index: index,
-                        image: item.partnerPic!,
-                        name: item.partnerName!,
-                        position: item.partnerPosition!,
-                        avgRate: item.partnerReviewsAvg!,
-                        totalReview: item.partnerReviewsTotal!,
-                        price: item.partnerSessionPrice!,
-                        discountValue: item.partnerSessionDiscount!,
-                        favourite: item.bookmark,
-                        doctorId: item.partnerid!,
                         item: item,
                         width: width,
                         height: height,

@@ -15,6 +15,7 @@ import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/Carousel Widget/build_list_title.dart';
 import '../../../Articles/cubit/article_cubit.dart';
+import '../../../Bookmark/screens/bookmark_screen.dart';
 import 'top_widget.dart';
 
 
@@ -50,6 +51,13 @@ class DrawerLoginWidget extends StatelessWidget {
 
             context.read<CategoryCubit>().getCategoryData();
             navigateTo(context, CategoryScreen());
+          },
+        ),
+        BuildListTitle(
+          text: 'Favorite',
+          iconName: 'favorite.svg',
+          function: () {
+            navigateTo(context, BookMarkScreen());
           },
         ),
         BuildListTitle(

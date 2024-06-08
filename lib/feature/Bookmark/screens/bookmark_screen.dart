@@ -111,17 +111,9 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
                         ));
                   },
                   child: DoctorWidget(
-                    image: item.partnerPic!,
-                    name: item.partnerName!,
-                    position: item.partnerPosition!,
-                    avgRate: item.partnerReviewsAvg!,
-                    totalReview: item.partnerReviewsTotal!,
-                    price: item.partnerSessionPrice!,
-                    discountValue: item.partnerSessionDiscount!,
-                    favourite: item.bookmark,
+                    comeFrom: ComeFrom.Bookmark,
                     item: item,
                     pagingController: _pagingController,
-                    doctorId: item.partnerid!,
                     index: index,
                     width: width,
                     height: height,
@@ -154,7 +146,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
               },
               noItemsFoundIndicatorBuilder: (context) {
                 return BuildEmptyDataWidget(
-                  text: 'No doctor found in this Speciality',
+                  text: 'Empty Favourite',
                 );
               }),
         ),

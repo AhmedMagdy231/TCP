@@ -13,36 +13,24 @@ import '../../component/Network Image/network_image.dart';
 import '../../functions/fucntions.dart';
 import '../Show Rate/show_rate.dart';
 
+enum ComeFrom  {Search,Bookmark,CategoryDetails}
+
 class DoctorWidget extends StatelessWidget {
-  final String image;
-  final String name;
-  final String position;
-  final String avgRate;
-  final String totalReview;
-  final String price;
-  final String discountValue;
+
   final double height;
   final double width;
-  final bool favourite;
   final PagingController<int, Partners>? pagingController;
-  final String doctorId;
   final int index;
   final Partners item;
+  final ComeFrom comeFrom;
+
 
   const DoctorWidget({
     super.key,
-    required this.image,
-    required this.name,
-    required this.position,
-    required this.avgRate,
-    required this.totalReview,
     required this.width,
     required this.height,
-    required this.price,
-    required this.discountValue,
-    required this.favourite,
+    required this.comeFrom,
     required this.index,
-    required this.doctorId,
     required this.item,
      this.pagingController,
   });
@@ -50,7 +38,8 @@ class DoctorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-   bool currentFavourite = favourite;
+
+   bool currentFavourite = item.bookmark;
 
     return SizedBox(
       width: width,
@@ -64,7 +53,7 @@ class DoctorWidget extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 1/1,
                   child: BuildImage(
-                    image: image,
+                    image: item.partnerPic!,
                     radius: 8,
                   ),
                 ),
@@ -84,13 +73,13 @@ class DoctorWidget extends StatelessWidget {
 
                         children: [
 
-                          if(hasDiscount(discountValue))
+                          if(hasDiscount(item.partnerSessionDiscount!))
                           Container(
 
                             padding: EdgeInsets.symmetric(horizontal: width*0.04,vertical: 2),
                             margin: EdgeInsets.only(bottom: height*0.005),
                             child: Text(
-                              '${calculateDiscountPercentage(price, discountValue)}%',
+                              '${calculateDiscountPercentage(item.partnerSessionPrice!, item.partnerSessionDiscount!)}%',
                               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                 color: Colors.white,
                               ),
@@ -108,17 +97,22 @@ class DoctorWidget extends StatelessWidget {
                                   onPressed: () async {
                                     if(currentFavourite){
 
+
+                                      Utils.showLoadingDialog(context);
+                                    await  context.read<BookMarkCubit>().changeBookmark(
+                                          id: item.partnerid!,
+                                          action: 'remove'
+                                      );
+                                      Navigator.pop(context);
+
                                       setState((){
                                         currentFavourite  = !currentFavourite;
                                       });
+                                      item.bookmark = currentFavourite;
 
-
-                                      pagingController!.itemList!.removeAt(index);
-                                      context.read<BookMarkCubit>().refreshPage();
-                                      context.read<BookMarkCubit>().changeBookmark(
-                                          id: doctorId,
-                                          action: 'remove'
-                                      );
+                                      if(comeFrom == ComeFrom.Bookmark){
+                                        pagingController!.itemList!.removeAt(index);
+                                      }
 
 
                                     }
@@ -127,7 +121,7 @@ class DoctorWidget extends StatelessWidget {
 
                                       Utils.showLoadingDialog(context);
                                       await  context.read<BookMarkCubit>().changeBookmark(
-                                          id: doctorId,
+                                          id: item.partnerid!,
                                           action: 'add'
                                       );
                                       Navigator.pop(context);
@@ -154,7 +148,7 @@ class DoctorWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              name,
+                              item.partnerName!,
                               style: Theme.of(context).textTheme.titleMedium,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -168,9 +162,9 @@ class DoctorWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
 
-                                if(hasDiscount(discountValue))
+                                if(hasDiscount(item.partnerSessionDiscount!))
                                   Text(
-                                    '${price} EGP',
+                                    '${item.partnerSessionPrice!} EGP',
                                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                       color: Colors.grey,
                                       decoration: TextDecoration.lineThrough,
@@ -181,7 +175,7 @@ class DoctorWidget extends StatelessWidget {
                                 SizedBox(width: 5,),
 
                                 Text(
-                                  '${int.parse(price) - int.parse(discountValue)} EGP',
+                                  '${int.parse(item.partnerSessionPrice!) - int.parse(item.partnerSessionDiscount!)} EGP',
                                   style: Theme.of(context).textTheme.titleLarge,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -199,11 +193,11 @@ class DoctorWidget extends StatelessWidget {
                             Row(
                               children: [
                                 ShowRateStar(
-                                  rate: avgRate,
+                                  rate: item.partnerReviewsAvg!,
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '${avgRate} (${totalReview} review)',
+                                  '${item.partnerReviewsAvg!} (${item.partnerReviewsTotal} review)',
                                   style:
                                   Theme.of(context).textTheme.bodyLarge!.copyWith(),
                                   maxLines: 1,
