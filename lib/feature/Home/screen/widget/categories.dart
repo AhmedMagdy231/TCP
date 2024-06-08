@@ -30,9 +30,9 @@ class BuildCategoriesWidget extends StatelessWidget {
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4, // number of items in each row
-          mainAxisSpacing: 4.0, // spacing between rows
-          crossAxisSpacing: 4.0, // spacing between columns
-          childAspectRatio: 1/1.3
+          mainAxisSpacing: 0.0, // spacing between rows
+          crossAxisSpacing: 0.0, // spacing between columns
+          childAspectRatio: 1/1.5
 
 
         ),
@@ -52,7 +52,7 @@ class BuildCategoriesWidget extends StatelessWidget {
                 children: [
 
                   Expanded(
-                   flex: 5,
+                   flex: 6,
                     child: SizedBox(
                       width: width,
                       child: Card(
@@ -68,10 +68,10 @@ class BuildCategoriesWidget extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: Text(
-                      categories[index].specialtyTitle!,
-                      maxLines: 2,
+                      '${categories[index].specialtyTitle!}',
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall,
                       textAlign: TextAlign.center,

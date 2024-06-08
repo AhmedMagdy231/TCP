@@ -131,6 +131,7 @@ class Partner {
     required this.partnerReviewsAvg,
     required this.specialtyTitle,
     required this.partnerDescription,
+    required this.partnerBookmark,
   });
 
   final String? partnerid;
@@ -147,6 +148,7 @@ class Partner {
   final String? partnerReviewsTotal;
   final String? partnerReviewsAvg;
   final String? specialtyTitle;
+  final String? partnerBookmark;
 
   factory Partner.fromJson(Map<String, dynamic> json){
     return Partner(
@@ -164,6 +166,7 @@ class Partner {
       partnerReviewsTotal: json["partner_reviews_total"],
       partnerReviewsAvg: json["partner_reviews_avg"],
       specialtyTitle: json["specialty_title"],
+      partnerBookmark: json['PARTBOOMARKID'].toString(),
     );
   }
 

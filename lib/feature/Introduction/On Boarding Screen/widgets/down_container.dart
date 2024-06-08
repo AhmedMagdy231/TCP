@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
+import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/feature/Authentication/screens/Login/login_screen.dart';
 
 import '../../../../core/component/ElevatedButton Widget/build_elevated_button.dart';
@@ -61,6 +62,7 @@ class BuildDownContainer extends StatelessWidget {
               width: width,
               child: OutlinedButton(
                 onPressed: () {
+                  CashHelper.prefs.setBool('first', false);
                   navigateToToFinish(context, HomeLayoutScreen());
                 },
                 style: OutlinedButton.styleFrom(

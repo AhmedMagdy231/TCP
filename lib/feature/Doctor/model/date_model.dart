@@ -54,9 +54,9 @@ class Dates {
     DateTime date = DateTime.parse(text!);
 
 
-    var arabicFormat = DateFormat('EEE', 'en');
-    monthName = arabicFormat.format(date);
-    dayNumber = DateFormat('dd', 'en').format(date);
+    var format = DateFormat('EEE', Intl.getCurrentLocale());
+    monthName = format.format(date);
+    dayNumber = DateFormat('dd', Intl.getCurrentLocale()).format(date);
 
 
 

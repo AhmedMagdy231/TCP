@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tricare_patient_application/core/Global%20Cubit/global_cubit.dart';
 import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
+import 'package:tricare_patient_application/core/utils/utils.dart';
+import 'package:tricare_patient_application/feature/Bookmark/cubit/book_mark_cubit.dart';
 
+import '../../../feature/Category/model/category_details_model.dart';
 import '../../component/Network Image/network_image.dart';
 import '../../functions/fucntions.dart';
 import '../Show Rate/show_rate.dart';
@@ -18,6 +23,11 @@ class DoctorWidget extends StatelessWidget {
   final String discountValue;
   final double height;
   final double width;
+  final bool favourite;
+  final PagingController<int, Partners>? pagingController;
+  final String doctorId;
+  final int index;
+  final Partners item;
 
   const DoctorWidget({
     super.key,
@@ -30,12 +40,17 @@ class DoctorWidget extends StatelessWidget {
     required this.height,
     required this.price,
     required this.discountValue,
+    required this.favourite,
+    required this.index,
+    required this.doctorId,
+    required this.item,
+     this.pagingController,
   });
 
   @override
   Widget build(BuildContext context) {
 
-
+   bool currentFavourite = favourite;
 
     return SizedBox(
       width: width,
@@ -64,10 +79,12 @@ class DoctorWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      if(hasDiscount(discountValue))
+
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+
                         children: [
+
+                          if(hasDiscount(discountValue))
                           Container(
 
                             padding: EdgeInsets.symmetric(horizontal: width*0.04,vertical: 2),
@@ -83,6 +100,51 @@ class DoctorWidget extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
+                          Spacer(),
+
+                          StatefulBuilder(
+                            builder: (context,setState){
+                              return IconButton(
+                                  onPressed: () async {
+                                    if(currentFavourite){
+
+                                      setState((){
+                                        currentFavourite  = !currentFavourite;
+                                      });
+
+
+                                      pagingController!.itemList!.removeAt(index);
+                                      context.read<BookMarkCubit>().refreshPage();
+                                      context.read<BookMarkCubit>().changeBookmark(
+                                          id: doctorId,
+                                          action: 'remove'
+                                      );
+
+
+                                    }
+                                    else
+                                    {
+
+                                      Utils.showLoadingDialog(context);
+                                      await  context.read<BookMarkCubit>().changeBookmark(
+                                          id: doctorId,
+                                          action: 'add'
+                                      );
+                                      Navigator.pop(context);
+                                      setState((){
+                                        currentFavourite  = !currentFavourite;
+                                      });
+
+                                     item.bookmark = currentFavourite;
+
+                                    }
+                                  },
+                                  icon: currentFavourite?
+                                  Icon(Icons.favorite,color: Colors.red,size: 30,):
+                                  Icon(Icons.favorite_border,size: 30,)
+                              );
+                            },
+                          ),
                         ],
 
                       ),
@@ -92,7 +154,7 @@ class DoctorWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Dr. ${name}',
+                              name,
                               style: Theme.of(context).textTheme.titleMedium,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -105,33 +167,27 @@ class DoctorWidget extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+
+                                if(hasDiscount(discountValue))
+                                  Text(
+                                    '${price} EGP',
+                                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                      color: Colors.grey,
+                                      decoration: TextDecoration.lineThrough,
+                                    ),
+
+                                  ),
+
+                                SizedBox(width: 5,),
+
                                 Text(
-                                  '${int.parse(price) - int.parse(discountValue)}',
+                                  '${int.parse(price) - int.parse(discountValue)} EGP',
                                   style: Theme.of(context).textTheme.titleLarge,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
 
-                                if(hasDiscount(discountValue))
-                                SizedBox(width: 5,),
-                                if(hasDiscount(discountValue))
-                                Text(
-                                  price,
-                                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
 
-                                ),
-
-                                SizedBox(width: 5,),
-
-                                Text(
-                                  'EGP',
-                                  style: Theme.of(context).textTheme.titleMedium,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
 
                               ],
                             ),

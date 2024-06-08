@@ -6,6 +6,7 @@ import 'package:tricare_patient_application/core/component/ElevatedButton%20Widg
 import 'package:tricare_patient_application/core/component/Loading%20Widget/loading_widget.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
+import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/feature/HomeLayout/screens/home_layout_screen.dart';
 import 'package:tricare_patient_application/feature/Introduction/On%20Boarding%20Screen/widgets/page_view_widget.dart';
 
@@ -53,6 +54,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             children: [
               TextButton(
                 onPressed: () {
+                  CashHelper.prefs.setBool('first', false);
                   navigateTo(context, HomeLayoutScreen());
                 },
                 child:  Text(

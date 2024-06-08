@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
+import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
+import 'package:tricare_patient_application/feature/Introduction/On%20Boarding%20Screen/onboarding_screen.dart';
 import '../../../../core/functions/fucntions.dart';
 import '../HomeLayout/screens/home_layout_screen.dart';
 
@@ -36,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController!.addListener(() {
       if (_animationController!.isCompleted) {
         //    navigateToToFinish(context, widget.FirstScreen);
-        navigateToToFinish(context, HomeLayoutScreen());
+        navigateToToFinish(context, goToScreen());
       }
     });
 
@@ -48,6 +50,13 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController!.dispose();
     // TODO: implement dispose
     super.dispose();
+  }
+
+  Widget goToScreen(){
+
+     if(CashHelper.getData(key: 'first') == null) return OnBoardingScreen();
+
+    return HomeLayoutScreen();
   }
 
   @override

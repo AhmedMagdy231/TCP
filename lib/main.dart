@@ -15,6 +15,7 @@ import 'package:tricare_patient_application/feature/Authentication/cubit/auth_cu
 import 'package:tricare_patient_application/feature/Authentication/screens/Login/login_screen.dart';
 import 'package:tricare_patient_application/feature/Authentication/screens/OTP/otp_screen.dart';
 import 'package:tricare_patient_application/feature/Book/cubit/book_cubit.dart';
+import 'package:tricare_patient_application/feature/Bookmark/cubit/book_mark_cubit.dart';
 import 'package:tricare_patient_application/feature/Confirm%20Book%20Appointment/cubit/confirm_book_cubit.dart';
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 import 'package:tricare_patient_application/feature/Drawer/cubit/drawer_cubit.dart';
@@ -49,6 +50,7 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   // CashHelper.prefs.remove('token');
   // CashHelper.prefs.remove('login');
+  // CashHelper.prefs.remove('first');
   print(CashHelper.getData(key: 'token'));
   print('+++++++++++++++++');
   await Firebase.initializeApp(
@@ -65,7 +67,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
+
       providers: [
+
         BlocProvider(create: (context) => GlobalCubit()),
         BlocProvider(create: (context) => ProfileCubit()..postUserData()),
         BlocProvider(create: (context) => CategoryCubit()),
@@ -76,15 +80,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => DrawerCubit()..getSettingData()),
         BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => SessionCubit()),
+        BlocProvider(create: (context) => BookMarkCubit()),
         BlocProvider(create: (context) => NotificationCubit()),
         BlocProvider(create: (context) => AppCubit()..getHomeData()),
-        BlocProvider(
-            create: (context) => AuthCubit()),
+        BlocProvider(create: (context) => AuthCubit()),
+
       ],
+
       child: BlocBuilder<GlobalCubit, GlobalState>(
         builder: (context, state) {
           return MaterialApp(
-            locale: Locale('en'),
+            locale: Locale(context.read<GlobalCubit>().local),
             localizationsDelegates: [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -99,7 +105,7 @@ class MyApp extends StatelessWidget {
             themeMode: context.read<GlobalCubit>().isLight
                 ? ThemeMode.light
                 : ThemeMode.dark,
-            home: HomeLayoutScreen(),
+            home: SplashScreen(),
           );
         },
       ),

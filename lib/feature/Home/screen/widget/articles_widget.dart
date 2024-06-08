@@ -26,16 +26,17 @@ class ArticlesWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                context
-                    .read<ArticleCubit>()
-                    .getArticleDetailsData(id: articles[index].pAGEID!);
+                context.read<ArticleCubit>().getArticleDetailsData(id: articles[index].pAGEID!);
+                context.read<ArticleCubit>().counter++;
                 navigateTo(
                   context,
                   ArticleDetailsScreen(
+                    countPage:  context.read<ArticleCubit>().counter,
                     articleId: articles[index].pAGEID!,
                     title: articles[index].pageName!,
                   ),
                 );
+
               },
               child: SizedBox(
                 height: height * 0.25,

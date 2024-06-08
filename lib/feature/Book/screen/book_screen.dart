@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:tricare_patient_application/core/component/Loading%20Widget/loading_widget.dart';
 import 'package:tricare_patient_application/core/constant/constant.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
@@ -58,7 +59,7 @@ class _BookScreenState extends State<BookScreen> {
 
     await Future.delayed(Duration(seconds: 1));
 
-    print(pageKey);
+
     try {
       final newItems = await DioHelper.postData(
           data: {
@@ -95,7 +96,6 @@ class _BookScreenState extends State<BookScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-
       appBar: !widget.comeFromHomeLayout
           ? AppBar(
         title: Text('Booking'),
@@ -126,14 +126,15 @@ class _BookScreenState extends State<BookScreen> {
                   index: index,
                   doctorId: item.partnerid!,
                   status: item.status!,
-                  day: getDayName(item.sessionDate!, locale: CashHelper.getData(key: 'local') ?? 'en'),
+                  day: getDayName(item.sessionDate!,),
                   date: item.sessionDate!,
-                  time: convertTo12HourFormat(item.sessionStart!),
+                  time: convertTo12HourFormat(item.sessionStart!,Intl.getCurrentLocale()),
                   name: item.partnerName!,
                   image: item.partnerPic!,
                   position: item.partnerPosition!,
                   doctorRate: item.partnerReviewsAvg!,
                   sessionId: item.sessionid!,
+
                 ),
               ),
             ),

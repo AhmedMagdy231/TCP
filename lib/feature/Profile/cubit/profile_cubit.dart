@@ -158,6 +158,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       await DioHelper.postDataFile(
         data: formData,
         url: EndPoints.updateProfile_request,
+        token: CashHelper.getData(key: 'token'),
       ).then((value) {
         profileModel = ProfileModel.formJson(value.data);
 
@@ -198,6 +199,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     DioHelper.postDataFile(
       data: formData,
       url: EndPoints.changeProfilePicture_request,
+      token: CashHelper.getData(key: 'token'),
     ).then((value) {
 
       profileModel = ProfileModel.formJson(value.data);

@@ -24,7 +24,7 @@ class BuildListTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(vertical: 2),
+      padding:  EdgeInsets.only(bottom: 2),
       child: ListTile(
         tileColor: Colors.white,
         onTap: function,

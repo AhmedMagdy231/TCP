@@ -135,7 +135,8 @@ class HomeLayoutScreen extends StatelessWidget {
                 context.read<GlobalCubit>().changeSelectedIndexNav(index);
               },
             ),
-            bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+            bottomNavigationBar:
+            AnimatedBottomNavigationBar.builder(
               itemCount: 3,
 
               tabBuilder: (index, isActive) {

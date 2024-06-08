@@ -9,6 +9,7 @@ import 'package:tricare_patient_application/feature/Articles/model/article_categ
 import 'package:tricare_patient_application/feature/Articles/model/article_model.dart';
 
 import '../../../core/constant/constant.dart';
+import '../../../core/data structure/stack.dart';
 
 part 'article_state.dart';
 
@@ -19,7 +20,28 @@ class ArticleCubit extends Cubit<ArticleState> {
   ArticlesCategoryDetailsModel? articlesCategoryDetailsModel;
   ArticleModel? articleModel;
 
+  MyStack<ArticleModel> stack = MyStack<ArticleModel>();
+
+
+
+  int counter = 0;
+
   final _connect = ConnectionService();
+
+  void backArticleDetailsScreen() {
+
+    // stack.pop();
+    //
+    // if( ! stack.isEmpty()) {
+    //   emit(state.copyWith(articleDetailsStatus: Status.loading));
+    //   articleModel = stack.peek();
+    //   emit(state.copyWith(articleDetailsStatus: Status.success));
+    //
+    // }
+
+    counter--;
+
+  }
 
 
   Future<void> getArticleCategoryData()async{
@@ -83,6 +105,7 @@ class ArticleCubit extends Cubit<ArticleState> {
     emit(state.copyWith(articleDetailsStatus: Status.loading));
     await Future.delayed(const Duration(seconds: 1));
 
+
     if(await _connect.isInternetConnected()){
 
 
@@ -92,9 +115,12 @@ class ArticleCubit extends Cubit<ArticleState> {
           'type' : 'page',
           'id' : id,
         },
-      ).then((value){
+      ).then((value) async {
+
         articleModel = ArticleModel.formJson(value.data);
+   //     stack.push(articleModel!);
         emit(state.copyWith(articleDetailsStatus: Status.success));
+
       }).catchError((error){
         debugPrint(error.toString());
         emit(state.copyWith(articleDetailsStatus: Status.failure));

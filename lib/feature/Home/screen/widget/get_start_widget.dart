@@ -10,8 +10,11 @@ import '../../../../core/globle/color/dark_app_color.dart';
 import '../../../../generated/l10n.dart';
 
 class GetStarted extends StatelessWidget {
+  final String image;
+  final String title;
 
-  const GetStarted({super.key});
+
+  const GetStarted({super.key,required this.image,required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +83,8 @@ class GetStarted extends StatelessWidget {
               height: height*0.25,
 
               width: width*0.4,
-              child: Image.asset(
-                'assets/images/intro.png',
+              child: Image.network(
+                image,
               ),
             ),
           ),

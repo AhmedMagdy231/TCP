@@ -73,6 +73,8 @@ class Partners {
     required this.partnerReviewsTotal,
     required this.partnerReviewsAvg,
     required this.specialtyTitle,
+    required this.partnerBookmarkId,
+    required this.bookmark,
   });
 
   final String? partnerid;
@@ -88,8 +90,13 @@ class Partners {
   final String? partnerReviewsTotal;
   final String? partnerReviewsAvg;
   final String? specialtyTitle;
+  final String? partnerBookmarkId;
+  bool bookmark;
 
   factory Partners.fromJson(Map<String, dynamic> json){
+
+
+
     return Partners(
       partnerid: json["PARTNERID"],
       specialtyid: json["SPECIALTYID"],
@@ -104,6 +111,8 @@ class Partners {
       partnerReviewsTotal: json["partner_reviews_total"],
       partnerReviewsAvg: json["partner_reviews_avg"],
       specialtyTitle: json["specialty_title"],
+      partnerBookmarkId: json['PARTBOOMARKID'].toString(),
+      bookmark: json['PARTBOOMARKID'].toString() == '0'? false: true,
     );
   }
 

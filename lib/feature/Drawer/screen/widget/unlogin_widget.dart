@@ -1,4 +1,5 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/Global%20Cubit/global_cubit.dart';
@@ -30,10 +31,12 @@ class DrawerUnLoginWidget extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return  Column(
       children: [
-        SizedBox(
+        Container(
             height: height*0.3,
             width: width,
-            child: Image.asset('assets/images/drawer5.jpg',fit: BoxFit.cover,)),
+            color: Colors.white,
+            padding: EdgeInsets.all(width*0.08),
+            child: Image.asset('assets/images/logo.png',fit: BoxFit.contain,)),
 
 
         BuildListTitle(
@@ -76,6 +79,7 @@ class DrawerUnLoginWidget extends StatelessWidget {
           iconName: 'login.svg',
           function: () {
            navigateTo(context, LoginScreen());
+
 
           },
         ),

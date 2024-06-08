@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../core/constant/constant.dart';
 import '../../../../../core/functions/fucntions.dart';
@@ -98,7 +99,7 @@ class _ChooseTimeState extends State<ChooseTime> {
                         child: Center(
                           child:  Text(
                             maxLines: 1,
-                            convertTo12HourFormat( widget.times[index].text!),
+                            convertTo12HourFormat( widget.times[index].text!,Intl.getCurrentLocale()),
                             style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: selectTimeId ==

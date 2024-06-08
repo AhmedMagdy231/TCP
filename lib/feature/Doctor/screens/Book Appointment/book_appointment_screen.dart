@@ -21,6 +21,7 @@ import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appoin
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/widget/stepper_widget.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/widget/top_doctor_widget.dart';
 import 'package:tricare_patient_application/feature/Sessions/cubit/session_cubit.dart';
+import 'package:tricare_patient_application/feature/Sessions/model/session_model.dart';
 
 import '../../model/doctor_details_model.dart';
 import '../../../Confirm Book Appointment/screen/Check Screen/check_screen.dart';
@@ -71,7 +72,7 @@ class BookAppointmentScreen extends StatelessWidget {
                         image: doctorImage,
                       ),
                       SizedBox(
-                        height: height * 0.03,
+                        height: height * 0.02,
                       ),
                       StepperWidget(),
                       ChooseBranchesWidget(
@@ -122,11 +123,16 @@ class ConfirmButton extends StatelessWidget {
           switch(state.sessionEditStatus){
             case Status.success:
               if(context.read<SessionCubit>().sessionEditModel!.hasError == true){
-                var snackBar = Utils.buildSnackBar2(
-                    contentType: ContentType.failure,
-                    context: context,
-                    message: context.read<ConfirmBookCubit>().cartModel!.errors.join(' '));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+               Utils.showDialog2(
+                   context: context,
+                   dialogType: DialogType.error,
+                   widget: Text(
+                       context.read<SessionCubit>().sessionEditModel!.errors.join(' '),
+                     style:  Theme.of(context).textTheme.titleMedium,
+                     textAlign: TextAlign.center,
+                   ),
+               );
               }
               else
               {
@@ -189,6 +195,7 @@ class ConfirmButton extends StatelessWidget {
           switch(state.cartStatus){
             case Status.success:
               if(context.read<ConfirmBookCubit>().cartModel!.hasError == true){
+
                 var snackBar = Utils.buildSnackBar2(
                     contentType: ContentType.failure,
                     context: context,
@@ -249,31 +256,7 @@ class ConfirmButton extends StatelessWidget {
                 }
                 else
                 {
-                    showDialog(
-                        context: context,
-
-                        builder: (context){
-                          return Dialog(
-
-                            elevation: 0,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.symmetric(vertical: height*0.05,horizontal: width*0.03),
-                                  child: BuildLoginFirst(
-                                      heightImage: width*0.4,
-                                      widthImage: width*0.4,
-                                      height: height,
-                                      width: width,
-                                     onDialog: true,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                    );
+                   Utils.buildFirstLoginDialog(context: context, width: width, height: height);
                 }
             },
             text: 'Confirm',

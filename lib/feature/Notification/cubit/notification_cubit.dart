@@ -35,7 +35,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       url: EndPoints.notification_request,
       token: CashHelper.getData(key: 'token'),
     ).then((value){
-      print(value);
+
       notificationModel = NotificationModel.fromJson(value.data);
       emit(state.copyWith(getNotification: Status.success));
     }).catchError((error){

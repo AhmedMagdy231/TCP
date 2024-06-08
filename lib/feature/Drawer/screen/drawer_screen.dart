@@ -7,6 +7,8 @@ import 'package:tricare_patient_application/feature/Drawer/screen/widget/top_wid
 import 'package:tricare_patient_application/feature/Drawer/screen/widget/unlogin_widget.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 
+import 'widget/loading_widget.dart';
+
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({super.key});
 
@@ -20,11 +22,13 @@ class DrawerScreen extends StatelessWidget {
         return Drawer(
           child: CashHelper.getData(key: 'login') == true?
           cubit.userModel == null ?
-          const BuildLoadingWidget() :
+          const BuildLoadingShimmerWidget() :
           DrawerLoginWidget() :
-          DrawerUnLoginWidget()
+          DrawerUnLoginWidget(),
         );
       },
     );
   }
+
+
 }

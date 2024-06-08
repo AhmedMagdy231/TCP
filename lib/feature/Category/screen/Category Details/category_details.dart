@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
+import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/core/widgets/Empty%20Data%20Widget/empty_data_widget.dart';
 import 'package:tricare_patient_application/feature/Category/cubit/category_cubit.dart';
 
@@ -30,8 +31,7 @@ class CategoryDetails extends StatefulWidget {
 }
 
 class _CategoryDetailsState extends State<CategoryDetails> {
-  final PagingController<int, Partners> _pagingController =
-      PagingController(firstPageKey: 0);
+  final PagingController<int, Partners> _pagingController = PagingController(firstPageKey: 0);
 
   late ScrollController _scrollController;
 
@@ -57,9 +57,9 @@ class _CategoryDetailsState extends State<CategoryDetails> {
 
   Future<void> _fetchPage(int pageKey) async {
     await Future.delayed(Duration(seconds: 1));
-    print(pageKey);
+
     try {
-      final newItems = await DioHelper.postData(
+      final response = await DioHelper.postData(
         data: {
           'type': 'specialty',
           'id': widget.id,
@@ -67,10 +67,11 @@ class _CategoryDetailsState extends State<CategoryDetails> {
           'sortBy': context.read<CategoryCubit>().sortByApi,
         },
         url: EndPoints.category_request,
+       token: CashHelper.getData(key: 'token'),
       );
 
-      final CategoryDetailsModel categoryDetailsModel =
-          CategoryDetailsModel.fromJson(newItems.data);
+
+      final CategoryDetailsModel categoryDetailsModel = CategoryDetailsModel.fromJson(response.data);
 
       if (!categoryDetailsModel.hasError) {
         final isLastPage = categoryDetailsModel.data!.pageCurrent ==
@@ -114,12 +115,12 @@ class _CategoryDetailsState extends State<CategoryDetails> {
             },
             child: Row(
               children: [
-                Icon(Icons.filter_alt_outlined),
+                Icon(Icons.sort),
                 SizedBox(
                   width: 5,
                 ),
                 Text(
-                  'Filter',
+                  'Sort By',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 SizedBox(
@@ -153,6 +154,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                             ));
                       },
                       child: DoctorWidget(
+                        index: index,
                         image: item.partnerPic!,
                         name: item.partnerName!,
                         position: item.partnerPosition!,
@@ -160,6 +162,9 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                         totalReview: item.partnerReviewsTotal!,
                         price: item.partnerSessionPrice!,
                         discountValue: item.partnerSessionDiscount!,
+                        favourite: item.bookmark,
+                        doctorId: item.partnerid!,
+                        item: item,
                         width: width,
                         height: height,
                       ),

@@ -59,20 +59,30 @@ bool hasDiscount(String discountedPriceStr){
   return discountedPriceStr != '0';
 }
 
-String getDayName(String dateString, {String locale = 'en'}) {
-  DateTime date = DateFormat('yyyy-MM-dd').parse(dateString);
-  DateFormat dayFormat = DateFormat('EEEE', locale);
-  return dayFormat.format(date);
+String getDayName(String dateString,) {
+
+  DateTime date = DateTime.parse(dateString);
+  var format = DateFormat('EEEE', Intl.getCurrentLocale());
+  String dayName = format.format(date);
+
+  return dayName;
 }
 
-String convertTo12HourFormat(String timeStr) {
+String convertTo12HourFormat(String timeStr, String locale) {
   // Splitting the time string into hours and minutes
   List<String> parts = timeStr.split(':');
   int hours = int.parse(parts[0]);
   int minutes = int.parse(parts[1]);
 
-  // Determining whether it's AM or PM
-  String period = (hours < 12) ? "am" : "pm";
+  // Determining whether it's AM or PM based on locale
+  String period;
+  if (locale == "en") {
+    period = (hours < 12) ? "am" : "pm";
+  } else if (locale == "ar") {
+    period = (hours < 12) ? "ص" : "م";
+  } else {
+    throw ArgumentError("Unsupported locale");
+  }
 
   // Converting to 12-hour format
   hours = hours % 12 == 0 ? 12 : hours % 12;

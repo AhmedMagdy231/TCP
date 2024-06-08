@@ -34,9 +34,11 @@ class ArticleCategoryDetailsWidget extends StatelessWidget {
               context
                   .read<ArticleCubit>()
                   .getArticleDetailsData(id: pages[index].pAGEID!);
+              context.read<ArticleCubit>().counter++;
               navigateTo(
                 context,
                 ArticleDetailsScreen(
+                  countPage:  context.read<ArticleCubit>().counter,
                   articleId: pages[index].pAGEID!,
                   title: pages[index].pageName!,
                 ),

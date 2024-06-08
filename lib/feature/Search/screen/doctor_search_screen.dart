@@ -87,6 +87,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                             ),
                           )
                         : Expanded(
+                      // for the inside
                             child: ListView.builder(
                               itemCount: cubit
                                   .searchDoctorModel!.data!.partners!.length,
@@ -97,11 +98,8 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                                       vertical: height * 0.005),
                                   child: GestureDetector(
                                     onTap: () {
-                                      context
-                                          .read<DoctorCubit>()
-                                          .getDoctorDetails(
-                                        id: cubit.searchDoctorModel!.data!
-                                            .partners![index].partnerid,
+                                      context.read<DoctorCubit>().getDoctorDetails(
+                                        id: cubit.searchDoctorModel!.data!.partners![index].partnerid,
                                       );
 
                                       navigateTo(
@@ -112,6 +110,12 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                                           ));
                                     },
                                     child: DoctorWidget(
+                                      index: index,
+                                      item: cubit.searchDoctorModel!.data!
+                                          .partners![index],
+                                      doctorId: cubit.searchDoctorModel!.data!
+                                          .partners![index].partnerid!,
+
                                       image: cubit.searchDoctorModel!.data!
                                           .partners![index].partnerPic!,
                                       name: cubit.searchDoctorModel!.data!
@@ -140,6 +144,12 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                                           .data!
                                           .partners![index]
                                           .partnerSessionDiscount!,
+
+                                      favourite: cubit
+                                          .searchDoctorModel!
+                                          .data!
+                                          .partners![index]
+                                          .partnerBookmarkId == '0'? false: true,
 
                                       width: width,
                                       height: height,

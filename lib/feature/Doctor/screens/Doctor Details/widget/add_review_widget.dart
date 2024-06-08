@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/component/TextField/text_form_field.dart';
 import 'package:tricare_patient_application/core/constant/constant.dart';
+import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
 import 'package:tricare_patient_application/core/widgets/Build%20Circle%20Image/build_circle_image.dart';
 import 'package:tricare_patient_application/core/widgets/Star%20Review%20Widget/star_review_widget.dart';
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
@@ -27,22 +28,30 @@ class AddReviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
-        showModalBottomSheet(
-          enableDrag: true,
-          isScrollControlled: true,
-          context: context,
-          builder: (context) {
-            return BuildBottomSheetRateWidget(
-              name: name,
-              image: image,
-              position: position,
-              speciality: speciality,
-              id: id,
-            );
-          },
-        );
+         if(CashHelper.getData(key: 'login') == null){
+           Utils.buildFirstLoginDialog(context: context, width: width, height: height);
+         }
+         else
+         {
+           showModalBottomSheet(
+             enableDrag: true,
+             isScrollControlled: true,
+             context: context,
+             builder: (context) {
+               return BuildBottomSheetRateWidget(
+                 name: name,
+                 image: image,
+                 position: position,
+                 speciality: speciality,
+                 id: id,
+               );
+             },
+           );
+         }
       },
       child: Text(
         'Add Review',

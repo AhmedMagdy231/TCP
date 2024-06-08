@@ -41,12 +41,12 @@ class TopWidget extends StatelessWidget {
           ),
 
           Text(
-            'Dr. ${name}',
+            '${name}',
             style: Theme.of(context).textTheme.titleMedium,
           ),
 
           Text(
-            '${position} & ${speciality}',
+            '${speciality} - ${position}',
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Colors.grey
             ),

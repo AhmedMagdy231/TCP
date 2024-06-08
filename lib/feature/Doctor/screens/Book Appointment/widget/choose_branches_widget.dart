@@ -43,7 +43,7 @@ class _ChooseBranchesWidgetState extends State<ChooseBranchesWidget> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         SizedBox(
-          height: widget.height * 0.1,
+          height: widget.height * 0.12,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.branches.length,
@@ -76,7 +76,8 @@ class _ChooseBranchesWidgetState extends State<ChooseBranchesWidget> {
 
                     },
                     child: SizedBox(
-                      width: widget.width * 0.4,
+                      height: widget.height*0.1,
+                      width: widget.width * 0.5,
                       child: Card(
                         color: selectBranchId == widget.branches[index].branchid!
                             ? AppColor.primaryColor
@@ -85,7 +86,8 @@ class _ChooseBranchesWidgetState extends State<ChooseBranchesWidget> {
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
-                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
                               widget.branches[index].branchName!,
                               style:
                                   Theme.of(context).textTheme.titleMedium!.copyWith(

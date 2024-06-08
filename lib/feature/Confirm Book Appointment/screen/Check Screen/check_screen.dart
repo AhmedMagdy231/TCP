@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_btn/loading_btn.dart';
 import 'package:tricare_patient_application/core/InputField/validation/input_validator.dart';
 import 'package:tricare_patient_application/core/component/Loading%20Button/loading_button.dart';
@@ -190,7 +191,7 @@ class _CartScreenState extends State<CartScreen> {
                       width: width,
                       height: height,
                       date: widget.cartModel.data!.sessions[0].sessionDate!,
-                      time: convertTo12HourFormat(widget.cartModel.data!.sessions[0].sessionStart!),
+                      time: convertTo12HourFormat(widget.cartModel.data!.sessions[0].sessionStart!,Intl.getCurrentLocale()),
                     ),
                     SizedBox(
                       height: height * 0.04,

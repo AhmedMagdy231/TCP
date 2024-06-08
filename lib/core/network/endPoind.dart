@@ -61,6 +61,8 @@ class EndPoints {
 
   static var session_edit_request = 'patient_sessions_edit.php';
 
+  static var doctor_bookmark_request ='doctors_bookmarks.php';
+
 
 
 

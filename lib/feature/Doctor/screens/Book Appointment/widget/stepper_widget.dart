@@ -16,14 +16,20 @@ class StepperWidget extends StatelessWidget {
 
     return EasyStepper(
       enableStepTapping: false,
-      lineStyle: const LineStyle(
+      lineStyle:  LineStyle(
         lineLength: 70,
         lineThickness: 2,
+   //     progress: 1,
+        defaultLineColor: Color(0xffd1e7dd),
+        finishedLineColor: Colors.green,
+        //progressColor: Colors.red,
         lineSpace: 4,
         lineType: LineType.normal,
-        activeLineColor: AppColor.primaryColor,
+        activeLineColor: Color(0xffd1e7dd),
+
         unreachedLineColor: Colors.grey,
         unreachedLineType: LineType.dotted,
+
 
         // progressColor: Colors.purple.shade700,
       ),
@@ -37,10 +43,14 @@ class StepperWidget extends StatelessWidget {
       stepRadius: 30,
       // finishedStepBorderColor: Colors.white,
       finishedStepTextColor: Colors.deepOrange,
-      finishedStepBackgroundColor: AppColor.primaryColor,
+      finishedStepBackgroundColor: Color(0xffd1e7dd),
       activeStepIconColor: Colors.white,
       showLoadingAnimation: true,
       activeStepTextColor: Colors.green,
+      unreachedStepBorderColor: Colors.grey,
+      activeStepBorderColor: Colors.grey,
+      //unreachedStepBackgroundColor: Colors.red,
+
 
 
 
@@ -48,17 +58,18 @@ class StepperWidget extends StatelessWidget {
 
 
       steps: [
+
         EasyStep(
           customStep:   Icon(
             Icons.location_on,
-            color: cubit.activeStep>=1?  Colors.white : Colors.grey,
+            color: cubit.activeStep>=1?  Colors.green : Colors.grey,
           ),
 
           customTitle: Text(
             'Choose Branch',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color:  AppColor.primaryColor,
+              color:  cubit.activeStep>=1?  Colors.green : Colors.grey,
 
             ),
           ),
@@ -66,26 +77,26 @@ class StepperWidget extends StatelessWidget {
         EasyStep(
           customStep:   Icon(
             Icons.date_range,
-            color: cubit.activeStep>=1?  Colors.white : Colors.grey,
+            color: cubit.activeStep>=2?  Colors.green : Colors.grey,
           ),
           customTitle:  Text(
             'Choose Date',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: cubit.activeStep>=1?  AppColor.primaryColor: Colors.grey,
+              color: cubit.activeStep>=2?  Colors.green: Colors.grey,
             ),
           ),
         ),
         EasyStep(
           customStep: Icon(
             Icons.access_time_sharp,
-            color: cubit.activeStep>=2?  Colors.white : Colors.grey,
+            color: cubit.activeStep>=3? Colors.green : Colors.grey,
           ),
           customTitle:  Text(
             'Choose Time',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: cubit.activeStep>=2?  AppColor.primaryColor: Colors.grey,
+              color: cubit.activeStep>=3?  Colors.green: Colors.grey,
             ),
           ),
         ),

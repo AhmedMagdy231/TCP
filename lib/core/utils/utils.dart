@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 
 import '../Global Cubit/global_cubit.dart';
+import '../widgets/Login First/login_first_widget.dart';
 
 class Utils {
 
@@ -61,5 +62,67 @@ class Utils {
      );
    }
 
+  static Future<void> showLoadingDialog(BuildContext context) => showDialog(
+    context: context,
+    barrierDismissible: false,
+ //   barrierColor: Colors.transparent,
+    builder: (context) => const LoadingDialog(),
+  );
+
+
+   static buildFirstLoginDialog({required BuildContext context, required double width,required double height}){
+     showDialog(
+       context: context,
+
+       builder: (context){
+         return Dialog(
+
+           elevation: 0,
+           child: Column(
+             mainAxisSize: MainAxisSize.min,
+             children: [
+               Padding(
+                 padding:  EdgeInsets.symmetric(vertical: height*0.05,horizontal: width*0.03),
+                 child: BuildLoginFirst(
+                   heightImage: width*0.4,
+                   widthImage: width*0.4,
+                   height: height,
+                   width: width,
+                   onDialog: true,
+                 ),
+               ),
+             ],
+           ),
+         );
+       },
+     );
+   }
+
+
+
+
+
  }
+
+
+ class LoadingDialog extends StatelessWidget {
+   const LoadingDialog({super.key});
+   @override
+   Widget build(BuildContext context) => const Dialog(
+     elevation: 0,
+     backgroundColor: Colors.transparent,
+     child: PopScope(
+       canPop: false,
+       child: Center(
+         child: Card(
+           child: Padding(
+             padding: EdgeInsets.all(20),
+             child: CircularProgressIndicator(),
+           ),
+         ),
+       ),
+     ),
+   );
+ }
+
 

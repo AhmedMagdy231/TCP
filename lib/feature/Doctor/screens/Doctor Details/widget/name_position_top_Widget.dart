@@ -17,13 +17,13 @@ class NamePositionTopWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Dr $name',
+            name,
             style: Theme.of(context).textTheme.titleMedium,
             maxLines: 1,
           ),
 
           Text(
-            'Dr $position',
+            '${position}',
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
               color: Colors.grey,
             ),

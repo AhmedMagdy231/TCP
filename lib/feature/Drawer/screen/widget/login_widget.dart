@@ -82,7 +82,7 @@ class DrawerLoginWidget extends StatelessWidget {
           text: 'Log Out',
           iconName: 'logout.svg',
           function: () {
-            Navigator.pop(context);
+
             var snackBar = Utils.buildSnackBar2(
               context: context,
               contentType: ContentType.success,
@@ -92,6 +92,8 @@ class DrawerLoginWidget extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
             context.read<ProfileCubit>().logOut();
+
+            Navigator.of(context).pop();
 
           },
         ),

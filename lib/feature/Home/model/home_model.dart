@@ -31,6 +31,7 @@ class Data {
   List<PartnersTops>? partnersTops;
   List<Null>? featuredPartners;
   List<LatestPages>? latestPages;
+  StaticDescription? staticDescription;
 
   Data(
       {this.slides,
@@ -73,9 +74,25 @@ class Data {
         latestPages!.add(new LatestPages.fromJson(v));
       });
     }
+
+    if(json['static_description']  != null){
+      staticDescription = StaticDescription.fromJson(json['static_description']);
+    }
   }
 
 
+}
+
+class StaticDescription{
+  String? title;
+  String? description;
+  String? picture;
+
+  StaticDescription.fromJson(Map<String,dynamic> json){
+    title = json['static_title'];
+    description = json['static_description'];
+    picture = json['static_pic'];
+  }
 }
 
 class Slides {
