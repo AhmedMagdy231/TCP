@@ -9,6 +9,7 @@ import '../../../../../core/component/Loading Button/loading_button.dart';
 import '../../../../../core/globle/color/dark_app_color.dart';
 import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/Carousel Widget/build_list_title.dart';
+import '../../../../../generated/l10n.dart';
 
 class BuildDeleteAccountWidget extends StatelessWidget {
   BuildDeleteAccountWidget({super.key});
@@ -21,7 +22,7 @@ class BuildDeleteAccountWidget extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return BuildListTitle(
-      text: 'Delete Account',
+      text: S.of(context).deleteAccount,
       iconName: 'delete.svg',
       function: () {
         passwordController.clear();
@@ -35,7 +36,7 @@ class BuildDeleteAccountWidget extends StatelessWidget {
                   title: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "Your Password",
+                      S.of(context).yourPassword,
                     ),
                   ),
                   content: Form(
@@ -44,7 +45,7 @@ class BuildDeleteAccountWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         PasswordFiled(
-                            controller: passwordController, hint: 'password'),
+                            controller: passwordController, hint: S.of(context).password),
                         SizedBox(
                           height: height * 0.02,
                         ),
@@ -76,7 +77,7 @@ class BuildDeleteAccountWidget extends StatelessWidget {
                             }
                           },
                           child: LoadingButton(
-                            text: 'Send',
+                            text: S.of(context).send,
                             onTap: (startLoading, stopLoading, btnState) async {
                               if (formPasswordKey.currentState!.validate()) {
                                 if (btnState == ButtonState.idle) {

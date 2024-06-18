@@ -8,12 +8,13 @@ import 'package:tricare_patient_application/core/widgets/Error%20Widget/error_wi
 import 'package:tricare_patient_application/core/widgets/No%20Internet%20Widget/no_internet_widget.dart';
 import 'package:tricare_patient_application/feature/Search/cubit/search_cubit.dart';
 
-import '../../../core/functions/fucntions.dart';
-import '../../../core/widgets/Doctor Widget/doctor_widget.dart';
-import '../../../core/widgets/Not Found In Search/not_found_in_search.dart';
-import '../../Category/screen/Category Details/widget/loading_shimmer.dart';
-import '../../Doctor/cubit/doctor_cubit.dart';
-import '../../Doctor/screens/Doctor Details/doctor_details_screen.dart';
+import '../../../../core/functions/fucntions.dart';
+import '../../../../core/widgets/Doctor Widget/doctor_widget.dart';
+import '../../../../core/widgets/Not Found In Search/not_found_in_search.dart';
+import '../../../../generated/l10n.dart';
+import '../../../Category/screen/Category Details/widget/loading_shimmer.dart';
+import '../../../Doctor/cubit/doctor_cubit.dart';
+import '../../../Doctor/screens/Doctor Details/doctor_details_screen.dart';
 
 class DoctorSearchScreen extends StatefulWidget {
   const DoctorSearchScreen({super.key});
@@ -53,7 +54,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
           children: [
             BuildTextFormField(
               controller: searchController,
-              hintText: 'Search at doctor...',
+              hintText: S.of(context).searchAtDoctor,
               prefixIcon: Icon(Icons.search),
               contendPadding: EdgeInsets.symmetric(
                   vertical: height*0.0,
@@ -62,7 +63,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
               onchange: (value) {
                 context
                     .read<SearchCubit>()
-                    .getDoctorSearch(query: value.trim(), id: '0');
+                    .getDoctorSearch(query: value.trim(),);
               },
             ),
             SizedBox(
@@ -74,7 +75,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                   case Status.initial :
                    return Expanded(
                       child:  SearchAtDoctorWidget(
-                        text: 'Search At Doctor...',
+                        text: S.of(context).searchAtDoctor,
                       ),
                     );
                   case  Status.loading:
@@ -82,8 +83,9 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                   case Status.success:
                     var cubit = context.read<SearchCubit>();
                     return cubit.searchDoctorModel!.hasError ? Expanded(
-                            child: const NoItemInSearch(
-                              text: 'Not Found Any Doctor with this name',
+                            child:
+                            NoItemInSearch(
+                              text: S.of(context).notFoundAnyDoctorWithThisName,
                             ),
                           )
                         : Expanded(

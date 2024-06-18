@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/component/Loading Widget/loading_widget.dart';
 import '../../../../../core/globle/color/shared_color.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../cubit/auth_cubit.dart';
 
 
@@ -84,7 +85,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       child: Column(
         children: [
           Text(
-            'Code expire in  ${minutesStr} : ${secondsStr}',
+           "${S.of(context).codeExpireIn} ${minutesStr} : ${secondsStr}",
             style: Theme.of(context).textTheme.titleMedium,
           ),
 
@@ -92,7 +93,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Do not receive code?',
+                S.of(context).doNotReceiveCode,
                 style: Theme.of(context).textTheme.titleMedium!,
               ),
 
@@ -120,7 +121,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                          });
                         },
                         child: Text(
-                          'Re-send',
+                          S.of(context).resend,
                           style:
                           Theme.of(context).textTheme.bodyLarge!.copyWith(
                             decoration: TextDecoration.underline,

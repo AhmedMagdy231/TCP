@@ -10,6 +10,7 @@ import 'package:tricare_patient_application/core/InputField/custom%20input/passw
 import 'package:tricare_patient_application/core/component/TextField/text_form_field.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 import 'package:tricare_patient_application/feature/Authentication/Goolge/google.dart';
+import 'package:tricare_patient_application/feature/HomeLayout/screens/home_layout_screen.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 import 'package:tricare_patient_application/feature/Sessions/cubit/session_cubit.dart';
 
@@ -17,6 +18,7 @@ import '../../../../core/component/components.dart';
 import '../../../../core/functions/fucntions.dart';
 import '../../../../core/network/Local/CashHelper.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../generated/l10n.dart';
 import '../../../HomeLayout/cubit/app_cubit.dart';
 import '../../cubit/auth_cubit.dart';
 import '../Forget Password/forget_passwrod_screen.dart';
@@ -185,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: height * 0.1,
                 ),
                 Text(
-                  'Welcome Again To TriCare',
+                  S.of(context).welcomeAgainToTricare,
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
@@ -200,11 +202,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Login',
+                        S.of(context).login,
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                       Text(
-                        'Login to continue using the app',
+                        S.of(context).loginToContinueUsingTheApp,
                         style: Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: Colors.grey,
                             ),
@@ -216,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: height * 0.02,
                       ),
-                      PasswordFiled(controller: passwordController,hint: 'Password',),
+                      PasswordFiled(controller: passwordController,hint: S.of(context).password,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -225,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                  navigateTo(context, ForgetPasswordScreen());
                               },
                               child: Text(
-                                'Forget Password?',
+                                S.of(context).forgetPassword,
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!
@@ -261,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Do not have an account?',
+                      S.of(context).doNotHaveAnAccount,
                       style: Theme.of(context).textTheme.titleMedium!,
                     ),
                     TextButton(
@@ -273,7 +275,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             result: (route) => false);
                       },
                       child: Text(
-                        'Register',
+                        S.of(context).register,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               decoration: TextDecoration.underline,
                               decorationColor: AppColor.primaryColor,
@@ -316,7 +318,7 @@ class BuildSocialLogin extends StatelessWidget {
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: width*0.02),
               child: Text(
-                'Or Login With',
+                S.of(context).orLoginWith,
                  style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
@@ -408,9 +410,16 @@ class LoginButton extends StatelessWidget {
               CashHelper.prefs.setBool('login', true);
 
               context.read<ProfileCubit>().postUserData();
-              context.read<SessionCubit>().getSession(page: 1);
 
-               Navigator.pop(context);
+
+              if(CashHelper.getData(key: 'first') == null){
+                navigateToToFinish(context, HomeLayoutScreen());
+              }
+              else
+              {
+                Navigator.pop(context);
+              }
+              CashHelper.prefs.setBool('first', false);
 
               var snackBar = Utils.buildSnackBar2(
                   contentType: ContentType.success,
@@ -438,7 +447,7 @@ class LoginButton extends StatelessWidget {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
             ),
-            child: const Text("Login"),
+            child:  Text(S.of(context).login),
             onTap: (startLoading, stopLoading, btnState) async {
               if (formKey.currentState!.validate()) {
                 if (btnState == ButtonState.idle) {

@@ -68,7 +68,7 @@ class LoadingShimmerWidget extends StatelessWidget {
                       rate: '5',
                       review: '500',
                       numberOfPatient: '500',
-                      experience: '1',
+                      numberOfSessions: '1',
                     ),
                           
                           

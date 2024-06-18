@@ -19,6 +19,7 @@ import 'package:tricare_patient_application/feature/Profile/screen/Update%20Prof
 
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/Carousel Widget/build_list_title.dart';
+import '../../../../generated/l10n.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -30,9 +31,9 @@ class ProfileScreen extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
+      // appBar: AppBar(
+      //   title: Text(S.of(context).profile),
+      // ),
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           var cubit = context.read<ProfileCubit>();
@@ -91,7 +92,7 @@ class ProfileScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 BuildListTitle(
-                                  text: 'Update Profile',
+                                  text: S.of(context).updateProfile,
                                   iconName: 'edit.svg',
                                   function: () {
                                     navigateTo(context, UpdateProfile());
@@ -143,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
                                   height: height * 0.02,
                                 ),
                                 BuildListTitle(
-                                  text: 'Change Password',
+                                  text: S.of(context).changePassword,
                                   iconName: 'change_password.svg',
                                   function: () {
                                     navigateTo(context, ChangePasswordScreen());

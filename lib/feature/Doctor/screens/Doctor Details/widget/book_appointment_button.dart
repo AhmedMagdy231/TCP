@@ -6,6 +6,7 @@ import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.da
 import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appointment/book_appointment_screen.dart';
 
 import '../../../../../core/globle/color/light_app_color.dart';
+import '../../../../../generated/l10n.dart';
 
 class BookAppointmentButton extends StatelessWidget {
   final double width;
@@ -58,6 +59,7 @@ class BookAppointmentButton extends StatelessWidget {
                       doctorPosition: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerPosition!,
                       doctorRate: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerReviewsAvg!,
                       doctorId: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerid!,
+                      speciality: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.specialtyTitle!,
                     ),
                   );
                 },
@@ -65,7 +67,7 @@ class BookAppointmentButton extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(250),
                 )),
-                child: const Text('Book Appointment'),
+                child: Text(S.of(context).bookAppointment),
               ),
             ),
           ),

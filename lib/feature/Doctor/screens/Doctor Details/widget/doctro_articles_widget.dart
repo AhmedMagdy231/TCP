@@ -28,7 +28,7 @@ class DoctorArticlesWidget extends StatelessWidget {
               child: BuildProductItem(
                 image: articles[index].parpostFilename!,
                 name: articles[index].parpostTitle!,
-                description: 'description',
+                description: '',
               ),
             );
           }

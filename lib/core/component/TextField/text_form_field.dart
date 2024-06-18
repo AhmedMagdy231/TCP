@@ -11,11 +11,13 @@ class BuildTextFormField extends StatelessWidget {
   Widget? prefixIcon;
   Widget? suffixIcon;
   String? Function(String?)? valid;
+  void Function()? onTap;
   TextInputType? keyboardType;
   bool? isPassword;
   int? maxLines;
   EdgeInsetsGeometry? contendPadding;
   void Function(String)? onchange;
+  bool read;
 
 
 
@@ -25,6 +27,8 @@ class BuildTextFormField extends StatelessWidget {
     required this.hintText,
     this.prefixIcon,
     this.suffixIcon,
+    this.read = false,
+    this.onTap,
     String? Function(String?)? this.valid,
     TextInputType? this.keyboardType,
     bool? this.isPassword,
@@ -42,12 +46,12 @@ class BuildTextFormField extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
 
     return TextFormField(
-
+      readOnly: read,
       onChanged: onchange,
       autocorrect: true,
       controller: controller,
       maxLines: maxLines,
-
+       onTap: onTap,
       validator: valid,
       keyboardType: keyboardType,
       obscureText: isPassword ?? false,

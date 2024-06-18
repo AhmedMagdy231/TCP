@@ -132,6 +132,9 @@ class Partner {
     required this.specialtyTitle,
     required this.partnerDescription,
     required this.partnerBookmark,
+    required this.showStatus,
+    required this.patientNumber,
+    required this.sessionNumber,
   });
 
   final String? partnerid;
@@ -149,6 +152,9 @@ class Partner {
   final String? partnerReviewsAvg;
   final String? specialtyTitle;
   final String? partnerBookmark;
+  final String? showStatus;
+  final String? patientNumber;
+  final String? sessionNumber;
 
   factory Partner.fromJson(Map<String, dynamic> json){
     return Partner(
@@ -167,6 +173,9 @@ class Partner {
       partnerReviewsAvg: json["partner_reviews_avg"],
       specialtyTitle: json["specialty_title"],
       partnerBookmark: json['PARTBOOMARKID'].toString(),
+      showStatus:  json['partner_show_stats'],
+      patientNumber: json['partner_patients_total'],
+      sessionNumber: json['partner_sessions_total'],
     );
   }
 

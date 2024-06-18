@@ -15,7 +15,9 @@ import 'package:tricare_patient_application/feature/Notification/screens/notific
 import 'package:tricare_patient_application/feature/Profile/screen/Main%20Profile/main_profile_screen.dart';
 
 import '../../../core/globle/color/shared_color.dart';
+import '../../../generated/l10n.dart';
 import '../../Notification/cubit/notification_cubit.dart';
+import '../../Profile/screen/Profile/profile_screen.dart';
 
 class HomeLayoutScreen extends StatelessWidget {
   HomeLayoutScreen({Key? key}) : super(key: key);
@@ -26,14 +28,15 @@ class HomeLayoutScreen extends StatelessWidget {
     'assets/icons/person.svg',
   ];
 
-  List<String> textNavigationBar = [
-    'Home',
-    'Book',
-    'Profile',
-  ];
 
   @override
   Widget build(BuildContext context) {
+    List<String> textNavigationBar = [
+      S.of(context).home,
+      S.of(context).book,
+      S.of(context).profile,
+    ];
+
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return BlocBuilder<GlobalCubit, GlobalState>(
@@ -49,10 +52,10 @@ class HomeLayoutScreen extends StatelessWidget {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       title: Text(
-                        'Exit From Application',
+                        S.of(context).exitFromApplication,
                       ),
                       content: Text(
-                        'Do you Want to Exit',
+                        S.of(context).doYouWantToExit,
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                       actions: [
@@ -64,7 +67,7 @@ class HomeLayoutScreen extends StatelessWidget {
                           style: TextButton.styleFrom(
                               backgroundColor: LightAppColor.backgroundColor),
                           child: Text(
-                            'Yes',
+                            S.of(context).yes,
                           ),
                         ),
                         SizedBox(
@@ -78,7 +81,7 @@ class HomeLayoutScreen extends StatelessWidget {
                             backgroundColor: LightAppColor.backgroundColor,
                           ),
                           child: Text(
-                            'No',
+                            S.of(context).no,
                           ),
                         ),
                         SizedBox(
@@ -129,7 +132,7 @@ class HomeLayoutScreen extends StatelessWidget {
               children: [
                 HomeScreen(),
                 BookScreen(),
-                MainProfileScreen(),
+                ProfileScreen(),
               ],
               onPageChanged: (index) {
                 context.read<GlobalCubit>().changeSelectedIndexNav(index);

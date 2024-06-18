@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/Global%20Cubit/global_cubit.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
@@ -18,6 +19,7 @@ import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.
 import '../../../../core/globle/color/shared_color.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/Carousel Widget/build_list_title.dart';
+import '../../../../generated/l10n.dart';
 import '../../../Articles/cubit/article_cubit.dart';
 import 'top_widget.dart';
 
@@ -40,7 +42,7 @@ class DrawerUnLoginWidget extends StatelessWidget {
 
 
         BuildListTitle(
-          text: 'Specialties',
+          text: S.of(context).specialties,
           iconName: 'category.svg',
           function: () {
 
@@ -49,7 +51,7 @@ class DrawerUnLoginWidget extends StatelessWidget {
           },
         ),
         BuildListTitle(
-          text: 'Articles',
+          text: S.of(context).articles,
           iconName: 'page.svg',
           function: () {
 
@@ -58,7 +60,7 @@ class DrawerUnLoginWidget extends StatelessWidget {
           },
         ),
         BuildListTitle(
-          text: 'About Us',
+          text: S.of(context).aboutUs,
           iconName: 'about_us.svg',
           function: () {
 
@@ -67,7 +69,7 @@ class DrawerUnLoginWidget extends StatelessWidget {
           },
         ),
         BuildListTitle(
-          text: 'Terms and Conditions',
+          text: S.of(context).termsAndConditions,
           iconName: 'term.svg',
           function: () {
             context.read<DrawerCubit>().getTosData();
@@ -75,7 +77,7 @@ class DrawerUnLoginWidget extends StatelessWidget {
           },
         ),
         BuildListTitle(
-          text: 'Login',
+          text: S.of(context).login,
           iconName: 'login.svg',
           function: () {
            navigateTo(context, LoginScreen());
@@ -83,7 +85,19 @@ class DrawerUnLoginWidget extends StatelessWidget {
 
           },
         ),
+        BuildListTitle(
+          text: S.of(context).changeLanguage,
+          iconName: 'language.svg',
+          function: () {
 
+            Utils.changeLanguageDialog(context: context, width: width, height: height);
+
+          },
+        ),
+
+        Spacer(),
+
+        Divider(),
         SocialUrlWidget(),
 
 

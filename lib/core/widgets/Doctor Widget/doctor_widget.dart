@@ -9,21 +9,20 @@ import 'package:tricare_patient_application/core/utils/utils.dart';
 import 'package:tricare_patient_application/feature/Bookmark/cubit/book_mark_cubit.dart';
 
 import '../../../feature/Category/model/category_details_model.dart';
+import '../../../generated/l10n.dart';
 import '../../component/Network Image/network_image.dart';
 import '../../functions/fucntions.dart';
 import '../Show Rate/show_rate.dart';
 
-enum ComeFrom  {Search,Bookmark,CategoryDetails}
+enum ComeFrom { Search, Bookmark, CategoryDetails }
 
 class DoctorWidget extends StatelessWidget {
-
   final double height;
   final double width;
   final PagingController<int, Partners>? pagingController;
   final int index;
   final Partners item;
   final ComeFrom comeFrom;
-
 
   const DoctorWidget({
     super.key,
@@ -32,14 +31,12 @@ class DoctorWidget extends StatelessWidget {
     required this.comeFrom,
     required this.index,
     required this.item,
-     this.pagingController,
+    this.pagingController,
   });
 
   @override
   Widget build(BuildContext context) {
-
-
-   bool currentFavourite = item.bookmark;
+    bool currentFavourite = item.bookmark;
 
     return SizedBox(
       width: width,
@@ -50,97 +47,118 @@ class DoctorWidget extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(
+
                 child: AspectRatio(
-                  aspectRatio: 1/1,
+                  aspectRatio: 1 / 1,
                   child: BuildImage(
                     image: item.partnerPic!,
+                    fit: BoxFit.cover,
                     radius: 8,
                   ),
                 ),
               ),
+
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
-                    left:  context.read<GlobalCubit>().local=='en'?width*0.03:0,
-                    right: context.read<GlobalCubit>().local=='en'?0:width*0.03,
+                    left: context.read<GlobalCubit>().local == 'en'
+                        ? width * 0.03
+                        : 0,
+                    right: context.read<GlobalCubit>().local == 'en'
+                        ? 0
+                        : width * 0.03,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-
                       Row(
-
                         children: [
-
-                          if(hasDiscount(item.partnerSessionDiscount!))
-                          Container(
-
-                            padding: EdgeInsets.symmetric(horizontal: width*0.04,vertical: 2),
-                            margin: EdgeInsets.only(bottom: height*0.005),
-                            child: Text(
-                              '${calculateDiscountPercentage(item.partnerSessionPrice!, item.partnerSessionDiscount!)}%',
-                              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                color: Colors.white,
+                          if (hasDiscount(item.partnerSessionDiscount!))
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.04, vertical: 2),
+                              margin: EdgeInsets.only(bottom: height * 0.005),
+                              child: Text(
+                                '${calculateDiscountPercentage(item.partnerSessionPrice!, item.partnerSessionDiscount!)}%',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                      color: Colors.white,
+                                    ),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                           Spacer(),
-
                           StatefulBuilder(
-                            builder: (context,setState){
-                              return IconButton(
-                                  onPressed: () async {
-                                    if(currentFavourite){
+                            builder: (context, setState) {
+                              return SizedBox(
+                                height: height*0.03,
+                               // width: height*0.04,
+                                child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    iconSize: 24,
+                                    onPressed: () async {
+                                      if (CashHelper.getData(key: 'login') ==
+                                          null) {
+                                        Utils.buildFirstLoginDialog(
+                                          context: context,
+                                          width: width,
+                                          height: height,
+                                        );
+                                      } else {
+                                        if (currentFavourite) {
+                                          Utils.showLoadingDialog(context);
+                                          await context
+                                              .read<BookMarkCubit>()
+                                              .changeBookmark(
+                                                  id: item.partnerid!,
+                                                  action: 'remove');
+                                          Navigator.pop(context);
 
+                                          setState(() {
+                                            currentFavourite = !currentFavourite;
+                                          });
+                                          item.bookmark = currentFavourite;
 
-                                      Utils.showLoadingDialog(context);
-                                    await  context.read<BookMarkCubit>().changeBookmark(
-                                          id: item.partnerid!,
-                                          action: 'remove'
-                                      );
-                                      Navigator.pop(context);
+                                          if (comeFrom == ComeFrom.Bookmark) {
+                                            pagingController!.itemList!
+                                                .removeAt(index);
+                                          }
+                                        } else {
+                                          Utils.showLoadingDialog(context);
+                                          await context
+                                              .read<BookMarkCubit>()
+                                              .changeBookmark(
+                                                  id: item.partnerid!,
+                                                  action: 'add');
+                                          Navigator.pop(context);
+                                          setState(() {
+                                            currentFavourite = !currentFavourite;
+                                          });
 
-                                      setState((){
-                                        currentFavourite  = !currentFavourite;
-                                      });
-                                      item.bookmark = currentFavourite;
-
-                                      if(comeFrom == ComeFrom.Bookmark){
-                                        pagingController!.itemList!.removeAt(index);
+                                          item.bookmark = currentFavourite;
+                                        }
                                       }
+                                    },
+                                    icon: currentFavourite
+                                        ? Icon(
+                                            Icons.favorite,
+                                            color: Colors.red,
+                                          )
+                                        : Icon(
+                                            Icons.favorite_border,
 
-
-                                    }
-                                    else
-                                    {
-
-                                      Utils.showLoadingDialog(context);
-                                      await  context.read<BookMarkCubit>().changeBookmark(
-                                          id: item.partnerid!,
-                                          action: 'add'
-                                      );
-                                      Navigator.pop(context);
-                                      setState((){
-                                        currentFavourite  = !currentFavourite;
-                                      });
-
-                                     item.bookmark = currentFavourite;
-
-                                    }
-                                  },
-                                  icon: currentFavourite?
-                                  Icon(Icons.favorite,color: Colors.red,size: 30,):
-                                  Icon(Icons.favorite_border,size: 30,)
+                                          ),
+                                ),
                               );
                             },
                           ),
                         ],
-
                       ),
                       Expanded(
                         child: Column(
@@ -150,7 +168,7 @@ class DoctorWidget extends StatelessWidget {
                             Text(
                               item.partnerName!,
                               style: Theme.of(context).textTheme.titleMedium,
-                              maxLines: 2,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
 
@@ -161,35 +179,34 @@ class DoctorWidget extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-
-                                if(hasDiscount(item.partnerSessionDiscount!))
+                                if (hasDiscount(item.partnerSessionDiscount!))
                                   Text(
-                                    '${item.partnerSessionPrice!} EGP',
-                                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                      color: Colors.grey,
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-
+                                    '${item.partnerSessionPrice!} ${S.of(context).egp}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ),
                                   ),
-
-                                SizedBox(width: 5,),
-
+                                SizedBox(
+                                  width: 5,
+                                ),
                                 Text(
-                                  '${int.parse(item.partnerSessionPrice!) - int.parse(item.partnerSessionDiscount!)} EGP',
-                                  style: Theme.of(context).textTheme.titleLarge,
+                                  '${int.parse(item.partnerSessionPrice!) - int.parse(item.partnerSessionDiscount!)} ${S.of(context).egp}',
+                                  style: Theme.of(context).textTheme.titleMedium,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-
-
-
                               ],
                             ),
 
                             SizedBox(
                               height: height * 0.005,
                             ),
-                        //    Spacer(),
+                            //    Spacer(),
                             Row(
                               children: [
                                 ShowRateStar(
@@ -197,9 +214,11 @@ class DoctorWidget extends StatelessWidget {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '${item.partnerReviewsAvg!} (${item.partnerReviewsTotal} review)',
-                                  style:
-                                  Theme.of(context).textTheme.bodyLarge!.copyWith(),
+                                  '(${item.partnerReviewsTotal} ${S.of(context).review})',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),

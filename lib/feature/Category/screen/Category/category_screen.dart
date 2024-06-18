@@ -13,6 +13,7 @@ import '../../../../core/component/TextField/text_form_field.dart';
 import '../../../../core/functions/fucntions.dart';
 
 import '../../../../core/widgets/Not Found In Search/not_found_in_search.dart';
+import '../../../../generated/l10n.dart';
 import '../../../Home/model/home_model.dart';
 import '../Category Details/category_details.dart';
 import 'widget/loading_shimmer.dart';
@@ -48,7 +49,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title:  Text(S.of(context).categories),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.02),
@@ -56,7 +57,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           children: [
             BuildTextFormField(
               controller: searchController,
-              hintText: 'Search at speciality...',
+              hintText: S.of(context).searchAtSpeciality,
               prefixIcon: Icon(Icons.search),
               contendPadding: EdgeInsets.symmetric(
                 vertical: height*0.0,
@@ -76,8 +77,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                    return LoadingSimmerWidget();
                  case Status.success:
                    return  context.read<CategoryCubit>().filterSpecialties!.isEmpty ? Expanded(
-                     child: const NoItemInSearch(
-                       text: 'Not found any speciality with this name',
+                     child:  NoItemInSearch(
+                       text: S.of(context).notFoundAnySpecialityWithThisName,
                      ),
                    )
                        :Expanded(
@@ -120,7 +121,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                      ),
                    );
                  case Status.failure:
-                   return BuildErrorWidget(error: 'Some Thing Error');
+                   return BuildErrorWidget(error: S.of(context).someThingError);
                  default:
                    return SizedBox();
                }

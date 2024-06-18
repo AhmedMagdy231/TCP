@@ -3,12 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/component/Loading%20Widget/loading_widget.dart';
 import 'package:tricare_patient_application/core/constant/constant.dart';
 import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
+import 'package:tricare_patient_application/core/widgets/Empty%20Data%20Widget/empty_data_widget.dart';
 import 'package:tricare_patient_application/core/widgets/Error%20Widget/error_widget.dart';
 import 'package:tricare_patient_application/core/widgets/Login%20First/login_first_widget.dart';
 import 'package:tricare_patient_application/core/widgets/No%20Internet%20Widget/no_internet_widget.dart';
 import 'package:tricare_patient_application/feature/Notification/cubit/notification_cubit.dart';
 import 'package:tricare_patient_application/feature/Notification/screens/widget/build_notification_widget.dart';
+import 'package:tricare_patient_application/feature/Notification/screens/widget/loading.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
+
+import '../../../generated/l10n.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -19,7 +23,7 @@ class NotificationScreen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notification'),
+        title: Text(S.of(context).notification),
       ),
 
       body: CashHelper.getData(key: 'login') == null?
@@ -34,13 +38,16 @@ class NotificationScreen extends StatelessWidget {
         builder: (context,state){
           switch(state.getNotification){
             case Status.initial || Status.loading:
-              return BuildLoadingWidget();
+              return LoadingShimmerNotification();
             case Status.success:
               var cubit = context.read<NotificationCubit>();
-              return ListView.builder(
-                itemCount: cubit.notificationModel!.data!.notification!.length,
+              return cubit.notificationModel!.hasError== true?
+             BuildEmptyDataWidget(text: S.of(context).youDoNotHaveAnyNotificationYet,):
+              ListView.builder(
+                itemCount: cubit.notificationModel!.data!.notification.length,
                 itemBuilder: (context, index) {
-                  return BuildNotificationWidget(
+                  return
+                  BuildNotificationWidget(
                     index: index,
                     image: context.read<ProfileCubit>().userImage,
 
@@ -72,11 +79,14 @@ class NotificationScreen extends StatelessWidget {
                 },
               );
             case Status.failure:
-              return BuildErrorWidget(error: 'Error');
+              return BuildErrorWidget(error: S.of(context).error);
             case Status.noInternet:
               return NoInternetWidget(onPressed: (){
                context.read<NotificationCubit>().getNotification();
           });
+
+            default:
+              return SizedBox();
           }
         },
       ),

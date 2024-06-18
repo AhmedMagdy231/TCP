@@ -13,6 +13,7 @@ import 'package:tricare_patient_application/feature/HomeLayout/screens/home_layo
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 import '../../../../core/network/Local/CashHelper.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../generated/l10n.dart';
 
 class OTPScreen extends StatelessWidget {
   final String code;
@@ -53,13 +54,22 @@ class OTPScreen extends StatelessWidget {
             }
             else {
               CashHelper.prefs.setBool('login', true);
+
               await CashHelper.prefs.setString('token', state.token!);
               context.read<ProfileCubit>().postUserData();
 
-              // TODO
-              Navigator.pop(context);
-              Navigator.pop(context);
 
+              if(CashHelper.getData(key: 'first') == null){
+                navigateToToFinish(context, HomeLayoutScreen());
+              }
+              else
+              {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
+
+
+              CashHelper.prefs.setBool('first', false);
 
               var snackBar = Utils.buildSnackBar2(
                   contentType: ContentType.success,
@@ -67,8 +77,7 @@ class OTPScreen extends StatelessWidget {
                   message: state.messages.join(' '));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-              // TODO HomeLayout screen
-              //  navigateToToFinish(context, HomeLayout());
+
             }
           }
         },
@@ -91,11 +100,11 @@ class OTPScreen extends StatelessWidget {
                   height: height * 0.05,
                 ),
                 Text(
-                  'OTP Verification',
+                  S.of(context).otpVerification,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 Text(
-                  'Enter the verification code we just sent on your email address',
+                  S.of(context).enterTheVerificationCodeWeJustSentOnYourEmail,
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
@@ -203,7 +212,7 @@ class ConfirmButton extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
-        child: const Text("Confirm"),
+        child:  Text(S.of(context).confirm),
         onTap: (startLoading, stopLoading, btnState) async {
           if (formKey.currentState!.validate()) {
             if (btnState == ButtonState.idle) {

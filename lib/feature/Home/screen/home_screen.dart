@@ -68,7 +68,7 @@ class HomeScreen extends StatelessWidget {
 
                    GetStarted(
                     image: cubit.homeModel!.data!.staticDescription!.picture!,
-                     title: cubit.homeModel!.data!.staticDescription!.title!,
+                     title: cubit.homeModel!.data!.staticDescription!.description!,
 
                   ),
 

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 
 import '../../../../../core/globle/color/shared_color.dart';
+import '../../../../../generated/l10n.dart';
 
 class StepperWidget extends StatelessWidget {
   const StepperWidget({super.key});
@@ -15,6 +16,7 @@ class StepperWidget extends StatelessWidget {
     var cubit = context.read<DoctorCubit>();
 
     return EasyStepper(
+      padding: EdgeInsets.zero,
       enableStepTapping: false,
       lineStyle:  LineStyle(
         lineLength: 70,
@@ -66,7 +68,7 @@ class StepperWidget extends StatelessWidget {
           ),
 
           customTitle: Text(
-            'Choose Branch',
+            S.of(context).chooseBranch,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
               color:  cubit.activeStep>=1?  Colors.green : Colors.grey,
@@ -80,7 +82,7 @@ class StepperWidget extends StatelessWidget {
             color: cubit.activeStep>=2?  Colors.green : Colors.grey,
           ),
           customTitle:  Text(
-            'Choose Date',
+            S.of(context).chooseDate,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
               color: cubit.activeStep>=2?  Colors.green: Colors.grey,
@@ -93,7 +95,7 @@ class StepperWidget extends StatelessWidget {
             color: cubit.activeStep>=3? Colors.green : Colors.grey,
           ),
           customTitle:  Text(
-            'Choose Time',
+            S.of(context).chooseTime,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
               color: cubit.activeStep>=3?  Colors.green: Colors.grey,

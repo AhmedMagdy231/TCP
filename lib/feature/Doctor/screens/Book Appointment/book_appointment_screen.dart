@@ -23,6 +23,7 @@ import 'package:tricare_patient_application/feature/Doctor/screens/Book%20Appoin
 import 'package:tricare_patient_application/feature/Sessions/cubit/session_cubit.dart';
 import 'package:tricare_patient_application/feature/Sessions/model/session_model.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../model/doctor_details_model.dart';
 import '../../../Confirm Book Appointment/screen/Check Screen/check_screen.dart';
 
@@ -31,12 +32,14 @@ class BookAppointmentScreen extends StatelessWidget {
   final String doctorPosition;
   final String doctorRate;
   final String doctorImage;
+  final String speciality;
   final String doctorId;
   final List<Branches> branches;
   final bool edit;
   final String sessionId;
 
   const BookAppointmentScreen({super.key,
+    required this.speciality,
     this.edit = false,
     this.sessionId = '',
     required this.doctorId,required this.doctorName, required this.doctorPosition, required this.doctorRate, required this.doctorImage, required this.branches});
@@ -49,7 +52,7 @@ class BookAppointmentScreen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Appointment'),
+        title: Text(S.of(context).bookAppointment),
       ),
       body: SizedBox(
         height: height,
@@ -70,11 +73,14 @@ class BookAppointmentScreen extends StatelessWidget {
                         rate: doctorRate,
                         position: doctorPosition,
                         image: doctorImage,
+                        speciality: speciality,
                       ),
                       SizedBox(
-                        height: height * 0.02,
+                        height: height * 0.005,
                       ),
-                      StepperWidget(),
+                      SizedBox(
+                        height: height*0.16,
+                          child: StepperWidget()),
                       ChooseBranchesWidget(
                         branches: branches,
                         doctorId: doctorId,
@@ -160,7 +166,7 @@ class ConfirmButton extends StatelessWidget {
                     context: context,
                     dialogType: DialogType.error,
                     widget: Text(
-                      'Can not Confirm Book Appointment',
+                      S.of(context).canNotConfirmBookAppointment,
                       style: Theme.of(context).textTheme.titleMedium,
                       textAlign: TextAlign.center,
                     ),
@@ -185,7 +191,7 @@ class ConfirmButton extends StatelessWidget {
                 stopLoading();
               }
             },
-            text: 'Confirm',
+            text: S.of(context).confirm,
           ),
         ),
       )
@@ -229,7 +235,7 @@ class ConfirmButton extends StatelessWidget {
                         context: context,
                         dialogType: DialogType.error,
                         widget: Text(
-                          'Can not Confirm Book Appointment',
+                          S.of(context).canNotConfirmBookAppointment,
                           style: Theme.of(context).textTheme.titleMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -259,7 +265,7 @@ class ConfirmButton extends StatelessWidget {
                    Utils.buildFirstLoginDialog(context: context, width: width, height: height);
                 }
             },
-            text: 'Confirm',
+            text: S.of(context).confirm,
           ),
         ),
       ),

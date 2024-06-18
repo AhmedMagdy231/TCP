@@ -52,8 +52,7 @@ class BookMarkCubit extends Cubit<BookMarkState> {
       url: EndPoints.doctor_bookmark_request,
       token: CashHelper.getData(key: 'token'),
     ).then((value){
-      print(id);
-      print(value.data);
+
       changeBookmarkModel = ChangeBookmarkModel.fromJson(value.data);
       emit(state.copyWith(changeBookmarkStatus: Status.success));
 

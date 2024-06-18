@@ -6,6 +6,7 @@ import 'package:tricare_patient_application/core/globle/color/shared_color.dart'
 
 import '../../../../../core/component/TextField/text_form_field.dart';
 import '../../../../../core/globle/color/dark_app_color.dart';
+import '../../../generated/l10n.dart';
 import '../../component/Loading Button/loading_button.dart';
 
 
@@ -53,7 +54,7 @@ class BuildProfileButton extends StatelessWidget {
                     title:  Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "Your Password",
+                        S.of(context).yourPassword,
                       ),
                     ),
 

@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/component/SVG/svg.dart';
 import '../../../../../core/globle/color/shared_color.dart';
+import '../../../../../generated/l10n.dart';
 
 class AboutDoctorWidget extends StatelessWidget {
   final String numberOfPatient;
-  final String experience;
+  final String numberOfSessions;
   final String rate;
   final String review;
 
-  const AboutDoctorWidget({super.key, required this.numberOfPatient, required this.experience, required this.rate, required this.review});
+  const AboutDoctorWidget({super.key, required this.numberOfPatient, required this.numberOfSessions, required this.rate, required this.review});
   
 
 
@@ -26,13 +27,13 @@ class AboutDoctorWidget extends StatelessWidget {
     return  Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        BuildItem(height: height, iconName: 'users.svg', number: formatNumber(int.parse(numberOfPatient)), text: 'Patient',),
+        BuildItem(height: height, iconName: 'users.svg', number: formatNumber(int.parse(numberOfPatient)), text: S.of(context).patient,),
         
-        BuildItem(height: height, iconName: 'exp.svg', number: '$experience Years', text: 'Experience',),
+        BuildItem(height: height, iconName: 'genral.svg', number: formatNumber(int.parse(numberOfSessions)), text: S.of(context).sessions,),
         
-        BuildItem(height: height, iconName: 'star.svg', number: rate, text: 'Rating',),
+        BuildItem(height: height, iconName: 'star.svg', number: rate, text: S.of(context).rating,),
         
-        BuildItem(height: height, iconName: 'review.svg', number: formatNumber(int.parse(review)), text: 'Review',),
+        BuildItem(height: height, iconName: 'review.svg', number: formatNumber(int.parse(review)), text: S.of(context).review,),
       ],
     );
   }

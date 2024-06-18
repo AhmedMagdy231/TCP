@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tricare_patient_application/core/InputField/validation/input_validator.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 
+import '../../../generated/l10n.dart';
 import '../../component/TextField/text_form_field.dart';
 
 class ConfirmPasswordFiled extends StatefulWidget {
@@ -49,9 +50,9 @@ class _ConfirmPasswordFiledState extends State<ConfirmPasswordFiled> {
       ),
       valid: (value){
         if(value!.isEmpty)
-          return 'Please Enter Password';
+          return S.of(context).pleaseEnterPassword;
         else if(value != widget.passwordController.text.trim())
-          return 'Password Not Match';
+          return S.of(context).passwordNotMatch;
         return null;
       },
     );

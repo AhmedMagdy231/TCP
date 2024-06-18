@@ -298,10 +298,7 @@ class AuthCubit extends Cubit<AuthState> {
 
 
     if (user != null) {
-      print(user.id);
-      print(user.email);
-      print(user.displayName);
-      print(user.photoUrl);
+
 
       DioHelper.postDataRegister(
         data:

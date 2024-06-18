@@ -74,7 +74,7 @@ Future<void> getDoctorDetails({required  id})async{
 
       DioHelper.postData(
         data: {
-          'type' : 'partner',
+          'type' : 'doctor',
           'id' : id,
         },
         url: EndPoints.category_request,

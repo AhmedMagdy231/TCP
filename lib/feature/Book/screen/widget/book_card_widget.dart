@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:tricare_patient_application/core/constant/constant.dart';
@@ -10,23 +12,30 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/globle/color/shared_color.dart';
 import '../../../../core/widgets/Build Circle Image/build_circle_image.dart';
+import '../../../../generated/l10n.dart';
+import '../../../Sessions/model/session_model.dart';
 
 class BookCardWidget extends StatelessWidget {
+
   final String day;
   final String date;
   final String time;
   final String name;
   final String image;
   final String position;
+  final String speciality;
   final String status;
   final int index;
   final String doctorId;
   final String doctorRate;
   final String sessionId;
+  final Sessions sessions;
+
 
 
   const BookCardWidget({
     super.key,
+    required this.speciality,
     required this.day,
     required this.date,
     required this.time,
@@ -38,6 +47,7 @@ class BookCardWidget extends StatelessWidget {
     required this.index,
     required this.doctorRate,
     required this.sessionId,
+    required this.sessions,
   });
 
   Color getColorStatus(String status){
@@ -49,9 +59,12 @@ class BookCardWidget extends StatelessWidget {
         return AppColor.primaryColor;
       case 'Finished':
         return Colors.green;
+      case 'انتظار':
+        return AppColor.primaryColor;
+      case 'أكتمل':
+        return Colors.green;
       default:
-
-        return Colors.red;
+        return Colors.black;
     }
   }
 
@@ -132,23 +145,24 @@ class BookCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        'Doctor',
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(
-                          color: AppColor.primaryColor,
-                        ),
-                      ),
+
                       Text(name,
                           style: Theme
                               .of(context)
                               .textTheme
                               .titleMedium),
                       Text(
-                        '${position}',
+                        '${sessions.branchLocation}',
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        '${sessions.roomName}',
                         style: Theme
                             .of(context)
                             .textTheme
@@ -168,87 +182,90 @@ class BookCardWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                BuildButtonWidget(
-                  icon: Icons.location_on_outlined,
-                  text: 'Map',
-                  onTap: () async{
-                    final availableMaps = await MapLauncher.installedMaps;
-                    // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
-
-                    await availableMaps.first.showMarker(
-                      coords: Coords(double.parse('30.105751'), double.parse('31.344614')),
-                      title: 'Tricare',
-                    );
-                  },
+                Expanded(
+                  child: BuildButtonWidget(
+                    icon: Icons.location_on_outlined,
+                    text: S.of(context).map,
+                    onTap: () async{
+                      final availableMaps = await MapLauncher.installedMaps;
+                      // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
+                  
+                      await availableMaps.first.showMarker(
+                        coords: Coords(double.parse(sessions.branchMapsY!), double.parse(sessions.branchMapsX!)),
+                        title: 'Tricare',
+                      );
+                    },
+                  ),
                 ),
-                BlocConsumer<BookCubit, BookState>(
-                  listener: (context, state) {
-                    if (state.branchState == Status.success &&
+               if( sessions.branchPhone!.isNotEmpty)
+                Expanded(
+                  child: BuildButtonWidget(
+                    icon: Icons.call,
+                    text: S.of(context).support,
+                    onTap: () {
+                      String url = 'tel: ${sessions.branchPhone}';
+                      final Uri _url = Uri.parse(url);
+                      launchUrl(_url,
+                          mode: LaunchMode.externalApplication);
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: BlocConsumer<BookCubit, BookState>(
+                    listener: (context, state) {
+                      if (state.branchState == Status.success && index == context.read<BookCubit>().selectIndex) {
+                        navigateTo(context,
+                            BookAppointmentScreen(
+                              edit: true,
+                              sessionId: sessionId,
+                              doctorId: doctorId,
+                              doctorName: name,
+                              doctorPosition: position,
+                              doctorRate: doctorRate,
+                              doctorImage: image,
+                              branches:  context.read<BookCubit>().branchModel!.data!.branches,
+                              speciality: '',
+                            )
+                        );
+                      }
+                    },
+                    buildWhen: (previous, current) =>
+                    previous.branchState != current.branchState &&
                         index == context
                             .read<BookCubit>()
-                            .selectIndex) {
-                      navigateTo(context,
-                          BookAppointmentScreen(
-                            edit: true,
-                            sessionId: sessionId,
-                            doctorId: doctorId,
-                            doctorName: name,
-                            doctorPosition: position,
-                            doctorRate: doctorRate,
-                            doctorImage: image,
-                            branches:  context
-                                .read<BookCubit>()
-                                .branchModel!.data!.branches,
-                          )
-                      );
-                    }
-                  },
-                  buildWhen: (previous, current) =>
-                  previous.branchState != current.branchState &&
-                      index == context
-                          .read<BookCubit>()
-                          .selectIndex,
-                  builder: (context, state) {
-                    switch (state.branchState) {
-                      case Status.loading:
-                        return Container(
-                          height: height * 0.04,
-                          width: width * 0.25,
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-
-                      case Status.initial || Status.success:
-                        return BuildButtonWidget(
-                          icon: Icons.edit,
-                          text: 'Edit',
-                          onTap: () {
-                            context
-                                .read<BookCubit>()
-                                .selectIndex = index;
-                            context.read<DoctorCubit>().restartBookAppointment();
-                            // get branch
-                            context.read<BookCubit>().getBranches(
-                                doctorId: doctorId);
-                          },
-                        );
-
-
-                      default:
-                        return SizedBox();
-                    }
-                  },
+                            .selectIndex,
+                    builder: (context, state) {
+                      switch (state.branchState) {
+                        case Status.loading:
+                          return Container(
+                            height: height * 0.04,
+                            width: width * 0.25,
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                  
+                        case Status.initial || Status.success:
+                          return BuildButtonWidget(
+                            icon: Icons.edit,
+                            text: S.of(context).edit,
+                            onTap: () {
+                              context
+                                  .read<BookCubit>()
+                                  .selectIndex = index;
+                              context.read<DoctorCubit>().restartBookAppointment();
+                              // get branch
+                              context.read<BookCubit>().getBranches(
+                                  doctorId: doctorId);
+                            },
+                          );
+                  
+                  
+                        default:
+                          return SizedBox();
+                      }
+                    },
+                  ),
                 ),
-                BuildButtonWidget(
-                  icon: Icons.call,
-                  text: 'support',
-                  onTap: () {
-                    String url =
-                        'tel: 01020022351';
-                    final Uri _url = Uri.parse(url);
-                    launchUrl(_url,
-                        mode: LaunchMode.externalApplication);
-                  },
-                ),
+
               ],
             ),
           ],
@@ -281,7 +298,7 @@ class BuildButtonWidget extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         height: height * 0.04,
-        width: width * 0.25,
+        margin: EdgeInsets.symmetric(horizontal: width*0.01),
         decoration: BoxDecoration(
             color: AppColor.primaryColor,
             borderRadius: BorderRadius.circular(8)),

@@ -8,6 +8,7 @@ import 'package:tricare_patient_application/feature/Drawer/cubit/drawer_cubit.da
 import '../../../core/component/Network Image/network_image.dart';
 import '../../../core/component/components.dart';
 import '../../../core/functions/fucntions.dart';
+import '../../../generated/l10n.dart';
 import '../About Us Screen/about_us_screen.dart';
 
 
@@ -20,14 +21,14 @@ class TosScreen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Terms and Conditions'),
+        title: Text(S.of(context).termsAndConditions),
       ),
 
       body: BlocBuilder<DrawerCubit, DrawerState>(
         builder: (context, state) {
           var cubit = context.read<DrawerCubit>();
           return  cubit.tosModel == null? BuildShimmerAboutApplication(
-            title: 'Terms and Conditions',
+            title: S.of(context).termsAndConditions,
           ):
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: width*0.03),

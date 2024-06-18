@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 import 'package:tricare_patient_application/core/widgets/Show%20Rate/show_rate.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../../model/doctor_details_model.dart';
 
 
@@ -90,7 +91,7 @@ class DoctorReviewWidget extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        'Rate',
+                        S.of(context).rate,
                         style: Theme.of(context).textTheme.titleMedium,
                         maxLines: 1,
                       ),

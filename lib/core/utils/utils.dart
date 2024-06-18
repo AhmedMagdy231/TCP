@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 
+import '../../feature/HomeLayout/cubit/app_cubit.dart';
+import '../../generated/l10n.dart';
 import '../Global Cubit/global_cubit.dart';
 import '../widgets/Login First/login_first_widget.dart';
 
@@ -95,6 +97,82 @@ class Utils {
            ),
          );
        },
+     );
+   }
+
+   static changeLanguageDialog({required BuildContext context,required double width,required double height}){
+     showDialog(
+         context: context,
+         builder: (context){
+
+           return AlertDialog(
+
+             //surfaceTintColor: DarkAppColor.foreGroundColors,
+             title:  Padding(
+               padding: EdgeInsets.all(8.0),
+               child: Text(
+                 S.of(context).changeLanguage,
+               ),
+             ),
+
+             content: StatefulBuilder(
+               builder: (BuildContext ctx, StateSetter setState){
+                 return Column(
+                   mainAxisSize: MainAxisSize.min,
+                   children: [
+
+
+                     RadioListTile(
+                       title:  Text(
+                         'English',
+                         style: Theme.of(context).textTheme.titleMedium,
+                       ),
+                       value: 1,
+                       groupValue: context.read<GlobalCubit>().selectOption,
+                       onChanged: (value) {
+                         setState(() {
+                     context.read<GlobalCubit>().selectOption = value!;
+                         });
+                       },
+
+                     ),
+                     RadioListTile(
+                       title:  Text(
+                         "العربية",
+                         style: Theme.of(context).textTheme.titleMedium,
+                       ),
+
+                       value: 2,
+                       groupValue: context.read<GlobalCubit>().selectOption,
+                       onChanged: (value) {
+                         setState(() {
+                            context.read<GlobalCubit>().selectOption = value!;
+                         });
+                       },
+
+                     ),
+                     SizedBox(height: height*0.03,),
+                     ElevatedButton(
+
+                       onPressed: () async {
+                         await  context.read<GlobalCubit>().changeLocal(
+                           value: context.read<GlobalCubit>().selectOption,
+                         );
+                         context.read<AppCubit>().getHomeData();
+
+                         Navigator.pop(ctx);
+                       },
+                       child: Text(S.of(context).save),
+                       style: ElevatedButton.styleFrom(
+                         minimumSize: Size(width, height*0.06),
+                       ),
+                     ),
+                   ],
+                 );
+               },
+             ),
+           );
+         }
      );
    }
 

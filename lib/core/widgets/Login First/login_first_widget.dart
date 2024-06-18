@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/feature/Authentication/screens/Login/login_screen.dart';
 
+import '../../../generated/l10n.dart';
+
 
 class BuildLoginFirst extends StatelessWidget {
   final double heightImage;
@@ -30,7 +32,7 @@ class BuildLoginFirst extends StatelessWidget {
 
 
             Text(
-              'Login or Create An Account First',
+              S.of(context).loginOrCreateAnAccountFirst,
               style: Theme.of(context).textTheme.titleMedium,
 
             ),
@@ -44,7 +46,7 @@ class BuildLoginFirst extends StatelessWidget {
                   if(onDialog) Navigator.pop(context);
                   navigateTo(context, LoginScreen());
                 },
-                child: Text('Login'),
+                child: Text(S.of(context).login),
               ),
             ),
 

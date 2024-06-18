@@ -5,6 +5,7 @@ import 'package:tricare_patient_application/core/component/SVG/svg.dart';
 
 import '../../../../../core/functions/fucntions.dart';
 import '../../../../../core/globle/color/shared_color.dart';
+import '../../../../../generated/l10n.dart';
 
 
 
@@ -40,7 +41,7 @@ class FeesWidget extends StatelessWidget {
         ),
         SizedBox(width: width*0.03,),
         Text(
-          'Fees',
+          S.of(context).fees,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Spacer(),
@@ -55,7 +56,7 @@ class FeesWidget extends StatelessWidget {
               ),
               SizedBox(width: 5,),
               Text(
-                'EGP',
+                S.of(context).egp,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
 

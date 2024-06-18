@@ -9,6 +9,7 @@ import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Deta
 
 import '../../../../core/constant/constant.dart';
 import '../../../../core/widgets/No Internet Widget/no_internet_widget.dart';
+import '../../../../generated/l10n.dart';
 import 'widget/loading_shimmer.dart';
 
 class DoctorDetailsScreen extends StatefulWidget {
@@ -29,8 +30,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) async {
@@ -41,7 +41,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Doctor Details',
+            S.of(context).doctorDetails,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Colors.white,
                 ),

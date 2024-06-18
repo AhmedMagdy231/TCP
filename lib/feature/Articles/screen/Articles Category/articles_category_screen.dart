@@ -5,6 +5,7 @@ import 'package:tricare_patient_application/feature/Articles/cubit/article_cubit
 
 import '../../../../core/constant/constant.dart';
 import '../../../../core/widgets/No Internet Widget/no_internet_widget.dart';
+import '../../../../generated/l10n.dart';
 import 'widget/article_category_widget.dart';
 import 'widget/loading_shimmer.dart';
 
@@ -18,7 +19,7 @@ class ArticlesCategoryScreen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return  Scaffold(
       appBar: AppBar(
-        title: Text('Articles'),
+        title: Text(S.of(context).articles),
       ),
 
       body: BlocBuilder<ArticleCubit,ArticleState>(

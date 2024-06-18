@@ -9,6 +9,7 @@ import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Deta
 import '../../../../../core/globle/color/light_app_color.dart';
 import '../../../../../core/globle/color/shared_color.dart';
 import '../../../../../core/widgets/Build Circle Image/build_circle_image.dart';
+import '../../../../../generated/l10n.dart';
 import 'smiliar_doctor_widget.dart';
 
 class DoctorDetailsWidget extends StatelessWidget {
@@ -60,12 +61,12 @@ class DoctorDetailsWidget extends StatelessWidget {
                   ),
 
 
-
+                // if( doctorDetailsModel!.data!.partner!.showStatus! == '1')
                   AboutDoctorWidget(
                     rate: doctorDetailsModel!.data!.partner!.partnerReviewsAvg!,
                     review: doctorDetailsModel!.data!.partner!.partnerReviewsTotal!,
-                    numberOfPatient: '1200',
-                    experience: '2',
+                    numberOfPatient: doctorDetailsModel!.data!.partner!.patientNumber ??'500',
+                    numberOfSessions:  doctorDetailsModel!.data!.partner!.sessionNumber ?? '650',
                   ),
 
 
@@ -83,7 +84,7 @@ class DoctorDetailsWidget extends StatelessWidget {
                           SizedBox(width: 2,),
 
                           Text(
-                            'consultation fees',
+                            S.of(context).consultationFees,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           SizedBox(width: 5,),
@@ -92,14 +93,14 @@ class DoctorDetailsWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                '${int.parse(doctorDetailsModel!.data!.partner!.partnerSessionPrice!)- int.parse(doctorDetailsModel!.data!.partner!.partnerSessionDiscount!)}',
+                                '${int.parse(doctorDetailsModel!.data!.partner!.partnerSessionPrice!)- int.parse(doctorDetailsModel!.data!.partner!.partnerSessionDiscount!)} ${S.of(context).egp}',
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                               if(hasDiscount(doctorDetailsModel!.data!.partner!.partnerSessionDiscount!))
                                 SizedBox(width: 5,),
                               if(hasDiscount(doctorDetailsModel!.data!.partner!.partnerSessionDiscount!))
                                 Text(
-                                  '${doctorDetailsModel!.data!.partner!.partnerSessionPrice!}',
+                                  '${doctorDetailsModel!.data!.partner!.partnerSessionPrice!} ${S.of(context).egp}',
                                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                     color: Colors.grey,
                                     decoration: TextDecoration.lineThrough,
@@ -135,16 +136,17 @@ class DoctorDetailsWidget extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(
-                    height: width * 0.06,
-                  ),
+
 
                   if(doctorDetailsModel!.data!.partner!.partnerDescription!.isNotEmpty)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
                       Text(
-                        'Description',
+                        S.of(context).description,
                         style: Theme.of(context).textTheme.titleLarge,
 
                       ),
@@ -163,23 +165,19 @@ class DoctorDetailsWidget extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    height: width * 0.05,
+                    height: height * 0.02,
                   ),
 
-                  if(doctorDetailsModel!.data!.partnersReviews.isNotEmpty)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    textBaseline: TextBaseline.alphabetic,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Row(
-                        textBaseline: TextBaseline.alphabetic,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Review',
-                            style: Theme.of(context).textTheme.titleLarge,
+                      Text(
+                        '${S.of(context).review} (${doctorDetailsModel!.data!.partnersReviews.length})',
+                        style: Theme.of(context).textTheme.titleLarge,
 
-                          ),
-                          const Spacer(),
+                      ),
+                      const Spacer(),
 
                       AddReviewWidget(
                         name: doctorDetailsModel!.data!.partner!.partnerName!,
@@ -189,8 +187,14 @@ class DoctorDetailsWidget extends StatelessWidget {
                         id:  doctorDetailsModel!.data!.partner!.partnerid!,
 
                       ),
-                        ],
-                      ),
+                    ],
+                  ),
+
+                  if(doctorDetailsModel!.data!.partnersReviews.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
                       SizedBox(
                         height: width * 0.01,
                       ),
@@ -209,8 +213,11 @@ class DoctorDetailsWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
                       Text(
-                        'Similar Doctor',
+                        S.of(context).similarDoctor,
                         style: Theme.of(context).textTheme.titleLarge,
 
                       ),
@@ -228,9 +235,6 @@ class DoctorDetailsWidget extends StatelessWidget {
                   SizedBox(
                     height: width * 0.05,
                   ),
-
-
-
 
 
                 ],

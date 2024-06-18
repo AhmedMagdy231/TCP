@@ -22,9 +22,12 @@ Center buildOverlayLoading(double height,{required BuildContext context}) {
         SizedBox(
           height: height * 0.03,
         ),
-        // Text(
-        // context.read<GlobalCubit>().local == 'en'? 'Loading Please Wait': 'جاري تحميل من فضلك انتظر',
-        // ),
+        Text(
+        context.read<GlobalCubit>().local == 'en'? 'Loading Please Wait': 'جاري تحميل من فضلك انتظر',
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: Colors.white,
+          ),
+        ),
       ],
     ),
   );
@@ -58,11 +61,15 @@ class BuildShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       child: child,
-      baseColor: !context.read<GlobalCubit>().isLight? DarkAppColor.foreGroundColors: Colors.grey.shade50,
-      highlightColor: !context.read<GlobalCubit>().isLight?Colors.white12 : Color(0xffadd8e6),
+baseColor: !context.read<GlobalCubit>().isLight? DarkAppColor.foreGroundColors: Colors.grey.shade50,
+highlightColor: !context.read<GlobalCubit>().isLight?Colors.white12 : Color(0xffadd8e6),
     );
   }
 }
+
+
+//baseColor: !context.read<GlobalCubit>().isLight? DarkAppColor.foreGroundColors: Colors.grey.shade50,
+//highlightColor: !context.read<GlobalCubit>().isLight?Colors.white12 : Color(0xffadd8e6),
 
 //Color(0xfff5f5f5)
 

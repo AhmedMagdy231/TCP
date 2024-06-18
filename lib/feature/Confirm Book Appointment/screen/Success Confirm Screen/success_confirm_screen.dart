@@ -7,6 +7,7 @@ import 'package:tricare_patient_application/feature/HomeLayout/cubit/app_cubit.d
 import 'package:tricare_patient_application/feature/HomeLayout/screens/home_layout_screen.dart';
 
 import '../../../../core/widgets/Down Button Stack/down_button_stack.dart';
+import '../../../../generated/l10n.dart';
 
 class SuccessConfirmScreen extends StatelessWidget {
   final bool edit;
@@ -41,13 +42,14 @@ class SuccessConfirmScreen extends StatelessWidget {
                   SizedBox(height: height*0.05,),
 
                   Text(
-                   edit? "Session information was successfully edited": 'Thanks for Booking',
+                   edit? S.of(context).sessionInformationWasSuccessfullyEdited: S.of(context).thanksForBooking,
                     style: Theme.of(context).textTheme.headlineMedium,
                     textAlign: TextAlign.center,
                   ),
                  SizedBox(height: height*0.01,),
                   Text(
-                    'Hope you get better soon',
+                    S.of(context).hopeYouGetBetterSoon,
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Colors.grey
                     ),
@@ -68,7 +70,7 @@ class SuccessConfirmScreen extends StatelessWidget {
                 navigateTo(context, BookScreen(comeFromHomeLayout: false,));
 
                 },
-                child: Text('Go to my booking'),
+                child: Text(S.of(context).goToMyBooking),
                 style: ElevatedButton.styleFrom(
 
                   shape: RoundedRectangleBorder(

@@ -6,6 +6,7 @@ import '../../../../../core/constant/constant.dart';
 import '../../../../../core/functions/fucntions.dart';
 import '../../../../../core/globle/color/shared_color.dart';
 import '../../../../../core/widgets/No Internet Widget/no_internet_widget.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../cubit/doctor_cubit.dart';
 import '../../../model/time_model.dart';
 
@@ -64,7 +65,7 @@ class _ChooseTimeState extends State<ChooseTime> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Choose Time',
+          S.of(context).chooseTime,
           style: Theme.of(context).textTheme.titleLarge,
         ),
 
@@ -99,7 +100,7 @@ class _ChooseTimeState extends State<ChooseTime> {
                         child: Center(
                           child:  Text(
                             maxLines: 1,
-                            convertTo12HourFormat( widget.times[index].text!,Intl.getCurrentLocale()),
+                            widget.times[index].text!,
                             style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: selectTimeId ==

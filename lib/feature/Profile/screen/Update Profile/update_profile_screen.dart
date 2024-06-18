@@ -15,6 +15,7 @@ import 'package:tricare_patient_application/core/widgets/Down%20Button%20Stack/d
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 
 import '../../../../core/utils/utils.dart';
+import '../../../../generated/l10n.dart';
 
 class UpdateProfile extends StatelessWidget {
   UpdateProfile({super.key});
@@ -35,7 +36,7 @@ class UpdateProfile extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Update Profile'),
+          title: Text(S.of(context).updateProfile),
         ),
         body: SizedBox(
           height: height,
@@ -74,7 +75,7 @@ class UpdateProfile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Name',
+                              S.of(context).name,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             SizedBox(
@@ -88,7 +89,7 @@ class UpdateProfile extends StatelessWidget {
                               height: height * 0.02,
                             ),
                             Text(
-                              'Email',
+                              S.of(context).email,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             SizedBox(
@@ -102,7 +103,7 @@ class UpdateProfile extends StatelessWidget {
                               height: height * 0.02,
                             ),
                             Text(
-                              'Phone',
+                              S.of(context).phone,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             SizedBox(
@@ -116,7 +117,7 @@ class UpdateProfile extends StatelessWidget {
                               height: height * 0.02,
                             ),
                             Text(
-                              'WhatsApp',
+                              S.of(context).whatsapp,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             SizedBox(
@@ -130,7 +131,7 @@ class UpdateProfile extends StatelessWidget {
                               height: height * 0.01,
                             ),
                             Text(
-                              'Type',
+                              S.of(context).type,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             SizedBox(
@@ -146,7 +147,7 @@ class UpdateProfile extends StatelessWidget {
                                       setState: setState,
                                       context: context,
                                       cubit: cubit,
-                                      text: 'Male',
+                                      text: S.of(context).male,
                                       id: 1,
                                     ),
                                     SizedBox(
@@ -157,7 +158,7 @@ class UpdateProfile extends StatelessWidget {
                                       context: context,
                                       setState: setState,
                                       cubit: cubit,
-                                      text: 'Female',
+                                      text: S.of(context).female,
                                       id: 2,
                                     ),
                                   ],
@@ -176,7 +177,7 @@ class UpdateProfile extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Enable WhatsApp Message',
+                                    S.of(context).enableWhatsappMessage,
                                     style: Theme.of(context).textTheme.titleMedium,
                                   ),
                                   Spacer(),
@@ -217,9 +218,16 @@ class UpdateProfile extends StatelessWidget {
                 button: BuildProfileButton(
                   formKey: formKey,
                   passwordController: passwordController,
-                  textButton: 'Update Profile',
+                  textButton: S.of(context).updateProfile,
                   futureFunction: () async {
                     await context.read<ProfileCubit>().updateProfile(
+
+                      enable:  context
+                          .read<ProfileCubit>()
+                          .whatsAppEnable,
+                      whatsAppNumber:  context
+                          .read<ProfileCubit>()
+                          .whatsAppController.text.trim(),
                           name: context
                               .read<ProfileCubit>()
                               .nameController

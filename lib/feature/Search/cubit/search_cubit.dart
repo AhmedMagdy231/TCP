@@ -21,7 +21,13 @@ void startSearch(){
   emit(state.copyWith(doctorSearchStatus: Status.initial));
 }
 
-  Future<void> getDoctorSearch({required String query,required String id})async{
+  Future<void> getDoctorSearch({
+    required String query,
+    String? specialityId,
+    String? branchId,
+    String? dateId,
+    String? page,
+  })async{
 
     emit(state.copyWith(doctorSearchStatus: Status.loading));
 
@@ -32,12 +38,18 @@ void startSearch(){
 
       DioHelper.postData(
           data: {
-            'search_query' : query,
-            'specialtyid' : id,
+
             'search_sec' : 1,
+            'search_query' : query,
+            'specialtyid' : specialityId??'',
+            'search_branchid': branchId??'',
+            'search_slot_date' : dateId??'',
+            'page':page??'',
+
           },
           url: EndPoints.search_doctor_request,
       ).then((value){
+        print(value.data);
         searchDoctorModel = SearchDoctorModel.formJson(value.data);
         emit(state.copyWith(doctorSearchStatus: Status.success));
 

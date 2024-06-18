@@ -26,8 +26,20 @@ class SearchDoctorModel {
 class Data {
   String? searchQuery;
   List<Partners>? partners;
+   int? pageCurrent;
+   dynamic pagePrev;
+   int? pageNext;
+   int? pageMax;
 
-  Data({this.searchQuery, this.partners});
+  Data({
+    this.searchQuery,
+    this.partners,
+    required this.pageCurrent,
+    required this.pagePrev,
+    required this.pageNext,
+    required this.pageMax,
+
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     searchQuery = json['search_query'];
@@ -36,6 +48,11 @@ class Data {
       json['partners'].forEach((v) {
         partners!.add(new Partners.fromJson(v));
       });
+
+    pageCurrent=json["pageCurrent"];
+    pagePrev= json["pagePrev"];
+    pageNext= json["pageNext"];
+    pageMax= json["pageMax"];
     }
   }
 

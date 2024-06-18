@@ -9,6 +9,7 @@ import 'package:tricare_patient_application/core/widgets/Star%20Review%20Widget/
 import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
 import '../../../../../core/globle/color/shared_color.dart';
 import '../../../../../core/utils/utils.dart';
+import '../../../../../generated/l10n.dart';
 
 class AddReviewWidget extends StatelessWidget {
   final String name;
@@ -37,6 +38,7 @@ class AddReviewWidget extends StatelessWidget {
          }
          else
          {
+           context.read<DoctorCubit>().ratingReview = 3;
            showModalBottomSheet(
              enableDrag: true,
              isScrollControlled: true,
@@ -54,7 +56,7 @@ class AddReviewWidget extends StatelessWidget {
          }
       },
       child: Text(
-        'Add Review',
+        S.of(context).addReview,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: AppColor.primaryColor,
             ),
@@ -84,10 +86,10 @@ class BuildBottomSheetRateWidget extends StatefulWidget {
       _BuildBottomSheetRateWidgetState();
 }
 
-class _BuildBottomSheetRateWidgetState
-    extends State<BuildBottomSheetRateWidget> {
+class _BuildBottomSheetRateWidgetState extends State<BuildBottomSheetRateWidget> {
   late TextEditingController reviewController;
   var formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,12 +110,14 @@ class _BuildBottomSheetRateWidgetState
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+
                 children: [
                   Text(
-                    'Rate Doctor',
+                    S.of(context).rateDoctor,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: height * 0.02),
+                  // Siz
                   BuildCircleImage(
                     image: widget.image,
                     width: width * 0.2,
@@ -124,14 +128,14 @@ class _BuildBottomSheetRateWidgetState
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
-                    '${widget.speciality} & ${widget.position}',
+                    '${widget.speciality} \n ${widget.position}',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Colors.grey,
                         ),
                   ),
                   SizedBox(height: height * 0.05),
                   StarWidget(
-                    initialRating: 0,
+                    initialRating: 3,
                     size: 40,
                   ),
                   SizedBox(height: height * 0.02),
@@ -139,11 +143,11 @@ class _BuildBottomSheetRateWidgetState
                     key: formKey,
                     child: BuildTextFormField(
                       controller: reviewController,
-                      hintText: 'Write your review...',
+                      hintText: S.of(context).writeYourReview,
                       maxLines: 5,
                       valid: (value) {
                         if (value!.isEmpty) {
-                          return 'Please Enter Your Review';
+                          return S.of(context).pleaseEnterYourReview;
                         }
                       },
                     ),
@@ -195,7 +199,7 @@ class _BuildBottomSheetRateWidgetState
                                       );
                                 }
                               },
-                              child: Text('Send'),
+                              child: Text(S.of(context).send),
                             ),
                           );
                         case Status.loading:

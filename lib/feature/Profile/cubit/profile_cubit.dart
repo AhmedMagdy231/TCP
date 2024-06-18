@@ -133,6 +133,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String type,
     required String phone,
     required String password,
+    required String whatsAppNumber,
+    required String enable,
   }) async {
     FormData formData = FormData.fromMap({
       'patient_fullname': name,
@@ -140,6 +142,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       'patient_phone': phone,
       'password': password,
       'patient_timezone': timeZone,
+      'patient_whatsapp_number': whatsAppNumber,
+      'patient_whatsapp_enabled' : enable,
       'patient_gender': type,
       'patient_profilepicture_file': image == null
           ? ''

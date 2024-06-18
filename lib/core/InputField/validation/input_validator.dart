@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../generated/l10n.dart';
+
 class InputValidator{
 
   final BuildContext context;
@@ -10,7 +12,7 @@ class InputValidator{
   String?  emailValidator(String? value){
 
     if(value == null || value.isEmpty)
-      return 'Please Enter Your Email';
+      return S.of(context).pleaseEnterYourEmail;
 
     return null;
 
@@ -20,9 +22,9 @@ class InputValidator{
   String?  phoneValidator(String? value){
 
     if(value == null || value.isEmpty)
-      return 'Please Enter Password';
+      return S.of(context).pleaseEnterPassword;
     else if(value.length < 11 || value.length > 11)
-      return 'Phone Must Be 11 Number';
+      return S.of(context).phoneMustBe11Number;
 
     return null;
 
@@ -33,7 +35,7 @@ class InputValidator{
 
     if(value!.isEmpty) return null;
    if(value!.length < 11 || value.length > 11)
-      return 'Phone Must Be 11 Number';
+      return S.of(context).phoneMustBe11Number;
 
     return null;
 
@@ -42,7 +44,7 @@ class InputValidator{
   String?  nameValidator(String? value){
 
     if(value == null || value.isEmpty)
-      return 'Please Enter Your Name';
+      return S.of(context).pleaseEnterYourName;
 
     return null;
 
@@ -52,7 +54,7 @@ class InputValidator{
   String?  otpValidator(String? value){
 
     if(value == null || value.isEmpty)
-      return 'Please Enter Your Verification Code';
+      return S.of(context).pleaseEnterYourVerificationCode;
 
     return null;
 
@@ -62,9 +64,9 @@ class InputValidator{
   String?  passwordValidator(String? value){
 
     if(value == null || value.isEmpty)
-      return 'Please Enter Your Password';
+      return S.of(context).pleaseEnterYourPassword;
     else if(value.length < 6)
-      return 'Password is to week';
+      return S.of(context).passwordIsToWeek;
 
 
     return null;

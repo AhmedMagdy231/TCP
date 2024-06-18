@@ -12,6 +12,7 @@ import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.
 import '../../../../../core/component/Loading Button/loading_button.dart';
 import '../../../../../core/component/TextField/text_form_field.dart';
 import '../../../../../core/globle/color/dark_app_color.dart';
+import '../../../../../generated/l10n.dart';
 
 class BuildChangeProfilePicture extends StatelessWidget {
   final Future<void> Function() futureFunction;
@@ -29,7 +30,7 @@ class BuildChangeProfilePicture extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return BuildListTitle(
-      text: 'Change Profile Picture',
+      text: S.of(context).changeProfilePicture,
       iconName: 'profile_pic.svg',
       function: () {
         passwordController.clear();
@@ -130,7 +131,7 @@ class _BuildDialogState extends State<BuildDialog> {
                                                 .read<ProfileCubit>()
                                                 .pickImage(ImageSource.gallery);
                                           },
-                                          child: Text('Choose Photo'),
+                                          child: Text(S.of(context).choosePhoto),
                                         ),
                                       )),
                                 ),
@@ -138,7 +139,7 @@ class _BuildDialogState extends State<BuildDialog> {
                                   height: widget.height * 0.01,
                                 ),
                                 Text(
-                                  choosePhoto? '':'Please Choose Photo',
+                                  choosePhoto? '':S.of(context).pleaseChoosePhoto,
                                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                     color: Colors.red,
                                   ),
@@ -152,7 +153,7 @@ class _BuildDialogState extends State<BuildDialog> {
                   height: widget.height * 0.03,
                 ),
                 Text(
-                  "Enter Your Password",
+                  S.of(context).enterYourPassword,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 SizedBox(
@@ -165,7 +166,7 @@ class _BuildDialogState extends State<BuildDialog> {
                     children: [
                       PasswordFiled(
                           controller: widget.passwordController,
-                          hint: 'password'),
+                          hint: S.of(context).password),
                       SizedBox(
                         height: widget.height * 0.02,
                       ),
@@ -173,7 +174,7 @@ class _BuildDialogState extends State<BuildDialog> {
                         width: widget.width,
                       ),
                       LoadingButton(
-                        text: 'Send',
+                        text: S.of(context).send,
                         onTap: (startLoading, stopLoading, btnState) async {
                           if (formPasswordKey.currentState!.validate()) {
                             if (btnState == ButtonState.idle) {

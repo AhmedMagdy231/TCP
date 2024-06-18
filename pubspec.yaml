@@ -27,7 +27,7 @@ dependencies:
   google_fonts: any
 
   #dropdown_button
-  dropdown_button2: ^1.2.3
+  dropdown_button2: ^2.3.9
 
   #bloc:
   flutter_bloc: ^8.1.2

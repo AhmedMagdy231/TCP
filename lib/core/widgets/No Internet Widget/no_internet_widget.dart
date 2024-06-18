@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../generated/l10n.dart';
+
 class NoInternetWidget extends StatelessWidget {
   final  void Function()? onPressed;
 
@@ -23,7 +25,7 @@ class NoInternetWidget extends StatelessWidget {
         SizedBox(height: height*0.02,),
         TextButton(
           onPressed: onPressed,
-          child: Text('Retry'),
+          child: Text(S.of(context).retry),
         ),
 
       ],

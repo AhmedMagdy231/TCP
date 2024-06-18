@@ -10,6 +10,7 @@ import '../../../../core/InputField/validation/input_validator.dart';
 import '../../../../core/globle/color/shared_color.dart';
 import '../../../../core/network/Local/CashHelper.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../generated/l10n.dart';
 import '../../../HomeLayout/cubit/app_cubit.dart';
 import '../../cubit/auth_cubit.dart';
 
@@ -65,7 +66,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
                 Text(
-                  'Enter the verification code we just sent on your email address after that put your new password.',
+                  S.of(context).enterTheVerificationCodeWeJustSentOnYourEmail,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(),
                 ),
                 SizedBox(
@@ -110,7 +111,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 PasswordFiled(
                   controller: passwordController,
-                  hint: 'New Password',
+                  hint: S.of(context).newPassword,
                 ),
 
                 SizedBox(
@@ -205,7 +206,7 @@ class ConfirmButton extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
-        child: const Text("Confirm"),
+        child:  Text(S.of(context).confirm),
         onTap: (startLoading, stopLoading, btnState) async {
           if (formKey.currentState!.validate()) {
             if (btnState == ButtonState.idle) {

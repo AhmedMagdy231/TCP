@@ -9,6 +9,7 @@ import '../../../core/network/Remote/DioHelper.dart';
 import '../../../core/network/endPoind.dart';
 import '../../../core/widgets/Doctor Widget/doctor_widget.dart';
 import '../../../core/widgets/Empty Data Widget/empty_data_widget.dart';
+import '../../../generated/l10n.dart';
 import '../../Category/model/category_details_model.dart';
 import '../../Category/screen/Category Details/widget/loading_shimmer.dart';
 import '../../Doctor/cubit/doctor_cubit.dart';
@@ -85,7 +86,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
     var width = MediaQuery.of(context).size.width;
     return  Scaffold(
       appBar: AppBar(
-        title: Text('Favourite'),
+        title: Text(S.of(context).favourite),
       ),
       body: BlocBuilder<BookMarkCubit, BookMarkState>(
   builder: (context, state) {
@@ -146,7 +147,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
               },
               noItemsFoundIndicatorBuilder: (context) {
                 return BuildEmptyDataWidget(
-                  text: 'Empty Favourite',
+                  text: S.of(context).emptyFavourite,
                 );
               }),
         ),

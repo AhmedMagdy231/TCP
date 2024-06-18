@@ -9,11 +9,13 @@ import 'package:tricare_patient_application/feature/Category/screen/Category/cat
 import 'package:tricare_patient_application/feature/Drawer%20Screen/About%20Us%20Screen/about_us_screen.dart';
 import 'package:tricare_patient_application/feature/Drawer%20Screen/Tos%20Screen/tos_screen.dart';
 import 'package:tricare_patient_application/feature/Drawer/cubit/drawer_cubit.dart';
+import 'package:tricare_patient_application/feature/Drawer/screen/widget/social_url_widget.dart';
 import 'package:tricare_patient_application/feature/HomeLayout/cubit/app_cubit.dart';
 import 'package:tricare_patient_application/feature/Profile/cubit/profile_cubit.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/Carousel Widget/build_list_title.dart';
+import '../../../../generated/l10n.dart';
 import '../../../Articles/cubit/article_cubit.dart';
 import '../../../Bookmark/screens/bookmark_screen.dart';
 import 'top_widget.dart';
@@ -36,16 +38,9 @@ class DrawerLoginWidget extends StatelessWidget {
           name: context.read<ProfileCubit>().nameController.text,
         ),
 
+
         BuildListTitle(
-          text: 'Profile',
-          iconName: 'person.svg',
-          function: () {
-            Navigator.pop(context);
-            context.read<GlobalCubit>().goToScreenAtIndex(2);
-          },
-        ),
-        BuildListTitle(
-          text: 'Specialties',
+          text: S.of(context).specialties,
           iconName: 'category.svg',
           function: () {
 
@@ -54,14 +49,14 @@ class DrawerLoginWidget extends StatelessWidget {
           },
         ),
         BuildListTitle(
-          text: 'Favorite',
+          text: S.of(context).favorite,
           iconName: 'favorite.svg',
           function: () {
             navigateTo(context, BookMarkScreen());
           },
         ),
         BuildListTitle(
-          text: 'Articles',
+          text: S.of(context).articles,
           iconName: 'page.svg',
           function: () {
 
@@ -70,7 +65,7 @@ class DrawerLoginWidget extends StatelessWidget {
           },
         ),
         BuildListTitle(
-          text: 'About Us',
+          text: S.of(context).aboutUs,
           iconName: 'about_us.svg',
           function: () {
 
@@ -79,7 +74,7 @@ class DrawerLoginWidget extends StatelessWidget {
           },
         ),
         BuildListTitle(
-          text: 'Terms and Conditions',
+          text: S.of(context).termsAndConditions,
           iconName: 'term.svg',
           function: () {
             context.read<DrawerCubit>().getTosData();
@@ -87,7 +82,15 @@ class DrawerLoginWidget extends StatelessWidget {
           },
         ),
         BuildListTitle(
-          text: 'Log Out',
+          text: S.of(context).profile,
+          iconName: 'person.svg',
+          function: () {
+            Navigator.pop(context);
+            context.read<GlobalCubit>().goToScreenAtIndex(2);
+          },
+        ),
+        BuildListTitle(
+          text: S.of(context).logOut,
           iconName: 'logout.svg',
           function: () {
 
@@ -95,16 +98,30 @@ class DrawerLoginWidget extends StatelessWidget {
               context: context,
               contentType: ContentType.success,
 
-              message: 'Logout Successfully',
+              message: S.of(context).logoutSuccessfully,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
             context.read<ProfileCubit>().logOut();
 
-            Navigator.of(context).pop();
+
 
           },
         ),
+        BuildListTitle(
+          text: S.of(context).changeLanguage,
+          iconName: 'language.svg',
+          function: () {
+
+            Utils.changeLanguageDialog(context: context, width: width, height: height);
+
+          },
+        ),
+
+        Spacer(),
+
+        Divider(),
+        SocialUrlWidget(),
 
 
       ],

@@ -6,6 +6,7 @@ import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.da
 import '../../../../../core/constant/constant.dart';
 import '../../../../../core/globle/color/shared_color.dart';
 import '../../../../../core/widgets/No Internet Widget/no_internet_widget.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../model/date_model.dart';
 
 class ChooseDateWidget extends StatelessWidget {
@@ -28,7 +29,7 @@ class ChooseDateWidget extends StatelessWidget {
                   height: 200,
                   child: Center(
                     child: Text(
-                      'There aren\'t any available sessions for this partner !',
+                      S.of(context).thereAreNotAnyAvailableSessionsForThisPartner,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         color: Colors.red,
                       ),
@@ -69,7 +70,7 @@ class _ChooseDateState extends State<ChooseDate> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Choose Date',
+          S.of(context).chooseDate,
           style: Theme.of(context).textTheme.titleLarge,
         ),
         SizedBox(

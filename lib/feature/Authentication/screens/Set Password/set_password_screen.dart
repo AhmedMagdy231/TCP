@@ -7,6 +7,7 @@ import 'package:tricare_patient_application/core/component/Loading%20Button/load
 import '../../../../core/InputField/custom input/confirm_password_filed.dart';
 import '../../../../core/network/Local/CashHelper.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../generated/l10n.dart';
 import '../../../Profile/cubit/profile_cubit.dart';
 import '../../cubit/auth_cubit.dart';
 
@@ -38,21 +39,21 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
             child: Column(
               children: [
                 Text(
-                  'Please Set Password To Your Account',
+                  S.of(context).pleaseSetPasswordToYourAccount,
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
                   height: height * 0.05,
                 ),
-                PasswordFiled(controller: passwordController, hint: 'Password'),
+                PasswordFiled(controller: passwordController, hint: S.of(context).password),
                 SizedBox(
                   height: height * 0.02,
                 ),
                 ConfirmPasswordFiled(
                     confirmController: confirmPasswordController,
                     passwordController: passwordController,
-                    hint: 'Confirm Password',
+                    hint: S.of(context).confirmPassword,
                 ),
                 SizedBox(
                   height: height * 0.05,
@@ -154,7 +155,7 @@ class _ConfirmButton extends StatelessWidget {
            );
          }
        },
-       text: 'Confirm',
+       text: S.of(context).confirm,
    );
   },
 );

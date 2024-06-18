@@ -10,8 +10,9 @@ class TopDoctorWidget extends StatelessWidget {
   final String rate;
   final String position;
   final String image;
+  final String speciality;
 
-  const TopDoctorWidget({super.key, required this.width, required this.height, required this.name, required this.rate, required this.position, required this.image});
+  const TopDoctorWidget({super.key,required this.speciality ,required this.width, required this.height, required this.name, required this.rate, required this.position, required this.image});
 
 
   @override
@@ -31,31 +32,43 @@ class TopDoctorWidget extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: width*0.03,vertical: height*0.01),
+              padding:  EdgeInsets.symmetric(horizontal: width*0.03,vertical: height*0.0001),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
 
-                    'Dr. ${name}',
+                    '${name}',
                     style: Theme.of(context).textTheme.titleLarge,
+                    maxLines: 1,
+
                   ),
-                  Expanded(
-                    child: Text(
-                      position,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.grey,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        speciality,
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
+                      Text(
+                        position,
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.grey,
+                        ),
+                      ),
+
+                    ],
                   ),
 
-                  SizedBox(height: 5,),
+                 // SizedBox(height: 5,),
 
-                  Expanded(child:  ShowRateStar(
+                  ShowRateStar(
                     rate: rate,
                     iconSize: 15,
-                  ),)
+                  )
 
 
                 ],

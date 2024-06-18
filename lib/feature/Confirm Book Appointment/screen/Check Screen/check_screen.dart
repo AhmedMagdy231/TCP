@@ -28,6 +28,7 @@ import '../../../../core/Global Cubit/global_cubit.dart';
 import '../../../../core/component/SVG/svg.dart';
 import '../../../../core/constant/constant.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../generated/l10n.dart';
 
 class CartScreen extends StatefulWidget {
   final CartModel cartModel;
@@ -80,7 +81,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('Confirm'),
+        title: Text(S.of(context).confirm),
       ),
       body: SizedBox(
         height: height,
@@ -147,7 +148,7 @@ class _CartScreenState extends State<CartScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Iam booking to another patient',
+                                            S.of(context).iamBookingToAnotherPatient,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium!
@@ -164,8 +165,8 @@ class _CartScreenState extends State<CartScreen> {
                                   width: width * 0.7,
                                   child: BuildTextField(
                                     controller: nameController,
-                                    hintText: 'Enter Full Name',
-                                    label: 'Full Name',
+                                    hintText: S.of(context).enterFullName,
+                                    label: S.of(context).fullName,
                                     valid: InputValidator(context).nameValidator,
                                   ),
                                 ),
@@ -173,8 +174,8 @@ class _CartScreenState extends State<CartScreen> {
                                   width: width * 0.7,
                                   child: BuildTextField(
                                     controller: phoneController,
-                                    hintText: 'Enter Phone Number',
-                                    label: 'Phone',
+                                    hintText: S.of(context).enterPhoneNumber,
+                                    label: S.of(context).phone,
                                     valid: InputValidator(context).phoneValidator,
                                   ),
                                 ),
@@ -259,7 +260,7 @@ class _CartScreenState extends State<CartScreen> {
 
                 },
                 child: LoadingButton(
-                  text: 'Confirm',
+                  text: S.of(context).confirm,
                   onTap: (startLoading, stopLoading, btnState) async {
                     if (formKey.currentState!.validate()) {
                       if (btnState == ButtonState.idle) {
@@ -267,6 +268,8 @@ class _CartScreenState extends State<CartScreen> {
                        await context.read<ConfirmBookCubit>().postCheck(
                               slotId:  context.read<ConfirmBookCubit>().cartModel!.data!.sessions[0].slotid.toString(),
                                session_other: anotherPerson? 1:0,
+                               name: nameController.text.trim(),
+                               phone: phoneController.text.trim(),
                             );
                         stopLoading();
                       }

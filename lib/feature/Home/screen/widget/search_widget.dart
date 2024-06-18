@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/feature/Search/cubit/search_cubit.dart';
-import 'package:tricare_patient_application/feature/Search/screen/doctor_search_screen.dart';
+import 'package:tricare_patient_application/feature/Search/screen/search%20by%20name/doctor_search_screen.dart';
 
 import '../../../../generated/l10n.dart';
+import '../../../Book/cubit/book_cubit.dart';
+import '../../../HomeLayout/cubit/app_cubit.dart';
+import '../../../Search/screen/search by all/search_by_all.dart';
 
 class SearchHomeWidget extends StatelessWidget {
   const SearchHomeWidget({super.key});
@@ -15,8 +18,8 @@ class SearchHomeWidget extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (){
-        context.read<SearchCubit>().startSearch();
-        navigateTo(context, DoctorSearchScreen());
+        context.read<BookCubit>().getBranches(doctorId: '0');
+        navigateTo(context, SearchByAllScreen(specialties: context.read<AppCubit>().homeModel!.data!.specialties!,));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: width*0.02),

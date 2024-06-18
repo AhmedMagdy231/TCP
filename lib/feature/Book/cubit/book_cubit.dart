@@ -38,12 +38,12 @@ class BookCubit extends Cubit<BookState> {
 
     await DioHelper.postData(
       data: {
-        'doctorid' : doctorId,
+       // 'doctorid' : doctorId,
       },
       url: EndPoints.branch_request,
       token: CashHelper.getData(key: 'token'),
     ).then((value){
-      print(value.data);
+
        branchModel = BranchModel.fromJson(value.data);
       emit(state.copyWith(branchState: Status.success));
     }).catchError((error){

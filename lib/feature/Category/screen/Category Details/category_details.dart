@@ -16,6 +16,7 @@ import 'package:tricare_patient_application/feature/Category/model/category_deta
 import '../../../../core/network/Remote/DioHelper.dart';
 import '../../../../core/network/endPoind.dart';
 import '../../../../core/widgets/Doctor Widget/doctor_widget.dart';
+import '../../../../generated/l10n.dart';
 import '../../../Doctor/cubit/doctor_cubit.dart';
 import '../../../Doctor/screens/Doctor Details/doctor_details_screen.dart';
 import 'widget/loading_shimmer.dart';
@@ -120,7 +121,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                   width: 5,
                 ),
                 Text(
-                  'Sort By',
+                  S.of(context).sortBy,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 SizedBox(
@@ -188,7 +189,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
               },
               noItemsFoundIndicatorBuilder: (context) {
                 return BuildEmptyDataWidget(
-                  text: 'No doctor found in this Speciality',
+                  text: S.of(context).noDoctorFoundInThisSpeciality,
                 );
               }),
         ),
@@ -224,7 +225,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
             Row(
               children: [
                 Text(
-                  'Sort By',
+                  S.of(context).sortBy,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 Spacer(),
@@ -252,7 +253,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
             RadioListTileWidget(
               currentValue: cubit.sortBy,
               value: 1,
-              text:'Price Low',
+              text:S.of(context).priceLow,
               onChanged: (value) {
                 setState(() {
                   cubit.sortBy = value!;
@@ -275,7 +276,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
             RadioListTileWidget(
               currentValue: cubit.sortBy,
               value: 2,
-              text:'Price High',
+              text:S.of(context).priceHigh,
               onChanged: (value) {
                 setState(() {
                   cubit.sortBy = value!;
@@ -298,7 +299,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
             RadioListTileWidget(
               currentValue: cubit.sortBy,
               value: 3,
-              text: 'Newest',
+              text: S.of(context).newest,
               onChanged: (value) {
                 setState(() {
                   cubit.sortBy = value!;
@@ -320,7 +321,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
             RadioListTileWidget(
               currentValue: cubit.sortBy,
               value: 4,
-              text: 'Oldest',
+              text: S.of(context).oldest,
               onChanged: (value) {
                 setState(() {
                   cubit.sortBy = value!;
@@ -342,7 +343,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
             RadioListTileWidget(
               currentValue: cubit.sortBy,
               value: 5,
-              text: 'Alphabetic',
+              text: S.of(context).alphabetic,
               onChanged: (value) {
                 setState(() {
                   cubit.sortBy = value!;
@@ -364,7 +365,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
             RadioListTileWidget(
               currentValue: cubit.sortBy,
               value: 6,
-              text: 'Rating',
+              text: S.of(context).rating,
               onChanged: (value) {
                 setState(() {
                   cubit.sortBy = value!;

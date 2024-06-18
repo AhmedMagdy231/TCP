@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/core/globle/color/light_app_color.dart';
+import 'package:tricare_patient_application/feature/Articles/cubit/article_cubit.dart';
+import 'package:tricare_patient_application/feature/Articles/screen/Article%20Details/article_details_screen.dart';
+import 'package:tricare_patient_application/feature/Book/screen/book_screen.dart';
+import 'package:tricare_patient_application/feature/Confirm%20Book%20Appointment/model/cart_model.dart';
+import 'package:tricare_patient_application/feature/Doctor/cubit/doctor_cubit.dart';
+import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/doctor_details_screen.dart';
+import 'package:tricare_patient_application/feature/Profile/screen/Profile/profile_screen.dart';
+import 'package:tricare_patient_application/feature/Sessions/cubit/session_cubit.dart';
 
 import '../../cubit/notification_cubit.dart';
 
@@ -43,6 +51,38 @@ class BuildNotificationWidget extends StatelessWidget {
 
 
         switch (action) {
+
+          case "my_profile":
+            navigateTo(context, ProfileScreen());
+            break;
+
+          case "patients_sessions":
+            navigateTo(context, BookScreen(comeFromHomeLayout: false,));
+            break;
+
+
+          case "doctors":
+            context.read<DoctorCubit>().getDoctorDetails(id: actionId);
+            navigateTo(context, DoctorDetailsScreen(id: actionId));
+            break;
+
+          case "pages":
+            context.read<ArticleCubit>().getArticleDetailsData(id: actionId);
+            context.read<ArticleCubit>().counter++;
+            navigateTo(
+                context,
+                ArticleDetailsScreen(
+                  articleId: actionId,
+                  title: '',
+                  countPage: context.read<ArticleCubit>().counter,
+                ),
+            );
+            break;
+
+          default:
+            return;
+
+
 
         }
       },

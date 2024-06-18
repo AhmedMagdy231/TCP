@@ -11,6 +11,7 @@ import '../../../../core/InputField/custom input/passwrod_input_filed.dart';
 import '../../../../core/functions/fucntions.dart';
 import '../../../../core/globle/color/shared_color.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../generated/l10n.dart';
 import '../../cubit/auth_cubit.dart';
 import '../OTP/otp_screen.dart';
 
@@ -71,11 +72,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Register',
+                        S.of(context).register,
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                       Text(
-                        'Enter Your Personal Information',
+                        S.of(context).enterYourPersonalInformation,
                         style: Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: Colors.grey,
                             ),
@@ -96,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(
                         height: height * 0.02,
                       ),
-                      PasswordFiled(controller: passwordController,hint: 'Password',),
+                      PasswordFiled(controller: passwordController,hint: S.of(context).password,),
                       SizedBox(
                         height: height * 0.04,
                       ),
@@ -117,7 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Have an account?',
+                      S.of(context).haveAnAccount,
                       style: Theme.of(context).textTheme.titleMedium!,
                     ),
                     TextButton(
@@ -129,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             result: (route) => false);
                       },
                       child: Text(
-                        'Login',
+                        S.of(context).login,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               decoration: TextDecoration.underline,
                               decorationColor: AppColor.primaryColor,
@@ -227,7 +228,7 @@ class RegisterButton extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
-        child: const Text("Register"),
+        child:  Text(S.of(context).register),
         onTap: (startLoading, stopLoading, btnState) async {
           if (formKey.currentState!.validate()) {
             if (btnState == ButtonState.idle) {

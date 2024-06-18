@@ -75,7 +75,7 @@ class Data {
       });
     }
 
-    if(json['static_description']  != null){
+    if(json['home_block']  != null){
       staticDescription = StaticDescription.fromJson(json['static_description']);
     }
   }

@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/core/globle/color/shared_color.dart';
 import 'package:tricare_patient_application/core/network/Local/CashHelper.dart';
+import 'package:tricare_patient_application/feature/Book/cubit/book_cubit.dart';
+import 'package:tricare_patient_application/feature/HomeLayout/cubit/app_cubit.dart';
+import 'package:tricare_patient_application/feature/Search/screen/search%20by%20all/search_by_all.dart';
 
 
 import '../../../../core/globle/color/dark_app_color.dart';
@@ -45,16 +48,21 @@ class GetStarted extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      S.of(context).yourHealthIsGoodWithTricare,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         color: Colors.white,
                       ),
                     ),
 
                     ElevatedButton(
                       onPressed: (){
+                      context.read<BookCubit>().getBranches(doctorId: '0');
 
+                      navigateTo(context, SearchByAllScreen(
+                        specialties: context.read<AppCubit>().homeModel!.data!.specialties!,
 
+                      ));
 
                       },
                       style: ElevatedButton.styleFrom(
@@ -67,9 +75,12 @@ class GetStarted extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           )
                       ),
-                      child:  Text(S.of(context).book),
+                      child:  Text(
+                          S.of(context).lookingForDoctor,
+                         style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
-
+                  // the for
                   ],
                 ),
               ),
