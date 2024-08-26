@@ -19,28 +19,7 @@ part of 'category_cubit.dart';
    categoryStatus: categoryStatus?? this.categoryStatus,
  );
 
-
-
-
 }
 
-final class CategoryInitial extends CategoryState {}
-
-class NoInternetConnection extends CategoryState{}
-
-class GetCategoryLoading extends CategoryState{}
-class GetCategorySuccess extends CategoryState{}
-class GetCategoryError extends CategoryState{}
-
-class GetCategoryDetailsLoading extends CategoryState{}
-class GetCategoryDetailsSuccess extends CategoryState{}
-class GetCategoryDetailsError extends CategoryState{}
-
-
-class GetDoctorDetailsLoading extends CategoryState{}
-class GetDoctorDetailsSuccess extends CategoryState{}
-class GetDoctorDetailsError extends CategoryState{}
-
-class SearchAtSpecialties extends CategoryState{}
 
 

@@ -73,6 +73,11 @@ class ChangePasswordSuccess extends ProfileState {
 class ChangePasswordError extends ProfileState {}
 
 
+class GetUpdateTokenFcmError extends ProfileState {}
+class GetUpdateTokenFcmSuccess extends ProfileState {}
+class GetUpdateTokenFcmLoading extends ProfileState {}
+
+
 
 
 

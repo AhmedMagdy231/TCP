@@ -122,3 +122,19 @@ class FacebookRegisterError extends AuthState{}
 class FacebookRegisterCancel extends AuthState{}
 
 
+
+class AppleRegisterLoading extends AuthState{}
+class AppleRegisterSuccess extends AuthState{
+  final bool hasError;
+  final List messages;
+  final List errors;
+  final bool password;
+  final token;
+
+  AppleRegisterSuccess({required this.password,required this.hasError,required this.messages,required this.errors, required this.token});
+}
+class AppleRegisterError extends AuthState{}
+
+class AppleRegisterCancel extends AuthState{}
+
+

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -119,6 +121,10 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
 
+
+      ///////////////////////////////////////////////////////////////////////////////
+
+
       if(state is FacebookRegisterLoading){
         context.loaderOverlay.show(widget: buildOverlayLoading(
           height,
@@ -164,6 +170,63 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       if (state is FacebookRegisterError) {
+        context.loaderOverlay.hide();
+      }
+
+      //////////////////////////////////////////////////////////////////////////////////////////
+
+      if(state is AppleRegisterLoading){
+        context.loaderOverlay.show(widget: buildOverlayLoading(
+          height,
+          context: context,
+        ));
+      }
+
+      if (state is AppleRegisterSuccess) {
+        context.loaderOverlay.hide();
+
+        if (state.hasError) {
+          var snackBar = Utils.buildSnackBar2(
+              contentType: ContentType.failure,
+              context: context,
+
+              message: state.errors.join(' '));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+
+
+
+
+
+          if(state.password){
+            navigateTo(context, SetPasswordScreen(
+              token: state.token,
+            ));
+          }
+          else
+          {
+            await CashHelper.prefs.setString('token', state.token);
+            CashHelper.prefs.setBool('login', true);
+
+            context.read<ProfileCubit>().postUserData();
+            Navigator.pop(context);
+          }
+
+
+
+          var snackBar = Utils.buildSnackBar2(
+              contentType: ContentType.success,
+              context: context,
+              message: state.messages.join(' '));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      }
+
+      if (state is AppleRegisterCancel) {
+        context.loaderOverlay.hide();
+      }
+
+      if (state is AppleRegisterError) {
         context.loaderOverlay.hide();
       }
 
@@ -365,6 +428,27 @@ class BuildSocialLogin extends StatelessWidget {
                   height: width*0.08,
                   width: width*0.08,
                   child: Image.asset('assets/images/facebook.png'),
+
+                ),
+              ),
+            ),
+
+          if(!Platform.isIOS)
+          GestureDetector(
+              onTap: (){
+                context.read<AuthCubit>().registerWithApple();
+                //Google.signOutGoogle();
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: width*0.07,vertical: height*0.007),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(60),
+                ),
+                child: SizedBox(
+                  height: width*0.08,
+                  width: width*0.08,
+                  child: Image.asset('assets/images/apple.png'),
 
                 ),
               ),

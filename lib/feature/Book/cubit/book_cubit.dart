@@ -6,8 +6,7 @@ import 'package:tricare_patient_application/core/network/Remote/DioHelper.dart';
 import 'package:tricare_patient_application/core/network/endPoind.dart';
 import 'package:tricare_patient_application/feature/Doctor/model/add_review_model.dart';
 import 'package:tricare_patient_application/feature/Book/model/branch_model.dart';
-import 'package:tricare_patient_application/feature/Doctor/model/date_model.dart';
-import 'package:tricare_patient_application/feature/Doctor/model/time_model.dart';
+
 
 import '../../../core/constant/constant.dart';
 import '../../../core/network/Local/CashHelper.dart';
@@ -50,6 +49,7 @@ class BookCubit extends Cubit<BookState> {
 
       debugPrint(error.toString());
       emit(state.copyWith(branchState: Status.failure,callback: error.toString()));
+
 
     });
 

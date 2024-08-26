@@ -30,7 +30,10 @@ import 'package:tricare_patient_application/feature/Splach%20Screen/splach_scree
 import 'package:tricare_patient_application/feature/test.dart';
 
 import 'bloc_observer.dart';
+import 'core/constant/constant.dart';
+import 'core/network/Firebase/notification.dart';
 import 'feature/Notification/cubit/notification_cubit.dart';
+import 'feature/Notification/screens/notification_screens.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 
@@ -47,15 +50,16 @@ void main() async {
   await initializeDateFormatting('ar');
 
   DioHelper.initialize(EndPoints.baseUrl);
-  Bloc.observer = MyBlocObserver();
+  //Bloc.observer = MyBlocObserver();
   // CashHelper.prefs.remove('token');
   // CashHelper.prefs.remove('login');
   // CashHelper.prefs.remove('first');
-  print(CashHelper.getData(key: 'token'));
-  print('+++++++++++++++++');
+  //print(CashHelper.getData(key: 'token'));
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseNotification().init();
 
   runApp(const MyApp());
 }
@@ -106,6 +110,11 @@ class MyApp extends StatelessWidget {
                 ? ThemeMode.light
                 : ThemeMode.dark,
             home: SplashScreen(),
+            navigatorKey: navigationKey,
+            routes: {
+
+              '/notification':(context)=>NotificationScreen(),
+            },
           );
         },
       ),

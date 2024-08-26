@@ -152,9 +152,9 @@ class Partner {
   final String? partnerReviewsAvg;
   final String? specialtyTitle;
   final String? partnerBookmark;
-  final String? showStatus;
-  final String? patientNumber;
-  final String? sessionNumber;
+  final int? showStatus;
+  final int? patientNumber;
+  final int? sessionNumber;
 
   factory Partner.fromJson(Map<String, dynamic> json){
     return Partner(

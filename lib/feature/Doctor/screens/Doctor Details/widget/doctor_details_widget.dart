@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tricare_patient_application/core/functions/fucntions.dart';
 import 'package:tricare_patient_application/feature/Doctor/model/doctor_details_model.dart';
 import 'package:tricare_patient_application/feature/Doctor/screens/Doctor%20Details/widget/about_doctor_widget.dart';
@@ -10,6 +11,8 @@ import '../../../../../core/globle/color/light_app_color.dart';
 import '../../../../../core/globle/color/shared_color.dart';
 import '../../../../../core/widgets/Build Circle Image/build_circle_image.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../cubit/doctor_cubit.dart';
+import '../../Book Appointment/book_appointment_screen.dart';
 import 'smiliar_doctor_widget.dart';
 
 class DoctorDetailsWidget extends StatelessWidget {
@@ -61,12 +64,12 @@ class DoctorDetailsWidget extends StatelessWidget {
                   ),
 
 
-                // if( doctorDetailsModel!.data!.partner!.showStatus! == '1')
+                if( doctorDetailsModel!.data!.partner!.showStatus! == 1)
                   AboutDoctorWidget(
                     rate: doctorDetailsModel!.data!.partner!.partnerReviewsAvg!,
                     review: doctorDetailsModel!.data!.partner!.partnerReviewsTotal!,
-                    numberOfPatient: doctorDetailsModel!.data!.partner!.patientNumber ??'500',
-                    numberOfSessions:  doctorDetailsModel!.data!.partner!.sessionNumber ?? '650',
+                    numberOfPatient: doctorDetailsModel!.data!.partner!.patientNumber?.toString() ??'500',
+                    numberOfSessions:  doctorDetailsModel!.data!.partner!.sessionNumber?.toString() ?? '650',
                   ),
 
 
@@ -135,6 +138,34 @@ class DoctorDetailsWidget extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  SizedBox(height: height*0.02,),
+                  SizedBox(
+                    width: width,
+                    height: height*0.06,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        context.read<DoctorCubit>().restartBookAppointment();
+                        navigateTo(
+                          context,
+                          BookAppointmentScreen(
+                            branches: context.read<DoctorCubit>().doctorDetailsModel!.data!.branches,
+                            doctorImage: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerPic!,
+                            doctorName: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerName!,
+                            doctorPosition: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerPosition!,
+                            doctorRate: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerReviewsAvg!,
+                            doctorId: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.partnerid!,
+                            speciality: context.read<DoctorCubit>().doctorDetailsModel!.data!.partner!.specialtyTitle!,
+                          ),
+                        );
+                      },
+                      child: Text(
+                        S.of(context).bookAppointment,
+                      ),
+                    ),
+                  ),
+
+
 
 
 
@@ -243,7 +274,7 @@ class DoctorDetailsWidget extends StatelessWidget {
           ),
         ),
         buildContainerImage(width,doctorDetailsModel!.data!.partner!.partnerPic!),
-       BookAppointmentButton(width: width, height: height),
+       BookAppointmentButton(width: width, height: height,doctorDetailsModel: doctorDetailsModel!,),
       ],
     );
   }

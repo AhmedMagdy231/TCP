@@ -63,6 +63,13 @@ class ProfileCubit extends Cubit<ProfileState> {
         whatsAppController.text = userModel!.data!.patient!.patientWhatsappNumber!;
         whatsAppEnable =  userModel!.data!.patient!.patientWhatsappEnabled!;
 
+        if( await CashHelper.getData(key: 'tokenNotification') != userModel!.data!.patient!.patientFirebaseAccesstoken){
+
+          postUpdateTokenFcm(tokenFcm: await CashHelper.getData(key: 'tokenNotification'),user: 'patient');
+
+
+        }
+
 
       try{
         typeGender = int.parse(userModel!.data!.patient!.patientGender!);
@@ -86,6 +93,28 @@ class ProfileCubit extends Cubit<ProfileState> {
     }).catchError((error) {
       print(error.toString());
       emit(GetUserDataError());
+    });
+  }
+
+
+  Future<void> postUpdateTokenFcm({required String tokenFcm,required String user})async{
+    emit(GetUpdateTokenFcmLoading());
+
+    DioHelper.postData(
+      data: {
+
+        '${user}_firebase_accesstoken' : tokenFcm,
+
+      },
+      url: '${user}_firebase_token.php',
+      token: CashHelper.getData(key: 'token'),
+    ).then((value){
+
+      emit(GetUpdateTokenFcmSuccess());
+
+    }).catchError((error){
+      emit(GetUpdateTokenFcmError());
+
     });
   }
 
@@ -165,6 +194,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         token: CashHelper.getData(key: 'token'),
       ).then((value) {
         profileModel = ProfileModel.formJson(value.data);
+        //
 
         emit(ChangeProfileSuccess(
           hasError: profileModel!.hasError,

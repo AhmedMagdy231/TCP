@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
+import 'package:tricare_patient_application/feature/Authentication/Apple/apple.dart';
 import 'package:tricare_patient_application/feature/Authentication/models/Register_model.dart';
 import 'package:tricare_patient_application/feature/Authentication/models/login_model.dart';
 
@@ -262,8 +264,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
 
-  Future<void> postSetPassword(
-      {required String confirmPassword, required password,required String token}) async {
+  Future<void> postSetPassword({required String confirmPassword, required password,required String token}) async {
     emit(SetPasswordLoading());
 
     await DioHelper.postData(
@@ -336,8 +337,6 @@ class AuthCubit extends Cubit<AuthState> {
 
 
 
-
-
   Future<void> registerWithFacebook() async {
 
     FacebookUser? user = await Facebook.signInWithFacebook();
@@ -379,6 +378,52 @@ class AuthCubit extends Cubit<AuthState> {
     }
     else {
       emit(FacebookRegisterCancel());
+    }
+  }
+
+
+
+  Future<void> registerWithApple() async {
+    emit(AppleRegisterLoading());
+
+
+    Apple apple = Apple();
+    final UserCredential? user = await apple.signInWithApple();
+
+    if (user != null) {
+
+
+      DioHelper.postDataRegister(
+        data:
+        {
+          'apple_id': user.user!.uid,
+          'apple_email': user.user!.email,
+          'apple_name': user.user!.displayName,
+          'apple_avatar_url': user.user!.photoURL,
+        },
+        url: 'apple_callback.php',
+      ).then((value) {
+
+        loginModel = LoginModel.formJson(value.data);
+        emit(
+          AppleRegisterSuccess(
+            hasError: loginModel!.hasError,
+            messages: loginModel!.messages,
+            errors: loginModel!.errors,
+
+            token: loginModel!.hasError ? '' : loginModel!.data!.patient!
+                .patientAccesstoken!,
+
+            password: loginModel!.hasError? false : loginModel!.data!.patient!.patientForcePassword == '0'? false : true,
+          ),
+        );
+      }).catchError((error) {
+        emit(AppleRegisterError());
+        print(error.toString());
+      });
+    }
+    else {
+      emit(AppleRegisterCancel());
     }
   }
 
