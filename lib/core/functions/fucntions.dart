@@ -15,8 +15,9 @@ void navigateToToFinish(context, widget) {
 
 
 String formatTime(int timeStamp) {
+
   var TimeStamp = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  //return DateFormat('hh:mm a').format(TimeStamp).toString();
+
 
 
   // Convert timestamp string to DateTime
@@ -31,10 +32,11 @@ String formatTime(int timeStamp) {
   String formattedTime = DateFormat('hh:mm a', 'en_EG').format(dateTime.toLocal());
 
   return formattedTime;
+
 }
 
 String formatDate(date){
-  return DateFormat.yMMMMd().format(
+  return DateFormat.yMMMd().format(
     DateTime.parse(
       date,
     ),

@@ -40,8 +40,7 @@ class BookScreen extends StatefulWidget {
 // with AutomaticKeepAliveClientMixin<BookScreen>
 
 class _BookScreenState extends State<BookScreen> {
-  final PagingController<int, Sessions> _pagingController =
-      PagingController(firstPageKey: 0);
+  final PagingController<int, Sessions> _pagingController = PagingController(firstPageKey: 0);
   int pageNumber = 1;
  late ScrollController _scrollController;
 
@@ -76,8 +75,7 @@ class _BookScreenState extends State<BookScreen> {
 
       final SessionModel sessionModel = SessionModel.fromJson(newItems.data);
       if (!sessionModel.hasError!) {
-        final isLastPage =
-            sessionModel.data!.pageCurrent == sessionModel.data!.pageMax;
+        final isLastPage = sessionModel.data!.pageCurrent == sessionModel.data!.pageMax;
         if (isLastPage) {
           _pagingController.appendLastPage(sessionModel.data!.sessions);
         } else {
@@ -239,8 +237,7 @@ class _BookScreenState extends State<BookScreen> {
                                                 id: item.partnerid!);
                                         navigateTo(
                                             context,
-                                            DoctorDetailsScreen(
-                                                id: item.partnerid!));
+                                            DoctorDetailsScreen(id: item.partnerid!));
                                       },
                                       child: BookCardWidget(
                                         index: index,
@@ -261,8 +258,7 @@ class _BookScreenState extends State<BookScreen> {
                                       ),
                                     ),
                                   ),
-                              transitionDuration:
-                                  const Duration(milliseconds: 500),
+                              transitionDuration: const Duration(milliseconds: 500),
                               animateTransitions: true,
                               firstPageProgressIndicatorBuilder: (context) {
                                 return Column(

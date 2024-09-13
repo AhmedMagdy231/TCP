@@ -56,6 +56,7 @@ class BookAppointmentButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
+                    flex: 1,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -109,6 +110,7 @@ class BookAppointmentButton extends StatelessWidget {
                   ),
                  //VerticalDivider(),
                   Expanded(
+                    flex: 1,
                     child: ElevatedButton(
                       onPressed: () {
                         context.read<DoctorCubit>().restartBookAppointment();
@@ -129,7 +131,11 @@ class BookAppointmentButton extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(250),
                       )),
-                      child: Text(S.of(context).bookAppointment),
+                      child: Text(S.of(context).bookAppointment,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Colors.white,
+                      ),
+                      ),
                     ),
                   ),
                 ],
