@@ -50,6 +50,7 @@ class BuildNotificationWidget extends StatelessWidget {
         }
 
 
+
         switch (action) {
 
           case "my_profile":
