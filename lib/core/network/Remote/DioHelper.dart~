@@ -43,6 +43,7 @@ class DioHelper {
               // wrap each error before it happends
               handler.next(error);
             },
+            
           ),
         );
 

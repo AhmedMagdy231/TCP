@@ -45,14 +45,21 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
   String specialityId = '';
   String branchId = '';
 
-  checkFirstTime(){
-    return nameController.text.isEmpty && _dateController.text.isEmpty && specialityId.isEmpty && branchId.isEmpty;
+  checkFirstTime() {
+    return nameController.text.isEmpty && _dateController.text.isEmpty &&
+        specialityId.isEmpty && branchId.isEmpty;
   }
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    var width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
@@ -62,22 +69,22 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
 
           Container(
             decoration: BoxDecoration(
-              color: AppColor.primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-              )
+                color: AppColor.primaryColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                )
             ),
             child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: width*0.03),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.03),
               child: Column(
                 children: [
-                  SizedBox(height: height*0.08,),
+                  SizedBox(height: height * 0.08,),
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: height*0.055,
+                          height: height * 0.055,
                           child: NameFiled(
                             controller: nameController,
                             padding: 12,
@@ -86,10 +93,10 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(width: width*0.02,),
+                      SizedBox(width: width * 0.02,),
                       Expanded(
-                        child:  SizedBox(
-                          height: height*0.055,
+                        child: SizedBox(
+                          height: height * 0.055,
                           child: DateField(
                             padding: 12,
                             controller: _dateController,
@@ -100,88 +107,99 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
 
                     ],
                   ),
-                  SizedBox(height: height*0.01,),
+                  SizedBox(height: height * 0.01,),
                   Row(
-                 children: [
-                   Expanded(
-                     child: SizedBox(
-                       height: height*0.055,
-                       child: BuildDropDownButtonField(
-                         height: height,
-                         width: width,
-                         hint: S.of(context).speciality,
-                         valid: (value) {
-                           int index = speciality
-                               .indexWhere((element) => element == value);
-                           specialityId = widget.specialties[index].sPECIALTYID!;
-                         },
-                         item: speciality,
-                         onChanged: (value) {},
-                       ),
-                     ),
-                   ),
-                   SizedBox(width: width*0.02,),
-                   Expanded(
-                     child: BlocBuilder<BookCubit, BookState>(
-                       buildWhen: (previous, current) =>
-                       previous.branchState != current.branchState,
-                       builder: (context, state) {
-                         return context.read<BookCubit>().branchModel == null
-                             ? SizedBox(
-                           height: height*0.055,
-                           child: Center(
-                               child: CircularProgressIndicator(color: Colors.white,)),
-                         )
-                             : SizedBox(
-                           height: height*0.055,
-                               child: BuildDropDownButtonField(
-                                                        height: height,
-                                                        width: width,
-                                                        hint: S.of(context).branch,
-                                                        valid: (value) {
-                               int index = context
-                                   .read<BookCubit>()
-                                   .branchModel!
-                                   .data!
-                                   .branches
-                                   .indexWhere((element) =>
-                               element.branchName == value);
-                               branchId = context
-                                   .read<BookCubit>()
-                                   .branchModel!
-                                   .data!
-                                   .branches[index]
-                                   .branchid!;
-                                                        },
-                                                        item: List.from(context
-                                 .read<BookCubit>()
-                                 .branchModel!
-                                 .data!
-                                 .branches
-                                 .map((e) => e.branchName)),
-                                                        onChanged: (value) {},
-                                                      ),
-                             );
-                       },
-                     ),
-                   ),
-                 ],
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: height * 0.055,
+                          child: BuildDropDownButtonField(
+                            height: height,
+                            width: width,
+                            hint: S
+                                .of(context)
+                                .speciality,
+                            valid: (value) {
+                              int index = speciality
+                                  .indexWhere((element) => element == value);
+                              specialityId =
+                              widget.specialties[index].sPECIALTYID!;
+                            },
+                            item: speciality,
+                            onChanged: (value) {},
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: width * 0.02,),
+                      Expanded(
+                        child: BlocBuilder<BookCubit, BookState>(
+                          buildWhen: (previous, current) =>
+                          previous.branchState != current.branchState,
+                          builder: (context, state) {
+                            return context
+                                .read<BookCubit>()
+                                .branchModel == null
+                                ? SizedBox(
+                              height: height * 0.055,
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,)),
+                            )
+                                : SizedBox(
+                              height: height * 0.055,
+                              child: BuildDropDownButtonField(
+                                height: height,
+                                width: width,
+                                hint: S
+                                    .of(context)
+                                    .branch,
+                                valid: (value) {
+                                  int index = context
+                                      .read<BookCubit>()
+                                      .branchModel!
+                                      .data!
+                                      .branches
+                                      .indexWhere((element) =>
+                                  element.branchName == value);
+                                  branchId = context
+                                      .read<BookCubit>()
+                                      .branchModel!
+                                      .data!
+                                      .branches[index]
+                                      .branchid!;
+                                },
+                                item: List.from(context
+                                    .read<BookCubit>()
+                                    .branchModel!
+                                    .data!
+                                    .branches
+                                    .map((e) => e.branchName)),
+                                onChanged: (value) {},
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: height*0.02,),
+                  SizedBox(height: height * 0.02,),
                   SizedBox(
-                    height: height*0.05,
+                    height: height * 0.05,
                     width: width,
                     child: InkWell(
-                      onTap: (){
+                      onTap: () {
                         FocusScope.of(context).unfocus();
-                        pageNumber =1;
-                        _pagingController.itemList=[];
-                       _pagingController.refresh();
-                       _scrollController.animateTo(
-                          0.0,
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
-                        );
+                        pageNumber = 1;
+                        _pagingController.itemList = [];
+                        _pagingController.refresh();
+
+                        if (_scrollController.hasClients) {
+                          _scrollController.animateTo(
+                            0.0,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -192,11 +210,16 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                S.of(context).search,
-                              style: Theme.of(context).textTheme.titleMedium,
+                              S
+                                  .of(context)
+                                  .search,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .titleMedium,
                             ),
 
-                            SizedBox(width: width*0.02,),
+                            SizedBox(width: width * 0.02,),
                             Icon(Icons.search),
 
                           ],
@@ -205,19 +228,21 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
                     ),
                   ),
 
-                  SizedBox(height: height*0.03,),
+                  SizedBox(height: height * 0.03,),
 
                 ],
               ),
             ),
           ),
 
-         checkFirstTime()?
-         Expanded(child: BuildEmptyDataWidget(text: S.of(context).youCanFindTheDoctorThatYouNeedUsingThe,)) :
-         Expanded(
+          checkFirstTime() ?
+          Expanded(child: BuildEmptyDataWidget(text: S
+              .of(context)
+              .youCanFindTheDoctorThatYouNeedUsingThe,)) :
+          Expanded(
             child: SearchResultScreen(
-            pagingController: _pagingController,
-            scrollController: _scrollController,
+              pagingController: _pagingController,
+              scrollController: _scrollController,
             ),
           ),
         ],
@@ -241,24 +266,21 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
   }
 
 
-
-
-  final PagingController<int, Partners> _pagingController = PagingController(firstPageKey: 0);
+  final PagingController<int, Partners> _pagingController = PagingController(
+      firstPageKey: 0);
   int pageNumber = 1;
   late ScrollController _scrollController;
 
 
   @override
   void initState() {
-
-
     _scrollController = ScrollController();
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
     speciality = List.from(widget.specialties.map((e) => e.specialtyTitle));
     nameController = TextEditingController();
- //   _dateController.text = DateFormat('yyyy-MM-dd', 'en').format(_selectedDate);
+    //   _dateController.text = DateFormat('yyyy-MM-dd', 'en').format(_selectedDate);
     super.initState();
   }
 
@@ -276,14 +298,14 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
     await Future.delayed(Duration(seconds: 1));
 
     try {
-      final response =   await DioHelper.postData(
+      final response = await DioHelper.postData(
         data: {
 
-          'search_sec' : 1,
-          'search_query' : nameController.text,
-          'search_specialtyid' : specialityId,
+          'search_sec': 1,
+          'search_query': nameController.text,
+          'search_specialtyid': specialityId,
           'search_branchid': branchId,
-          'search_slot_date' : _dateController.text,
+          'search_slot_date': _dateController.text,
           'page': pageNumber,
 
         },
@@ -291,10 +313,12 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
       );
 
 
-      final SearchDoctorModel searchDoctorModel = SearchDoctorModel.formJson(response.data);
+      final SearchDoctorModel searchDoctorModel = SearchDoctorModel.formJson(
+          response.data);
 
       if (!searchDoctorModel.hasError) {
-        final isLastPage = searchDoctorModel.data!.pageCurrent == searchDoctorModel.data!.pageMax;
+        final isLastPage = searchDoctorModel.data!.pageCurrent ==
+            searchDoctorModel.data!.pageMax;
         if (isLastPage) {
           _pagingController.appendLastPage(searchDoctorModel.data!.partners!);
         } else {
@@ -305,8 +329,7 @@ class _SearchByAllScreenState extends State<SearchByAllScreen> {
               searchDoctorModel.data!.partners!, nextPageKey);
         }
       }
-      else
-      {
+      else {
         _pagingController.appendLastPage([]);
       }
     } catch (error) {

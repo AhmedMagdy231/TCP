@@ -95,10 +95,7 @@ class HomeScreen extends StatelessWidget {
                   ArticlesWidget(
                       articles: cubit.homeModel!.data!.latestPages!),
 
-                   TitleWidget(
-                    title: S.of(context).topDoctor,
-                    seeAll: false,
-                  ),
+
 
                   TopPartnerWidget(
                       partnerTops: cubit.homeModel!.data!.partnersTops!),
